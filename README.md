@@ -1,0 +1,1 @@
+Spike is a 2D/3D C++ game engine aiming to be as simple to use as possible
