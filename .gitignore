@@ -45,3 +45,18 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Visual Studio temp folder
+.vs/
+
+# Binaries folder
+[Bb]in/
+
+# Build files
+*.pdb
+*.pdi
+*.tlog
+
+# Build directories
+/SpikeEngine/x64/
+/SpikeEngine/x86/
