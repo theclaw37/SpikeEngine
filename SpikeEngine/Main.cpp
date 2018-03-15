@@ -1,4 +1,4 @@
-#include "Engine.h"
+#include "SpikeEngine.h"
 
 #ifdef __linux__
 
@@ -36,8 +36,27 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	RegisterClassEx(&wc);
 
-	auto window = SpikeEngine::Window();
-	RECT clientWindow = { 0, 0, window.GetClientWidth(), window.GetClientHeight()};
+	auto config = SpikeConfig::Config();
+	try
+	{
+		config.Load("config.json");
+	}
+	catch (SpikeConfig::Exceptions::ConfigSectionNotFoundException& csnfe)
+	{
+		const size_t cSize = strlen(csnfe.what()) + 1;
+		wchar_t* wc = new wchar_t[cSize];
+		size_t outSize;
+		mbstowcs_s(&outSize, wc, cSize, csnfe.what(), cSize-1);
+
+		MessageBox(NULL,
+			wc,
+			L"Error",
+			MB_ICONEXCLAMATION | MB_OK);
+
+		delete wc;
+	}
+
+	RECT clientWindow = { 0, 0, config.GetWindow().GetClientWidth(), config.GetWindow().GetClientHeight()};
 	AdjustWindowRect(&clientWindow, WS_OVERLAPPEDWINDOW, FALSE);
 
 	hWnd = CreateWindowEx(NULL,

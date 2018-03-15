@@ -2,6 +2,7 @@
 
 // Universal headers go here
 #include <iostream>
+#include <fstream>
 
 
 
@@ -16,4 +17,4 @@
 #endif
 
 // Custom headers go here
-#include "Window.h"
+#include "SpikeConfig.h"

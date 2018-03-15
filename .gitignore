@@ -60,3 +60,7 @@ Temporary Items
 # Build directories
 /SpikeEngine/x64/
 /SpikeEngine/x86/
+/SpikeConfig/x64/
+/SpikeConfig/x86/
+/x64/
+/x86/
