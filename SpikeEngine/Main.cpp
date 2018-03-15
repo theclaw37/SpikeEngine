@@ -36,14 +36,18 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	RegisterClassEx(&wc);
 
+	auto window = SpikeEngine::Window();
+	RECT clientWindow = { 0, 0, window.GetClientWidth(), window.GetClientHeight()};
+	AdjustWindowRect(&clientWindow, WS_OVERLAPPEDWINDOW, FALSE);
+
 	hWnd = CreateWindowEx(NULL,
 		L"SpikeMainWindow",
 		L"SpikeEngine",
 		WS_OVERLAPPEDWINDOW,
 		300,
 		300,
-		500,
-		400,
+		clientWindow.right - clientWindow.left,
+		clientWindow.bottom - clientWindow.top,
 		NULL,
 		NULL,
 		hInstance,
