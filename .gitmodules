@@ -1,0 +1,3 @@
+[submodule "Dependencies/picojson"]
+	path = Dependencies/picojson
+	url = https://github.com/kazuho/picojson
