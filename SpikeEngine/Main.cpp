@@ -11,17 +11,71 @@ int main(int argc, char *argv[])
 
 #elif _WIN32
 
+LRESULT CALLBACK WindowProc(HWND hWnd,
+	UINT message,
+	WPARAM wParam,
+	LPARAM lParam);
+
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
 	LPSTR lpCmdLine,
-	int nShowCmd)
+	int nCmdShow)
 {
-	MessageBox(NULL,
-		L"Hello from Win32",
-		L"SpikeEngine",
-		MB_ICONEXCLAMATION | MB_OK);
+	HWND hWnd;
+	WNDCLASSEX wc;
 
-	return 0;
+	ZeroMemory(&wc, sizeof(WNDCLASSEX));
+
+	wc.cbSize = sizeof(WNDCLASSEX);
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = WindowProc;
+	wc.hInstance = hInstance;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hbrBackground = (HBRUSH)COLOR_BACKGROUND;
+	wc.lpszClassName = L"SpikeMainWindow";
+
+	RegisterClassEx(&wc);
+
+	hWnd = CreateWindowEx(NULL,
+		L"SpikeMainWindow",
+		L"SpikeEngine",
+		WS_OVERLAPPEDWINDOW,
+		300,
+		300,
+		500,
+		400,
+		NULL,
+		NULL,
+		hInstance,
+		NULL);
+
+	ShowWindow(hWnd, nCmdShow);
+
+	MSG msg;
+
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	UnregisterClass(L"SpikeMainWindow", hInstance);
+
+	return msg.wParam;
+}
+
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+		case WM_DESTROY:
+		{
+			PostQuitMessage(0);
+			return 0;
+		} break;
+	}
+
+	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 #endif
