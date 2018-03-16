@@ -36,10 +36,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	RegisterClassEx(&wc);
 
-	auto config = SpikeConfig::Config();
 	try
 	{
-		config.Load("config.json");
+		SpikeConfig::Config::Instance().Load("config.json");
 	}
 	catch (SpikeConfig::Exceptions::ConfigSectionNotFoundException& csnfe)
 	{
@@ -56,7 +55,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		delete wc;
 	}
 
-	RECT clientWindow = { 0, 0, config.GetWindow().GetClientWidth(), config.GetWindow().GetClientHeight()};
+	RECT clientWindow = { 0, 0, SpikeConfig::Config::Instance().GetWindow().GetClientWidth(), SpikeConfig::Config::Instance().GetWindow().GetClientHeight()};
 	AdjustWindowRect(&clientWindow, WS_OVERLAPPEDWINDOW, FALSE);
 
 	hWnd = CreateWindowEx(NULL,
@@ -76,10 +75,19 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	MSG msg;
 
-	while (GetMessage(&msg, NULL, 0, 0))
+	while (TRUE)
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+			if (msg.message == WM_QUIT)
+				break;
+		}
+		else
+		{
+			
+		}
 	}
 
 	UnregisterClass(L"SpikeMainWindow", hInstance);

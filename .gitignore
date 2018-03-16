@@ -62,6 +62,10 @@ Temporary Items
 /SpikeEngine/x86/
 /SpikeConfig/x64/
 /SpikeConfig/x86/
+/SpikeUtils/x64/
+/SpikeUtils/x86/
+/SpikeRenderer/x64/
+/SpikeRenderer/x86/
 /x64/
 /x86/
 Dependencies/

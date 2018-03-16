@@ -1,6 +1,6 @@
 #include "SpikeConfig.h"
 
-SpikeConfig::Window::Window() : Window(800, 600)
+SpikeConfig::Window::Window() : Window(320, 240)
 {
 }
 

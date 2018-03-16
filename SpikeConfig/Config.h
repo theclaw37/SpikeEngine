@@ -1,21 +1,25 @@
 #pragma once
 
+#include "Singleton.h"
+
 namespace picojson {
 	class value;
 }
 
 namespace SpikeConfig
 {
-	class Config
+	class Config : public SpikeUtils::Singleton<Config>
 	{
+		friend class SpikeUtils::Singleton<Config>;
+
 	public:
-		Config() = default;
 		void Load(const std::string& path);
 
 		Window const & GetWindow() const;
 	private:
-		Window window;
+		Config() = default;
 
+		Window window;
 		void LoadWindow(picojson::value const & object);
 	};
 }
