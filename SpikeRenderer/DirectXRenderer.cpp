@@ -1,5 +1,6 @@
 #include "DirectXRenderer.h"
 #include "SpikeConfig.h"
+#include "Timer.h"
 
 SpikeRenderer::DirectXRenderer::DirectXRenderer(HWND hWnd) : _hWnd(hWnd)
 {
@@ -50,9 +51,9 @@ void SpikeRenderer::DirectXRenderer::InitRenderer()
 	devcon->RSSetViewports(1, &viewport);
 }
 
-void SpikeRenderer::DirectXRenderer::RenderFrame()
+void SpikeRenderer::DirectXRenderer::RenderFrame(float r, float g, float b)
 {
-	devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
+	devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(r, g, b, 1.0f));
 
 	// Render code here
 

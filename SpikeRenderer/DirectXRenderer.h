@@ -21,7 +21,7 @@ namespace SpikeRenderer
 	public:
 		DirectXRenderer(HWND);
 		virtual void InitRenderer();
-		virtual void RenderFrame();
+		virtual void RenderFrame(float, float, float);
 		virtual void ShutdownRenderer();
 	private:
 		HWND _hWnd;

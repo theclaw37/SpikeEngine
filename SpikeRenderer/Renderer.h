@@ -6,7 +6,7 @@ namespace SpikeRenderer
 	{
 	public:
 		virtual void InitRenderer() = 0;
-		virtual void RenderFrame() = 0;
+		virtual void RenderFrame(float, float, float) = 0;
 		virtual void ShutdownRenderer() = 0;
 	};
 }

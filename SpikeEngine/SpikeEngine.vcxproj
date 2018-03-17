@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="SpicNSpan"
-        AfterTargets="Clean">
-    <RemoveDir Directories="$(OUTDIR)"/>
-</Target>
+  <Target Name="SpicNSpan" AfterTargets="Clean">
+    <RemoveDir Directories="$(OUTDIR)" />
+  </Target>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -136,7 +135,7 @@
   <ItemGroup>
     <Content Include="config.json">
       <DeploymentContent>true</DeploymentContent>
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +144,9 @@
     </ProjectReference>
     <ProjectReference Include="..\SpikeRenderer\SpikeRenderer.vcxproj">
       <Project>{ae83082a-d093-475d-9a32-f7b4c770c8c9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SpikeUtils\SpikeUtils.vcxproj">
+      <Project>{7c86404e-4eb1-4896-88d3-fd7f5a2a6dff}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
