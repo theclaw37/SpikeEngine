@@ -54,6 +54,21 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		delete wc;
 	}
+	catch (std::exception& e)
+	{
+		const size_t cSize = strlen(e.what()) + 1;
+		wchar_t* wc = new wchar_t[cSize];
+		size_t outSize;
+		mbstowcs_s(&outSize, wc, cSize, e.what(), cSize - 1);
+
+		MessageBox(NULL,
+			wc,
+			L"Error",
+			MB_ICONEXCLAMATION | MB_OK);
+
+		delete wc;
+		return 0;
+	}
 
 	RECT clientWindow = { 0, 0, SpikeConfig::Config::Instance().GetWindow().GetClientWidth(), SpikeConfig::Config::Instance().GetWindow().GetClientHeight()};
 	AdjustWindowRect(&clientWindow, WS_OVERLAPPEDWINDOW, FALSE);
@@ -72,7 +87,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		NULL);
 
 	ShowWindow(hWnd, nCmdShow);
-
+	
 	auto renderer = SpikeRenderer::DirectXRenderer(hWnd);
 	renderer.InitRenderer();
 

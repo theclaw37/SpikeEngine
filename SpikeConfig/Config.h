@@ -8,7 +8,7 @@ namespace picojson {
 
 namespace SpikeConfig
 {
-	class Config : public SpikeUtils::Singleton<Config>
+	class __declspec(dllexport) Config : public SpikeUtils::Singleton<Config>
 	{
 		friend class SpikeUtils::Singleton<Config>;
 

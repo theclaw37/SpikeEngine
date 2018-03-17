@@ -4,7 +4,7 @@ namespace SpikeConfig
 {
 	namespace Exceptions
 	{
-		struct ConfigSectionNotFoundException : public std::exception {
+		struct __declspec(dllexport) ConfigSectionNotFoundException : public std::exception {
 		private:
 			std::string message;
 		public:

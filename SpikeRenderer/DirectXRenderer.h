@@ -16,7 +16,7 @@
 
 namespace SpikeRenderer
 {
-	class DirectXRenderer : public Renderer
+	class __declspec(dllexport) DirectXRenderer : public Renderer
 	{
 	public:
 		DirectXRenderer(HWND);

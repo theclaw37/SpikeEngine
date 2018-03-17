@@ -2,7 +2,7 @@
 
 namespace SpikeConfig
 {
-	class Window
+	class __declspec(dllexport) Window
 	{
 	public:
 		Window();

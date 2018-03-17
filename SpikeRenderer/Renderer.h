@@ -2,7 +2,7 @@
 
 namespace SpikeRenderer
 {
-	class Renderer
+	class __declspec(dllexport) Renderer
 	{
 	public:
 		virtual void InitRenderer() = 0;

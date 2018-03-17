@@ -3,7 +3,7 @@
 namespace SpikeUtils
 {
 	template<typename T>
-	class Singleton
+	class __declspec(dllexport) Singleton
 	{
 	public:
 		static T & Instance()
