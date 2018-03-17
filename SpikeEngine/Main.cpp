@@ -73,6 +73,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	ShowWindow(hWnd, nCmdShow);
 
+	auto renderer = SpikeRenderer::DirectXRenderer(hWnd);
+	renderer.InitRenderer();
+
 	MSG msg;
 
 	while (TRUE)
@@ -84,12 +87,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 			if (msg.message == WM_QUIT)
 				break;
 		}
-		else
-		{
-			
-		}
+
+		renderer.RenderFrame();
 	}
 
+	renderer.ShutdownRenderer();
 	UnregisterClass(L"SpikeMainWindow", hInstance);
 
 	return msg.wParam;

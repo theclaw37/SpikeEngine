@@ -71,6 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</OutDir>
@@ -87,7 +89,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)SpikeConfig;$(SolutionDir)SpikeUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SpikeRenderer;$(SolutionDir)SpikeConfig;$(SolutionDir)SpikeUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SPIKE_DIRECTX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,6 +132,12 @@
   <ItemGroup>
     <ProjectReference Include="..\SpikeConfig\SpikeConfig.vcxproj">
       <Project>{01905977-4a64-4a26-ba65-9899a93b0203}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SpikeRenderer\SpikeRenderer.vcxproj">
+      <Project>{ae83082a-d093-475d-9a32-f7b4c770c8c9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SpikeUtils\SpikeUtils.vcxproj">
+      <Project>{7c86404e-4eb1-4896-88d3-fd7f5a2a6dff}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
