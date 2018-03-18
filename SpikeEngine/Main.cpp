@@ -34,7 +34,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)COLOR_BACKGROUND;
 	wc.lpszClassName = L"SpikeMainWindow";
 
 	RegisterClassEx(&wc);
@@ -80,8 +79,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		L"SpikeMainWindow",
 		L"SpikeEngine",
 		WS_OVERLAPPEDWINDOW,
-		300,
-		300,
+		300, 300,
 		clientWindow.right - clientWindow.left,
 		clientWindow.bottom - clientWindow.top,
 		NULL,
@@ -136,6 +134,11 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		{
 			PostQuitMessage(0);
 			return 0;
+		} break;
+		case WM_KEYDOWN:
+		{
+			if (wParam == VK_ESCAPE)
+				PostQuitMessage(0);
 		} break;
 	}
 
