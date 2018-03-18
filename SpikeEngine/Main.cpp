@@ -1,7 +1,7 @@
 #include "SpikeEngine.h"
 #include "Timer.h"
 
-float deltaTime = 0;
+double deltaTime = 0;
 
 #ifdef __linux__
 
@@ -106,7 +106,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 			if (msg.message == WM_QUIT)
 				break;
 		}
-		auto elapsed = timer.HowLong();
+		auto elapsed = timer.Measure<SpikeUtils::Timer::Milliseconds>();
 		
 		float r = abs(sin(elapsed / 2000.0f));
 		float g = abs(sin(elapsed / 2000.0f + 3.1416f / 4.0));
@@ -114,10 +114,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		auto deltaTimer = SpikeUtils::Timer().Start();
 		renderer.RenderFrame(r, g, b);
-		deltaTime = deltaTimer.HowLong() / 1000.0f;
+		deltaTime = deltaTimer.Measure<SpikeUtils::Timer::Seconds>();
+		auto framesPerSecond = deltaTimer.Measure<SpikeUtils::Timer::FramesPerSecond>();
 
-		wchar_t buffer[24];
-		swprintf(buffer, 24, L"SpikeEngine - %.*f FPS", 1, 1.0f / deltaTime);
+		wchar_t buffer[25];
+		swprintf(buffer, 25, L"SpikeEngine - %.*f FPS", 1, framesPerSecond);
 		SetWindowText(hWnd, buffer);
 	}
 

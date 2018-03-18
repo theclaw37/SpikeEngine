@@ -1,11 +1,24 @@
 #include "Timer.h"
 
-const long long SpikeUtils::Timer::HowLong()
+template<>
+const double SpikeUtils::Timer::Measure<SpikeUtils::Timer::Milliseconds>()
 {
-	auto elapsed = std::chrono::high_resolution_clock::now() - _start;
-	auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
-	
-	return elapsedMs.count();
+	std::chrono::duration<double, std::milli> elapsed = std::chrono::high_resolution_clock::now() - _start;
+	return elapsed.count();
+}
+
+template<>
+const double SpikeUtils::Timer::Measure<SpikeUtils::Timer::Seconds>()
+{
+	std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - _start;
+	return elapsed.count();
+}
+
+template<>
+const double SpikeUtils::Timer::Measure<SpikeUtils::Timer::FramesPerSecond>()
+{
+	std::chrono::duration<double>  elapsed = std::chrono::high_resolution_clock::now() - _start;
+	return 1.0 / elapsed.count();
 }
 
 const SpikeUtils::Timer & SpikeUtils::Timer::Start()
