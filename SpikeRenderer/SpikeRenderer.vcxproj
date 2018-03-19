@@ -134,6 +134,9 @@
     <ProjectReference Include="..\SpikeConfig\SpikeConfig.vcxproj">
       <Project>{01905977-4a64-4a26-ba65-9899a93b0203}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\SpikeUI\SpikeUI.vcxproj">
+      <Project>{4e3190aa-1c42-4e24-8a04-7a5644e9a165}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\SpikeUtils\SpikeUtils.vcxproj">
       <Project>{7c86404e-4eb1-4896-88d3-fd7f5a2a6dff}</Project>
     </ProjectReference>

@@ -109,29 +109,28 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		auto elapsed = timer.Measure<SpikeUtils::Timer::Milliseconds>();
 
 		SpikeUI::Text::TextArea textArea(
-			SpikeUI::Containers::Rectangle(0, 0, 100, 100),
-			SpikeUI::Text::Font("Arial", 10),
+			SpikeUI::Containers::Rectangle(800, 500, 100, 100),
+			SpikeUI::Text::Font("Arial", 50),
 			SpikeUI::Colour::Colour(1.0, 0.0, 0.0));
-		textArea.Text = "Hello bitch";
+		textArea.Text = "This is Red text, written with the Arial font. Is it red?";
+
+		SpikeUI::Text::TextArea textArea2(
+			SpikeUI::Containers::Rectangle(1100, 600, 800, 100),
+			SpikeUI::Text::Font("Times New Roman", 25),
+			SpikeUI::Colour::Colour(0.0, 1.0, 0.0));
+		textArea2.Text = "This text should be displayed as Green, with Times New Roman. Is it displayed correctly?";
+
+		SpikeUI::Text::TextArea textArea3(
+			SpikeUI::Containers::Rectangle(1200, 900, 400, 400),
+			SpikeUI::Text::Font("Magneto", 65),
+			SpikeUI::Colour::Colour(0.0, 0.0, 1.0));
+		textArea3.Text = "This text is actually blue ... But is it really?";
+
 
 		SpikeUI::UI::UI ui;
 		ui.Insert(textArea);
-
-		ui.Reset();
-
-		do
-		{
-			switch (auto elem = ui.GetType())
-			{
-				case SpikeUI::UI::DrawableType::TextArea:
-				{
-					auto item = ui.Get<SpikeUI::Text::TextArea>();
-				}
-				break;
-			}
-		} while (ui.Iterate());
-
-		ui.Erase(textArea._SpikeEngineId());
+		ui.Insert(textArea2);
+		ui.Insert(textArea3);
 		
 		float r = abs(sin(elapsed / 2000.0f));
 		float g = abs(sin(elapsed / 2000.0f + 3.1416f / 4.0));
@@ -139,6 +138,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		auto deltaTimer = SpikeUtils::Timer().Start();
 		renderer.RenderFrame(r, g, b);
+		renderer.RenderUI(ui);
+		renderer.PresentToScreen();
 		deltaTime = deltaTimer.Measure<SpikeUtils::Timer::Seconds>();
 		auto framesPerSecond = deltaTimer.Measure<SpikeUtils::Timer::FramesPerSecond>();
 

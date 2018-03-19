@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SpikeUI.h"
+
 namespace SpikeRenderer
 {
 	class __declspec(dllexport) Renderer
@@ -7,6 +9,8 @@ namespace SpikeRenderer
 	public:
 		virtual void InitRenderer() = 0;
 		virtual void RenderFrame(float, float, float) = 0;
+		virtual void RenderUI(SpikeUI::UI::UI ui) = 0;
+		virtual void PresentToScreen() = 0;
 		virtual void ShutdownRenderer() = 0;
 	};
 }

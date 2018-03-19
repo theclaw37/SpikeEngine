@@ -82,20 +82,7 @@ void SpikeRenderer::DirectXRenderer::InitRenderer()
 		&d2dbackbuffer
 	);
 
-	IDWriteFactory1 *writeFactory;
 	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(writeFactory), (IUnknown**)(&writeFactory));
-
-	// create the DRwite text format
-
-	writeFactory->CreateTextFormat(
-		L"Times New Roman",
-		NULL,
-		DWRITE_FONT_WEIGHT_NORMAL,
-		DWRITE_FONT_STYLE_NORMAL,
-		DWRITE_FONT_STRETCH_NORMAL,
-		50,
-		L"",
-		&textFormat);
 
 	//swapchain->SetFullscreenState(TRUE, NULL);
 }
@@ -103,35 +90,64 @@ void SpikeRenderer::DirectXRenderer::InitRenderer()
 void SpikeRenderer::DirectXRenderer::RenderFrame(float r, float g, float b)
 {
 	devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(r, g, b, 1.0f));
-
-	D2D1_SIZE_F targetSize = d2dbackbuffer->GetSize();
-
-	d2dbackbuffer->BeginDraw();
-
-	ID2D1SolidColorBrush* brush;
-	d2dbackbuffer->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black, 1.0f), &brush);
-
-	D2D1_RECT_F rect = D2D1::RectF(
-		0.0f,
-		0.0f,
-		100,
-		100
-	);
-
-
-	d2dbackbuffer->DrawRectangle(rect, brush);
-
-	const WCHAR *text = L"Hello From Direct2D";
-	d2dbackbuffer->DrawTextW(text, wcslen(text), textFormat, D2D1::RectF(0, 0, 800, 600), brush);
-
-    d2dbackbuffer->EndDraw();
-
-	swapchain->Present(0, 0);
 }
 
-void SpikeRenderer::DirectXRenderer::RenderUI()
+void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI ui)
 {
+	ui.Reset();
 
+	do
+	{
+		switch (auto elem = ui.GetType())
+		{
+		case SpikeUI::UI::DrawableType::TextArea:
+		{
+			auto item = ui.Get<SpikeUI::Text::TextArea>();
+
+			size_t cSize = strlen((*item).Font.FontFamily.c_str()) + 1;
+			wchar_t* wc = new wchar_t[cSize];
+			size_t outSize;
+			mbstowcs_s(&outSize, wc, cSize, (*item).Font.FontFamily.c_str(), cSize - 1);
+			writeFactory->CreateTextFormat(
+				wc,
+				NULL,
+				DWRITE_FONT_WEIGHT_NORMAL,
+				DWRITE_FONT_STYLE_NORMAL,
+				DWRITE_FONT_STRETCH_NORMAL,
+				(*item).Font.Size,
+				L"",
+				&textFormat);
+
+			delete wc;
+
+			d2dbackbuffer->BeginDraw();
+
+			ID2D1SolidColorBrush* brush;
+			d2dbackbuffer->CreateSolidColorBrush(
+				D2D1::ColorF((*item).Colour.r, (*item).Colour.g, (*item).Colour.b),
+				&brush);
+
+			D2D1_RECT_F rect = D2D1::RectF(
+				(*item).Place.TopLeft.x,
+				(*item).Place.TopLeft.y,
+				(*item).Place.BottomRight.x,
+				(*item).Place.BottomRight.y);
+
+			cSize = strlen((*item).Text.c_str()) + 1;
+			wc = new wchar_t[cSize];
+			mbstowcs_s(&outSize, wc, cSize, (*item).Text.c_str(), cSize - 1);
+			d2dbackbuffer->DrawTextW(wc, wcslen(wc), textFormat, rect, brush);
+			delete wc;
+
+			d2dbackbuffer->EndDraw();
+		}break;
+		}
+	} while (ui.Iterate());
+}
+
+void SpikeRenderer::DirectXRenderer::PresentToScreen()
+{
+	swapchain->Present(0, 0);
 }
 
 void SpikeRenderer::DirectXRenderer::ShutdownRenderer()
