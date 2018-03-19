@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpikeRenderer", "SpikeRende
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpikeUtils", "SpikeUtils\SpikeUtils.vcxproj", "{7C86404E-4EB1-4896-88D3-FD7F5A2A6DFF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpikeUI", "SpikeUI\SpikeUI.vcxproj", "{4E3190AA-1C42-4E24-8A04-7A5644E9A165}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -39,8 +41,9 @@ Global
 		{01905977-4A64-4A26-BA65-9899A93B0203}.Debug|x86.Build.0 = Debug|Win32
 		{01905977-4A64-4A26-BA65-9899A93B0203}.DirectXDebug|x64.ActiveCfg = Release|x64
 		{01905977-4A64-4A26-BA65-9899A93B0203}.DirectXDebug|x64.Build.0 = Release|x64
-		{01905977-4A64-4A26-BA65-9899A93B0203}.DirectXDebug|x86.ActiveCfg = DirectXDebug|Win32
-		{01905977-4A64-4A26-BA65-9899A93B0203}.DirectXDebug|x86.Build.0 = DirectXDebug|Win32
+		{01905977-4A64-4A26-BA65-9899A93B0203}.DirectXDebug|x86.ActiveCfg = Debug|Win32
+		{01905977-4A64-4A26-BA65-9899A93B0203}.DirectXDebug|x86.Build.0 = Debug|Win32
+		{01905977-4A64-4A26-BA65-9899A93B0203}.DirectXDebug|x86.Deploy.0 = Debug|Win32
 		{01905977-4A64-4A26-BA65-9899A93B0203}.Release|x64.ActiveCfg = Release|x64
 		{01905977-4A64-4A26-BA65-9899A93B0203}.Release|x64.Build.0 = Release|x64
 		{01905977-4A64-4A26-BA65-9899A93B0203}.Release|x86.ActiveCfg = Release|Win32
@@ -69,6 +72,18 @@ Global
 		{7C86404E-4EB1-4896-88D3-FD7F5A2A6DFF}.Release|x64.Build.0 = Release|x64
 		{7C86404E-4EB1-4896-88D3-FD7F5A2A6DFF}.Release|x86.ActiveCfg = Release|Win32
 		{7C86404E-4EB1-4896-88D3-FD7F5A2A6DFF}.Release|x86.Build.0 = Release|Win32
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.Debug|x64.ActiveCfg = Debug|x64
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.Debug|x64.Build.0 = Debug|x64
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.Debug|x86.ActiveCfg = Debug|Win32
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.Debug|x86.Build.0 = Debug|Win32
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.DirectXDebug|x64.ActiveCfg = Debug|x64
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.DirectXDebug|x64.Build.0 = Debug|x64
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.DirectXDebug|x86.ActiveCfg = Debug|Win32
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.DirectXDebug|x86.Build.0 = Debug|Win32
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.Release|x64.ActiveCfg = Release|x64
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.Release|x64.Build.0 = Release|x64
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.Release|x86.ActiveCfg = Release|Win32
+		{4E3190AA-1C42-4E24-8A04-7A5644E9A165}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

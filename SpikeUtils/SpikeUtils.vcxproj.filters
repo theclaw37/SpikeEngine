@@ -1,36 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Timer">
+      <UniqueIdentifier>{2122dd5f-bab5-46ac-a803-4b4186dcc766}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Patterns">
+      <UniqueIdentifier>{c8ee07b2-de73-45e4-8ace-53b874656426}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Patterns\Singleton">
+      <UniqueIdentifier>{53f35aa5-1cef-49bb-b4f8-e8f2c1ad43dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Patterns">
-      <UniqueIdentifier>{9a048b29-fe71-497b-a2af-f03811fb745e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Timer">
-      <UniqueIdentifier>{0f519bdf-ab08-420d-b9f5-c43ba49ccfc2}</UniqueIdentifier>
+    <Filter Include="GUID">
+      <UniqueIdentifier>{b3b30719-2737-4220-a208-c23531ec10ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
-      <Filter>Header Files\Patterns</Filter>
+      <Filter>Patterns\Singleton</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Header Files\Timer</Filter>
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="GUID.h">
+      <Filter>GUID</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIDREF.h">
+      <Filter>GUID</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="GUID.cpp">
+      <Filter>GUID</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

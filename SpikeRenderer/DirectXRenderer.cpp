@@ -26,7 +26,7 @@ void SpikeRenderer::DirectXRenderer::InitRenderer()
 	D3D11CreateDeviceAndSwapChain(NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
-		NULL,
+		D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 		NULL,
 		NULL,
 		D3D11_SDK_VERSION,
@@ -55,16 +55,83 @@ void SpikeRenderer::DirectXRenderer::InitRenderer()
 
 	devcon->RSSetViewports(1, &viewport);
 
-	swapchain->SetFullscreenState(TRUE, NULL);
+	// Direct2D stuff
+	swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+
+	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &d2dfactory);
+
+	FLOAT dpiX;
+	FLOAT dpiY;
+	d2dfactory->GetDesktopDpi(&dpiX, &dpiY);
+
+	D2D1_RENDER_TARGET_PROPERTIES props =
+		D2D1::RenderTargetProperties(
+			D2D1_RENDER_TARGET_TYPE_DEFAULT,
+			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
+			dpiX,
+			dpiY
+		);
+
+	IDXGISurface* surface;
+	pBackBuffer->QueryInterface(__uuidof(IDXGISurface), (LPVOID*)&surface);
+
+
+	auto hr = d2dfactory->CreateDxgiSurfaceRenderTarget(
+		surface,
+		&props,
+		&d2dbackbuffer
+	);
+
+	IDWriteFactory1 *writeFactory;
+	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(writeFactory), (IUnknown**)(&writeFactory));
+
+	// create the DRwite text format
+
+	writeFactory->CreateTextFormat(
+		L"Times New Roman",
+		NULL,
+		DWRITE_FONT_WEIGHT_NORMAL,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		50,
+		L"",
+		&textFormat);
+
+	//swapchain->SetFullscreenState(TRUE, NULL);
 }
 
 void SpikeRenderer::DirectXRenderer::RenderFrame(float r, float g, float b)
 {
 	devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(r, g, b, 1.0f));
 
-	// Render code here
+	D2D1_SIZE_F targetSize = d2dbackbuffer->GetSize();
+
+	d2dbackbuffer->BeginDraw();
+
+	ID2D1SolidColorBrush* brush;
+	d2dbackbuffer->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black, 1.0f), &brush);
+
+	D2D1_RECT_F rect = D2D1::RectF(
+		0.0f,
+		0.0f,
+		100,
+		100
+	);
+
+
+	d2dbackbuffer->DrawRectangle(rect, brush);
+
+	const WCHAR *text = L"Hello From Direct2D";
+	d2dbackbuffer->DrawTextW(text, wcslen(text), textFormat, D2D1::RectF(0, 0, 800, 600), brush);
+
+    d2dbackbuffer->EndDraw();
 
 	swapchain->Present(0, 0);
+}
+
+void SpikeRenderer::DirectXRenderer::RenderUI()
+{
+
 }
 
 void SpikeRenderer::DirectXRenderer::ShutdownRenderer()

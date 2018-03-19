@@ -56,6 +56,7 @@ Temporary Items
 *.pdb
 *.pdi
 *.tlog
+*.user
 
 # Build directories
 /SpikeEngine/x64/
@@ -66,6 +67,9 @@ Temporary Items
 /SpikeUtils/x86/
 /SpikeRenderer/x64/
 /SpikeRenderer/x86/
+/SpikeUI/x64/
+/SpikeUI/x86/
 /x64/
 /x86/
 Dependencies/
+/Dependencies/stb/

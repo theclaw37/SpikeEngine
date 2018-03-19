@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="SpikeUI.h" />
+    <ClInclude Include="Rectangle.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Colour.h">
+      <Filter>Colour</Filter>
+    </ClInclude>
+    <ClInclude Include="TextArea.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Text">
+      <UniqueIdentifier>{55e7f0bc-ac2c-4f0a-9d1e-8dd247834c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Colour">
+      <UniqueIdentifier>{ee00ef79-6268-4434-95e1-5d635eb767d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{0d6d68f6-ead0-42b3-948c-0d505d4e1fc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{9691fa26-ed28-4894-bf57-559e3689fc77}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TextArea.cpp">
+      <Filter>Text</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

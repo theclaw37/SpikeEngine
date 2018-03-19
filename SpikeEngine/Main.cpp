@@ -1,5 +1,7 @@
 #include "SpikeEngine.h"
 #include "Timer.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 double deltaTime = 0;
 
@@ -105,6 +107,31 @@ int WINAPI WinMain(HINSTANCE hInstance,
 				break;
 		}
 		auto elapsed = timer.Measure<SpikeUtils::Timer::Milliseconds>();
+
+		SpikeUI::Text::TextArea textArea(
+			SpikeUI::Containers::Rectangle(0, 0, 100, 100),
+			SpikeUI::Text::Font("Arial", 10),
+			SpikeUI::Colour::Colour(1.0, 0.0, 0.0));
+		textArea.Text = "Hello bitch";
+
+		SpikeUI::UI::UI ui;
+		ui.Insert(textArea);
+
+		ui.Reset();
+
+		do
+		{
+			switch (auto elem = ui.GetType())
+			{
+				case SpikeUI::UI::DrawableType::TextArea:
+				{
+					auto item = ui.Get<SpikeUI::Text::TextArea>();
+				}
+				break;
+			}
+		} while (ui.Iterate());
+
+		ui.Erase(textArea._SpikeEngineId());
 		
 		float r = abs(sin(elapsed / 2000.0f));
 		float g = abs(sin(elapsed / 2000.0f + 3.1416f / 4.0));

@@ -1,3 +1,6 @@
 [submodule "Dependencies/picojson"]
 	path = Dependencies/picojson
 	url = https://github.com/kazuho/picojson
+[submodule "Dependencies/stb"]
+	path = Dependencies/stb
+	url = https://github.com/nothings/stb
