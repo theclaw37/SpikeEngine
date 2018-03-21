@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <memory>
+#include <functional>
 #include "Drawable.h"
 #include "TextArea.h"
 
@@ -15,35 +16,29 @@ namespace SpikeUI
 			UI() = default;
 
 			template<typename T>
-		    void Insert(T const & drawable);
+		    void Insert(T const &);
+			void Erase(std::string const &);
 
-			void Erase(std::string const & guid);
+			void Iterate(
+				std::function<void(std::shared_ptr<SpikeUI::UI::Drawable>)>);
 
-			void Reset();
-			DrawableType GetType();
-
-			template<class T>
-			std::shared_ptr<T> Get();
-
-			bool Iterate();
+			std::shared_ptr<SpikeUI::UI::Drawable> Mouse(
+				SpikeUI::Containers::Point,
+				bool,
+				bool);
 
 			
 		private:
 			std::vector<std::shared_ptr<SpikeUI::UI::Drawable>> UIContainer;
-			std::vector<std::shared_ptr<SpikeUI::UI::Drawable>>::iterator UIContainerIterator;
+			std::shared_ptr<SpikeUI::UI::Drawable> UIFocus;
+
+			void SwitchFocus(std::shared_ptr<SpikeUI::UI::Drawable> target);
 		};
 
 		template<typename T>
 		inline void UI::Insert(T const & drawable)
 		{
 			UIContainer.push_back(std::make_shared<T>(drawable));
-			Reset();
-		}
-
-		template<typename T>
-		inline std::shared_ptr<T> UI::Get()
-		{
-			return std::static_pointer_cast<T>(*UIContainerIterator);
 		}
 	}
 }

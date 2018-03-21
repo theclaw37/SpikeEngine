@@ -6,9 +6,10 @@ SpikeRenderer::DirectXRenderer::DirectXRenderer(HWND hWnd) : _hWnd(hWnd)
 {
 }
 
-void SpikeRenderer::DirectXRenderer::InitRenderer()
+void SpikeRenderer::DirectXRenderer::InitRenderer(const SpikeUI::UI::UI & ui)
 {
 	SpikeConfig::Config::Instance().Load("config.json");
+	this->ui = ui;
 
 	DXGI_SWAP_CHAIN_DESC scd;
 	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
@@ -72,9 +73,8 @@ void SpikeRenderer::DirectXRenderer::InitRenderer()
 			dpiY
 		);
 
-	IDXGISurface* surface;
-	pBackBuffer->QueryInterface(__uuidof(IDXGISurface), (LPVOID*)&surface);
-
+	IDXGISurface1* surface;
+	pBackBuffer->QueryInterface(__uuidof(IDXGISurface1), (LPVOID*)&surface);
 
 	auto hr = d2dfactory->CreateDxgiSurfaceRenderTarget(
 		surface,
@@ -92,29 +92,63 @@ void SpikeRenderer::DirectXRenderer::RenderFrame(float r, float g, float b)
 	devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(r, g, b, 1.0f));
 }
 
-void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI ui)
+void SpikeRenderer::DirectXRenderer::RenderUI()
 {
-	ui.Reset();
+	POINT cursorPos;
+	GetCursorPos(&cursorPos);
+	ScreenToClient(_hWnd, &cursorPos);
+	SpikeUI::Containers::Point point(cursorPos.x, cursorPos.y);
 
-	do
+	static bool lButton;
+	bool lButtonDown = false, lButtonUp = false;
+
+	if (GetKeyState(VK_LBUTTON))
 	{
-		switch (auto elem = ui.GetType())
+		if (!lButton)
 		{
+			lButtonDown = true;
+			lButtonUp = false;
+		}
+		else
+		{
+			lButtonDown = false;
+			lButtonUp = false;
+		}
+	}
+	else
+	{
+		if (!lButton)
+		{
+			lButtonDown = false;
+			lButtonUp = false;
+		}
+		else
+		{
+			lButtonDown = false;
+			lButtonUp = true;
+		}
+	}
+
+	ui.Mouse(point, lButtonDown, lButtonUp);
+
+	ui.Iterate([this](std::shared_ptr<SpikeUI::UI::Drawable> iter)
+	{
+		switch (iter->Type)
 		case SpikeUI::UI::DrawableType::TextArea:
 		{
-			auto item = ui.Get<SpikeUI::Text::TextArea>();
+			auto item = (SpikeUI::Text::TextArea*)(&*iter);
 
-			size_t cSize = strlen((*item).Font.FontFamily.c_str()) + 1;
+			size_t cSize = strlen(item->Font.FontFamily.c_str()) + 1;
 			wchar_t* wc = new wchar_t[cSize];
 			size_t outSize;
-			mbstowcs_s(&outSize, wc, cSize, (*item).Font.FontFamily.c_str(), cSize - 1);
+			mbstowcs_s(&outSize, wc, cSize, item->Font.FontFamily.c_str(), cSize - 1);
 			writeFactory->CreateTextFormat(
 				wc,
 				NULL,
 				DWRITE_FONT_WEIGHT_NORMAL,
 				DWRITE_FONT_STYLE_NORMAL,
 				DWRITE_FONT_STRETCH_NORMAL,
-				(*item).Font.Size,
+				item->Font.Size,
 				L"",
 				&textFormat);
 
@@ -124,25 +158,25 @@ void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI ui)
 
 			ID2D1SolidColorBrush* brush;
 			d2dbackbuffer->CreateSolidColorBrush(
-				D2D1::ColorF((*item).Colour.r, (*item).Colour.g, (*item).Colour.b),
+				D2D1::ColorF(item->Colour.r, item->Colour.g, item->Colour.b),
 				&brush);
 
 			D2D1_RECT_F rect = D2D1::RectF(
-				(*item).Place.TopLeft.x,
-				(*item).Place.TopLeft.y,
-				(*item).Place.BottomRight.x,
-				(*item).Place.BottomRight.y);
+				item->Place.TopLeft.x,
+				item->Place.TopLeft.y,
+				item->Place.BottomRight.x,
+				item->Place.BottomRight.y);
 
-			cSize = strlen((*item).Text.c_str()) + 1;
+			cSize = strlen(item->Text.c_str()) + 1;
 			wc = new wchar_t[cSize];
-			mbstowcs_s(&outSize, wc, cSize, (*item).Text.c_str(), cSize - 1);
-			d2dbackbuffer->DrawTextW(wc, wcslen(wc), textFormat, rect, brush);
+			mbstowcs_s(&outSize, wc, cSize, item->Text.c_str(), cSize - 1);
+			d2dbackbuffer->DrawTextW(wc, wcslen(wc), textFormat, &rect, brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 			delete wc;
 
 			d2dbackbuffer->EndDraw();
-		}break;
+			break;
 		}
-	} while (ui.Iterate());
+	});
 }
 
 void SpikeRenderer::DirectXRenderer::PresentToScreen()

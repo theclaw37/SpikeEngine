@@ -10,22 +10,41 @@ void SpikeUI::UI::UI::Erase(std::string const & guid)
 			UIContainer.end(),
 			[guid](auto elem)
 			{
-				return (*elem)._SpikeEngineId() == guid;
+				return elem->_SpikeEngineId() == guid;
 			}));
-	Reset();
 }
 
-void SpikeUI::UI::UI::Reset()
+void SpikeUI::UI::UI::Iterate(std::function<void(std::shared_ptr<SpikeUI::UI::Drawable>)> functor)
 {
-	UIContainerIterator = UIContainer.begin();
+	for (auto & iter : UIContainer)
+	{
+		functor(iter);
+	}
 }
 
-SpikeUI::UI::DrawableType SpikeUI::UI::UI::GetType()
+std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::Mouse(SpikeUI::Containers::Point position, bool leftClickDown, bool leftClickUp)
 {
-	return (**UIContainerIterator).Type;
+	for (auto & iter : UIContainer)
+	{
+		if (iter->HandleMouse(position, leftClickDown, leftClickUp))
+		{
+			SwitchFocus(iter);
+			return iter;
+		}
+	}
+
+	SwitchFocus(nullptr);
+	return nullptr;
 }
 
-bool SpikeUI::UI::UI::Iterate()
+void SpikeUI::UI::UI::SwitchFocus(std::shared_ptr<SpikeUI::UI::Drawable> target)
 {
-	return (++UIContainerIterator != UIContainer.end());
+	if (UIFocus) 
+		UIFocus->LoseFocus();
+
+	if (target)
+	{
+		target->ReceiveFocus();
+		UIFocus = target;
+	}
 }

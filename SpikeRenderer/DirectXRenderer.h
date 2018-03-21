@@ -25,9 +25,9 @@ namespace SpikeRenderer
 	{
 	public:
 		DirectXRenderer(HWND);
-		virtual void InitRenderer();
+		virtual void InitRenderer(const SpikeUI::UI::UI & ui);
 		virtual void RenderFrame(float, float, float);
-		virtual void RenderUI(SpikeUI::UI::UI ui);
+		virtual void RenderUI();
 		virtual void PresentToScreen();
 		virtual void ShutdownRenderer();
 	private:
@@ -40,6 +40,8 @@ namespace SpikeRenderer
 		ID2D1RenderTarget* d2dbackbuffer;
 		IDWriteTextFormat *textFormat;
 		IDWriteFactory1 *writeFactory;
+
+		SpikeUI::UI::UI ui;
 	};
 }
 

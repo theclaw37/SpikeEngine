@@ -16,10 +16,16 @@ namespace SpikeUI
 			SpikeUI::Colour::Colour Colour;
 			std::string Text;
 
-			TextArea(SpikeUI::Containers::Rectangle const & place,
-				SpikeUI::Text::Font const & font,
-				SpikeUI::Colour::Colour const & colour);
+			TextArea(SpikeUI::Containers::Rectangle const &,
+				SpikeUI::Text::Font const &,
+				SpikeUI::Colour::Colour const &);
 
+			virtual bool HandleMouse(SpikeUI::Containers::Point, bool, bool);
+			virtual void ReceiveFocus();
+			virtual void LoseFocus();
+			virtual void LeftClickDown();
+			virtual void LeftClickUp();
+			virtual ~TextArea() = default;
 		};
 	}
 }

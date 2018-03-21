@@ -90,11 +90,34 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		NULL);
 
 	ShowWindow(hWnd, nCmdShow);
-	
-	auto renderer = SpikeRenderer::DirectXRenderer(hWnd);
-	renderer.InitRenderer();
 
 	MSG msg;
+
+	SpikeUI::Text::TextArea textArea(
+		SpikeUI::Containers::Rectangle(0, 0, 100, 100),
+		SpikeUI::Text::Font("Arial", 25),
+		SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
+	textArea.Text = "Hover over me";
+
+	SpikeUI::Text::TextArea textArea2(
+		SpikeUI::Containers::Rectangle(500, 0, 600, 100),
+		SpikeUI::Text::Font("Arial", 25),
+		SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
+	textArea2.Text = "Hover over me 2";
+
+	SpikeUI::Text::TextArea textArea3(
+		SpikeUI::Containers::Rectangle(800, 0, 900, 100),
+		SpikeUI::Text::Font("Arial", 25),
+		SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
+	textArea3.Text = "Hover over me 3";
+
+	SpikeUI::UI::UI ui;
+	ui.Insert(textArea);
+	ui.Insert(textArea2);
+	ui.Insert(textArea3);
+
+	auto renderer = SpikeRenderer::DirectXRenderer(hWnd);
+	renderer.InitRenderer(ui);
 
 	auto timer = SpikeUtils::Timer().Start();
 	while (TRUE)
@@ -107,30 +130,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 				break;
 		}
 		auto elapsed = timer.Measure<SpikeUtils::Timer::Milliseconds>();
-
-		SpikeUI::Text::TextArea textArea(
-			SpikeUI::Containers::Rectangle(800, 500, 100, 100),
-			SpikeUI::Text::Font("Arial", 50),
-			SpikeUI::Colour::Colour(1.0, 0.0, 0.0));
-		textArea.Text = "This is Red text, written with the Arial font. Is it red?";
-
-		SpikeUI::Text::TextArea textArea2(
-			SpikeUI::Containers::Rectangle(1100, 600, 800, 100),
-			SpikeUI::Text::Font("Times New Roman", 25),
-			SpikeUI::Colour::Colour(0.0, 1.0, 0.0));
-		textArea2.Text = "This text should be displayed as Green, with Times New Roman. Is it displayed correctly?";
-
-		SpikeUI::Text::TextArea textArea3(
-			SpikeUI::Containers::Rectangle(1200, 900, 400, 400),
-			SpikeUI::Text::Font("Magneto", 65),
-			SpikeUI::Colour::Colour(0.0, 0.0, 1.0));
-		textArea3.Text = "This text is actually blue ... But is it really?";
-
-
-		SpikeUI::UI::UI ui;
-		ui.Insert(textArea);
-		ui.Insert(textArea2);
-		ui.Insert(textArea3);
 		
 		float r = abs(sin(elapsed / 2000.0f));
 		float g = abs(sin(elapsed / 2000.0f + 3.1416f / 4.0));
@@ -138,14 +137,14 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		auto deltaTimer = SpikeUtils::Timer().Start();
 		renderer.RenderFrame(r, g, b);
-		renderer.RenderUI(ui);
+		renderer.RenderUI();
 		renderer.PresentToScreen();
 		deltaTime = deltaTimer.Measure<SpikeUtils::Timer::Seconds>();
 		auto framesPerSecond = deltaTimer.Measure<SpikeUtils::Timer::FramesPerSecond>();
 
-		wchar_t buffer[25];
+		/*wchar_t buffer[25];
 		swprintf(buffer, 25, L"SpikeEngine - %.*f FPS", 1, framesPerSecond);
-		SetWindowText(hWnd, buffer);
+		SetWindowText(hWnd, buffer);*/
 	}
 
 	renderer.ShutdownRenderer();
