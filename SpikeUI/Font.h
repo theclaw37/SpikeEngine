@@ -4,7 +4,7 @@
 
 namespace SpikeUI
 {
-	namespace Text
+	namespace Containers
 	{
 		struct __declspec(dllexport) Font
 		{

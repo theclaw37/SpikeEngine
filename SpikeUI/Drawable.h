@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <deque>
 #include "Point.h"
 #include "GUIDREF.h"
 
@@ -10,24 +11,39 @@ namespace SpikeUI
 	{
 		enum DrawableType
 		{
-			TextArea = 0
+			TextArea = 1,
+			Button = 2,
+			EmptyArea = 4,
+
 		};
 
 		enum DrawableState
 		{
-			Default = 0,
-			Hover = 1
+			Default = 1,
+			Hover = 2
+		};
+
+		enum DrawableHit
+		{
+			Enable = 1,
+			Disable = 2
 		};
 
 		struct __declspec(dllexport) Drawable : SpikeUtils::GUIDREF
 		{
-			DrawableType Type;
-			DrawableState State;
+			DrawableType DType;
+			DrawableState DState;
+			DrawableHit DHit;
 
-			Drawable(DrawableType type) : Type(type)
+			Drawable(DrawableType type) : DType(type)
 			{}
 
-			virtual bool HandleMouse(SpikeUI::Containers::Point, bool, bool) = 0;
+			std::shared_ptr<Drawable> DParent;
+			std::deque<std::shared_ptr<Drawable>> DChildren;
+
+			virtual void MouseUpdate(bool, bool) = 0;
+			virtual void Update() = 0;
+			virtual bool Contains(SpikeUI::Containers::Point const &) = 0;
 			virtual void ReceiveFocus() = 0;
 			virtual void LoseFocus() = 0;
 			virtual void LeftClickDown() = 0;

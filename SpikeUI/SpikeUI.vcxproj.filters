@@ -11,14 +11,11 @@
     <ClInclude Include="Shape.h">
       <Filter>Containers</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Text</Filter>
-    </ClInclude>
     <ClInclude Include="Colour.h">
       <Filter>Colour</Filter>
     </ClInclude>
     <ClInclude Include="TextArea.h">
-      <Filter>Text</Filter>
+      <Filter>Controls</Filter>
     </ClInclude>
     <ClInclude Include="Drawable.h">
       <Filter>UI</Filter>
@@ -26,11 +23,17 @@
     <ClInclude Include="UI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyArea.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Text">
-      <UniqueIdentifier>{55e7f0bc-ac2c-4f0a-9d1e-8dd247834c92}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Colour">
       <UniqueIdentifier>{ee00ef79-6268-4434-95e1-5d635eb767d1}</UniqueIdentifier>
     </Filter>
@@ -40,13 +43,22 @@
     <Filter Include="UI">
       <UniqueIdentifier>{9691fa26-ed28-4894-bf57-559e3689fc77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{55e7f0bc-ac2c-4f0a-9d1e-8dd247834c92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TextArea.cpp">
-      <Filter>Text</Filter>
+      <Filter>Controls</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="EmptyArea.cpp">
+      <Filter>Controls</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

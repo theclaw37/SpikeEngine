@@ -1,53 +1,57 @@
 #include "TextArea.h"
 
-#include <Windows.h>
-
-SpikeUI::Text::TextArea::TextArea(SpikeUI::Containers::Rectangle const & place, 
-	SpikeUI::Text::Font const & font, 
+SpikeUI::Controls::TextArea::TextArea(SpikeUI::Containers::Rectangle const & place, 
+	SpikeUI::Containers::Font const & font, 
 	SpikeUI::Colour::Colour const & colour) : 
 		Place(place), 
 		Font(font), 
 		Colour(colour),
 		Drawable(SpikeUI::UI::DrawableType::TextArea)
 {
+	DHit = SpikeUI::UI::DrawableHit::Disable;
 }
 
-bool SpikeUI::Text::TextArea::HandleMouse(SpikeUI::Containers::Point coord, bool leftClickDown, bool leftClickUp)
+void SpikeUI::Controls::TextArea::MouseUpdate(bool leftClickDown, bool leftClickUp)
 {
-	auto hit = (coord.x >= Place.TopLeft.x)
-		&& (coord.x <= Place.BottomRight.x)
-		&& (coord.y >= Place.TopLeft.y)
-		&& (coord.y <= Place.BottomRight.y);
-
-	if (hit)
-	{
-		if (leftClickDown)
-			LeftClickDown();
-		else if (leftClickUp)
-			LeftClickUp();
-	}
-
-	return hit;
+	if (leftClickDown)
+		LeftClickDown();
+	else if (leftClickUp)
+		LeftClickUp();
 }
 
-void SpikeUI::Text::TextArea::ReceiveFocus()
+void SpikeUI::Controls::TextArea::Update()
 {
-	Colour = SpikeUI::Colour::Colour(0.0, 0.0, 0.0);
-	State = SpikeUI::UI::DrawableState::Hover;
 }
 
-void SpikeUI::Text::TextArea::LoseFocus()
+bool SpikeUI::Controls::TextArea::Contains(SpikeUI::Containers::Point const & mouse)
 {
-	Colour = SpikeUI::Colour::Colour(1.0, 1.0, 1.0);
-	State = SpikeUI::UI::DrawableState::Default;
+	return Place.Contains(mouse);
 }
 
-void SpikeUI::Text::TextArea::LeftClickDown()
+void SpikeUI::Controls::TextArea::ReceiveFocus()
 {
-	Beep(440, 300);
+	DState = SpikeUI::UI::DrawableState::Hover;
+	
+	if (receiveFocus)
+		receiveFocus(*this);
 }
 
-void SpikeUI::Text::TextArea::LeftClickUp()
+void SpikeUI::Controls::TextArea::LoseFocus()
 {
-	Beep(880, 300);
+	DState = SpikeUI::UI::DrawableState::Default;
+
+	if (receiveFocus)
+		loseFocus(*this);
+}
+
+void SpikeUI::Controls::TextArea::LeftClickDown()
+{
+	if (lClickDown)
+		lClickDown(*this);
+}
+
+void SpikeUI::Controls::TextArea::LeftClickUp()
+{
+	if (lClickUp)
+		lClickUp(*this);
 }

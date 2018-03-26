@@ -81,7 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		L"SpikeMainWindow",
 		L"SpikeEngine",
 		WS_OVERLAPPEDWINDOW,
-		300, 300,
+		0, 0,
 		clientWindow.right - clientWindow.left,
 		clientWindow.bottom - clientWindow.top,
 		NULL,
@@ -93,31 +93,132 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	MSG msg;
 
-	SpikeUI::Text::TextArea textArea(
-		SpikeUI::Containers::Rectangle(0, 0, 100, 100),
-		SpikeUI::Text::Font("Arial", 25),
+	SpikeUI::Controls::TextArea textArea_title(
+		SpikeUI::Containers::Rectangle(30, 30, 230, 80),
+		SpikeUI::Containers::Font("Arial", 25),
 		SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
-	textArea.Text = "Hover over me";
+	textArea_title.Text = "SpikeEngine";
+	textArea_title.DHit = SpikeUI::UI::DrawableHit::Enable;
 
-	SpikeUI::Text::TextArea textArea2(
-		SpikeUI::Containers::Rectangle(500, 0, 600, 100),
-		SpikeUI::Text::Font("Arial", 25),
-		SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
-	textArea2.Text = "Hover over me 2";
+	SpikeUI::Controls::Button button1(
+		SpikeUI::Containers::Rectangle(30, 100, 230, 150),
+		SpikeUI::Colour::Colour(0.5, 0.5, 0.5));
+	SpikeUI::Controls::TextArea button1_text(
+		SpikeUI::Containers::Rectangle(30, 100, 230, 150),
+		SpikeUI::Containers::Font("Arial", 25),
+		SpikeUI::Colour::Colour(0.0, 0.0, 0.0));
+	button1_text.Text = "New Game";
 
-	SpikeUI::Text::TextArea textArea3(
-		SpikeUI::Containers::Rectangle(800, 0, 900, 100),
-		SpikeUI::Text::Font("Arial", 25),
-		SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
-	textArea3.Text = "Hover over me 3";
+	SpikeUI::Controls::Button button2(
+		SpikeUI::Containers::Rectangle(30, 200, 230, 250),
+		SpikeUI::Colour::Colour(0.5, 0.5, 0.5));
+	SpikeUI::Controls::TextArea button2_text(
+		SpikeUI::Containers::Rectangle(30, 200, 230, 250),
+		SpikeUI::Containers::Font("Arial", 25),
+		SpikeUI::Colour::Colour(0.0, 0.0, 0.0));
+	button2_text.Text = "Options";
 
-	SpikeUI::UI::UI ui;
-	ui.Insert(textArea);
-	ui.Insert(textArea2);
-	ui.Insert(textArea3);
+	SpikeUI::Controls::Button button3(
+		SpikeUI::Containers::Rectangle(30, 300, 230, 350),
+		SpikeUI::Colour::Colour(0.5, 0.5, 0.5));
+	SpikeUI::Controls::TextArea button3_text(
+		SpikeUI::Containers::Rectangle(30, 300, 230, 350),
+		SpikeUI::Containers::Font("Arial", 25),
+		SpikeUI::Colour::Colour(0.0, 0.0, 0.0));
+	button3_text.Text = "Help";
+
+	SpikeUI::Controls::Button button4(
+		SpikeUI::Containers::Rectangle(30, 400, 230, 450),
+		SpikeUI::Colour::Colour(0.5, 0.5, 0.5));
+	SpikeUI::Controls::TextArea button4_text(
+		SpikeUI::Containers::Rectangle(30, 400, 230, 450),
+		SpikeUI::Containers::Font("Arial", 25),
+		SpikeUI::Colour::Colour(0.0, 0.0, 0.0));
+	button4_text.Text = "Quit";
+
+
+	auto hoverIn = [](SpikeUI::Controls::TextArea& ref)
+	{
+		ref.Colour = SpikeUI::Colour::Colour(0.0, 0.0, 0.0);
+	};
+	auto hoverOut = [](SpikeUI::Controls::TextArea& ref)
+	{
+		ref.Colour = SpikeUI::Colour::Colour(1.0, 1.0, 1.0);
+	};
+	auto lClickDown = [](SpikeUI::Controls::TextArea& ref)
+	{
+		OutputDebugStringA((ref._SpikeEngineId() + " Down\n").c_str());
+	};
+	auto lClickUp = [](SpikeUI::Controls::TextArea& ref)
+	{
+		OutputDebugStringA((ref._SpikeEngineId() + " Up\n").c_str());
+	};
+
+	auto hoverInB = [](SpikeUI::Controls::Button& ref)
+	{
+		ref.Colour = SpikeUI::Colour::Colour(1.0, 1.0, 1.0);
+	};
+	auto hoverOutB = [](SpikeUI::Controls::Button& ref)
+	{
+		ref.Colour = SpikeUI::Colour::Colour(0.5, 0.5, 0.5);
+	};
+	auto lClickDownB = [](SpikeUI::Controls::Button& ref)
+	{
+		OutputDebugStringA((ref._SpikeEngineId() + " Down\n").c_str());
+	};
+	auto lClickUpB = [](SpikeUI::Controls::Button& ref)
+	{
+		OutputDebugStringA((ref._SpikeEngineId() + " Up\n").c_str());
+	};
+
+	auto lClickUpBQuit = [](SpikeUI::Controls::Button& ref)
+	{
+		PostQuitMessage(0);
+	};
+
+	textArea_title.receiveFocus = hoverIn;
+	textArea_title.loseFocus = hoverOut;
+	textArea_title.lClickDown = lClickDown;
+	textArea_title.lClickUp = lClickUp;
+
+	button1.receiveFocus = hoverInB;
+	button1.loseFocus = hoverOutB;
+	button1.lClickDown = lClickDownB;
+	button1.lClickUp = lClickUpB;
+
+	button2.receiveFocus = hoverInB;
+	button2.loseFocus = hoverOutB;
+	button2.lClickDown = lClickDownB;
+	button2.lClickUp = lClickUpB;
+
+	button3.receiveFocus = hoverInB;
+	button3.loseFocus = hoverOutB;
+	button3.lClickDown = lClickDownB;
+	button3.lClickUp = lClickUpB;
+
+	button4.receiveFocus = hoverInB;
+	button4.loseFocus = hoverOutB;
+	button4.lClickDown = lClickDownB;
+	button4.lClickUp = lClickUpBQuit;
+
+	SpikeUI::UI::UI ui(SpikeUI::Containers::Rectangle(
+		0, 
+		0, 
+		clientWindow.right - clientWindow.left,
+		clientWindow.bottom - clientWindow.top));
+
+	ui.Insert(textArea_title, SpikeUI::UI::Front);
+	ui.Insert(button1, SpikeUI::UI::Front);
+	ui.Insert(button2, SpikeUI::UI::Front);
+	ui.Insert(button3, SpikeUI::UI::Front);
+	ui.Insert(button4, SpikeUI::UI::Front);
+	ui.Insert(button1_text, button1._SpikeEngineId(), SpikeUI::UI::Front);
+	ui.Insert(button2_text, button2._SpikeEngineId(), SpikeUI::UI::Front);
+	ui.Insert(button3_text, button3._SpikeEngineId(), SpikeUI::UI::Front);
+	ui.Insert(button4_text, button4._SpikeEngineId(), SpikeUI::UI::Front);
 
 	auto renderer = SpikeRenderer::DirectXRenderer(hWnd);
-	renderer.InitRenderer(ui);
+	renderer.InitRenderer();
 
 	auto timer = SpikeUtils::Timer().Start();
 	while (TRUE)
@@ -137,7 +238,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		auto deltaTimer = SpikeUtils::Timer().Start();
 		renderer.RenderFrame(r, g, b);
-		renderer.RenderUI();
+		renderer.RenderUI(ui);
 		renderer.PresentToScreen();
 		deltaTime = deltaTimer.Measure<SpikeUtils::Timer::Seconds>();
 		auto framesPerSecond = deltaTimer.Measure<SpikeUtils::Timer::FramesPerSecond>();

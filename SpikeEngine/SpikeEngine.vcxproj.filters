@@ -16,5 +16,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SpikeEngine.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SpikeEngine.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

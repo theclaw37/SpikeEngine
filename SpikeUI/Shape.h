@@ -8,7 +8,6 @@ namespace SpikeUI
 	{
 		struct __declspec(dllexport) Shape
 		{
-			virtual double const Area() = 0;
 		};
 	}
 }
