@@ -1,6 +1,13 @@
 #pragma once
 
-#include "Singleton.h"
+#include "Window.h"
+#include "SpikeUtils.h"
+
+#ifdef DLL_SPIKECONFIG
+#define SPIKECONFIG_EXPORT __declspec(dllexport)
+#else
+#define SPIKECONFIG_EXPORT __declspec(dllimport)
+#endif
 
 namespace picojson {
 	class value;
@@ -8,7 +15,7 @@ namespace picojson {
 
 namespace SpikeConfig
 {
-	class __declspec(dllexport) Config : public SpikeUtils::Singleton<Config>
+	class SPIKECONFIG_EXPORT Config : public SpikeUtils::Singleton<Config>
 	{
 		friend class SpikeUtils::Singleton<Config>;
 

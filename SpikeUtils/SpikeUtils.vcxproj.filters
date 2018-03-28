@@ -24,15 +24,19 @@
     <ClInclude Include="GUID.h">
       <Filter>GUID</Filter>
     </ClInclude>
-    <ClInclude Include="GUIDREF.h">
+    <ClInclude Include="_SpikeEngineObject.h">
       <Filter>GUID</Filter>
     </ClInclude>
+    <ClInclude Include="SpikeUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
       <Filter>Timer</Filter>
     </ClCompile>
     <ClCompile Include="GUID.cpp">
+      <Filter>GUID</Filter>
+    </ClCompile>
+    <ClCompile Include="_SpikeEngineObject.cpp">
       <Filter>GUID</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,8 +1,14 @@
 #pragma once
 
+#ifdef DLL_SPIKECONFIG
+#define SPIKECONFIG_EXPORT __declspec(dllexport)
+#else
+#define SPIKECONFIG_EXPORT __declspec(dllimport)
+#endif
+
 namespace SpikeConfig
 {
-	class __declspec(dllexport) Window
+	class SPIKECONFIG_EXPORT Window
 	{
 	public:
 		Window();

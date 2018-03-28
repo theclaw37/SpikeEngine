@@ -19,6 +19,12 @@ void SpikeUI::Controls::TextArea::MouseUpdate(bool leftClickDown, bool leftClick
 		LeftClickUp();
 }
 
+void SpikeUI::Controls::TextArea::KeyboardUpdate(SpikeUI::Containers::Key const & key)
+{
+	if (receiveKey)
+		receiveKey(*this, key);
+}
+
 void SpikeUI::Controls::TextArea::Update()
 {
 }

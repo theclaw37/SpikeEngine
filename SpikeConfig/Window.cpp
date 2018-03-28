@@ -1,4 +1,4 @@
-#include "SpikeConfig.h"
+#include "Window.h"
 
 SpikeConfig::Window::Window() : Window(320, 240)
 {

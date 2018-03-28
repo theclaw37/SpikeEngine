@@ -1,24 +1,23 @@
 #include "DirectXRenderer.h"
-#include "SpikeConfig.h"
-#include "Timer.h"
+#include "SpikeUtils.h"
 
-SpikeRenderer::DirectXRenderer::DirectXRenderer(HWND hWnd) : _hWnd(hWnd)
+SpikeRenderer::DirectXRenderer::DirectXRenderer()
 {
+	RendererState = RendererState::Initial;
 }
 
-void SpikeRenderer::DirectXRenderer::InitRenderer()
+void SpikeRenderer::DirectXRenderer::InitRenderer(HWND hwnd, UINT width, UINT height)
 {
-	SpikeConfig::Config::Instance().Load("config.json");
-
+	Rhwnd = hwnd;
 	DXGI_SWAP_CHAIN_DESC scd;
 	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 
 	scd.BufferCount = 1;
 	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	scd.BufferDesc.Width = SpikeConfig::Config::Instance().GetWindow().GetClientWidth();
-	scd.BufferDesc.Height = SpikeConfig::Config::Instance().GetWindow().GetClientHeight();
+	scd.BufferDesc.Width = width;
+	scd.BufferDesc.Height = height;
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	scd.OutputWindow = _hWnd;
+	scd.OutputWindow = Rhwnd;
 	scd.SampleDesc.Count = 4;
 	scd.Windowed = TRUE;
 	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
@@ -50,8 +49,8 @@ void SpikeRenderer::DirectXRenderer::InitRenderer()
 
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = static_cast<FLOAT>(SpikeConfig::Config::Instance().GetWindow().GetClientWidth());
-	viewport.Height = static_cast<FLOAT>(SpikeConfig::Config::Instance().GetWindow().GetClientHeight());
+	viewport.Width = static_cast<FLOAT>(width);
+	viewport.Height = static_cast<FLOAT>(height);
 
 	devcon->RSSetViewports(1, &viewport);
 
@@ -84,6 +83,8 @@ void SpikeRenderer::DirectXRenderer::InitRenderer()
 	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(writeFactory), (IUnknown**)(&writeFactory));
 
 	//swapchain->SetFullscreenState(TRUE, NULL);
+
+	RendererState = RendererState::Ready;
 }
 
 void SpikeRenderer::DirectXRenderer::RenderFrame(float r, float g, float b)
@@ -95,7 +96,7 @@ void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 {
 	POINT cursorPos;
 	GetCursorPos(&cursorPos);
-	ScreenToClient(_hWnd, &cursorPos);
+	ScreenToClient(Rhwnd, &cursorPos);
 	SpikeUI::Containers::Point point(cursorPos.x, cursorPos.y);
 
 	static bool lButton;
@@ -130,7 +131,7 @@ void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 		lButton = false;
 	}
 
-	ui.Update(point, lButtonDown, lButtonUp);
+	ui.UpdateForPointer(point, lButtonDown, lButtonUp);
 
 	d2dbackbuffer->BeginDraw();
 
@@ -220,6 +221,4 @@ void SpikeRenderer::DirectXRenderer::RenderUIButton(SpikeUI::Controls::Button co
 		button.Place.BottomRight.y);
 
 	d2dbackbuffer->FillRectangle(rect, brush);
-
-	//RenderUITextArea(button.Text);
 }

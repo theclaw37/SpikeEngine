@@ -3,7 +3,14 @@
 #include <memory>
 #include <deque>
 #include "Point.h"
-#include "GUIDREF.h"
+#include "Key.h"
+#include "SpikeUtils.h"
+
+#ifdef DLL_SPIKEUI
+#define SPIKEUI_EXPORT __declspec(dllexport)
+#else
+#define SPIKEUI_EXPORT __declspec(dllimport)
+#endif
 
 namespace SpikeUI
 {
@@ -29,7 +36,7 @@ namespace SpikeUI
 			Disable = 2
 		};
 
-		struct __declspec(dllexport) Drawable : SpikeUtils::GUIDREF
+		struct SPIKEUI_EXPORT Drawable : SpikeUtils::_SpikeEngineObject
 		{
 			DrawableType DType;
 			DrawableState DState;
@@ -42,6 +49,7 @@ namespace SpikeUI
 			std::deque<std::shared_ptr<Drawable>> DChildren;
 
 			virtual void MouseUpdate(bool, bool) = 0;
+			virtual void KeyboardUpdate(SpikeUI::Containers::Key const &) = 0;
 			virtual void Update() = 0;
 			virtual bool Contains(SpikeUI::Containers::Point const &) = 0;
 			virtual void ReceiveFocus() = 0;

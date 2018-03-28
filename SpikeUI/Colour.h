@@ -1,12 +1,16 @@
 #pragma once
 
-#include <iostream>
+#ifdef DLL_SPIKEUI
+#define SPIKEUI_EXPORT __declspec(dllexport)
+#else
+#define SPIKEUI_EXPORT __declspec(dllimport)
+#endif
 
 namespace SpikeUI
 {
 	namespace Colour
 	{
-		struct __declspec(dllexport) Colour
+		struct SPIKEUI_EXPORT Colour
 		{
 			double r, g, b;
 

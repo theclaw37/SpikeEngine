@@ -1,9 +1,15 @@
 #pragma once
 
+#ifdef DLL_SPIKEUTILS
+#define SPIKEUTILS_EXPORT __declspec(dllexport)
+#else
+#define SPIKEUTILS_EXPORT __declspec(dllexport)
+#endif
+
 namespace SpikeUtils
 {
 	template<typename T>
-	class __declspec(dllexport) Singleton
+	class SPIKEUTILS_EXPORT Singleton
 	{
 	public:
 		static T & Instance()

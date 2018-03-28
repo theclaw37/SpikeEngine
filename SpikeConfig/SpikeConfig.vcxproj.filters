@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="SpikeConfig.h" />
     <ClInclude Include="Exceptions.h">
       <Filter>Exceptions</Filter>
     </ClInclude>
@@ -11,6 +10,7 @@
     <ClInclude Include="Window.h">
       <Filter>Config\Window</Filter>
     </ClInclude>
+    <ClInclude Include="SpikeConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Config.cpp">

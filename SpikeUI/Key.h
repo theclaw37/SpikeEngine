@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #ifdef DLL_SPIKEUI
 #define SPIKEUI_EXPORT __declspec(dllexport)
 #else
@@ -12,12 +10,11 @@ namespace SpikeUI
 {
 	namespace Containers
 	{
-		struct SPIKEUI_EXPORT Font
+		struct SPIKEUI_EXPORT Key
 		{
-			std::string FontFamily;
-			unsigned int Size;
+			char ch;
 
-			Font(std::string const & family, unsigned int size) : FontFamily(family), Size(size)
+			Key(char ch) : ch(ch)
 			{}
 		};
 	}

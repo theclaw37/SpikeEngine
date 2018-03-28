@@ -80,6 +80,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>DLL_SPIKEUTILS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -109,6 +110,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>DLL_SPIKEUTILS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -117,13 +119,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GUID.h" />
-    <ClInclude Include="GUIDREF.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SpikeUtils.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="_SpikeEngineObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GUID.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="_SpikeEngineObject.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

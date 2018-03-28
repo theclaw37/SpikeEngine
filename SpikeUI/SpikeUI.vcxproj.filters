@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="SpikeUI.h" />
     <ClInclude Include="Rectangle.h">
       <Filter>Containers</Filter>
     </ClInclude>
@@ -17,9 +16,6 @@
     <ClInclude Include="TextArea.h">
       <Filter>Controls</Filter>
     </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -32,6 +28,13 @@
     <ClInclude Include="EmptyArea.h">
       <Filter>Controls</Filter>
     </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpikeUI.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Colour">

@@ -6,6 +6,13 @@
 #include <unordered_map>
 #include "Drawable.h"
 #include "Rectangle.h"
+#include "Key.h"
+
+#ifdef DLL_SPIKEUI
+#define SPIKEUI_EXPORT __declspec(dllexport)
+#else
+#define SPIKEUI_EXPORT __declspec(dllimport)
+#endif
 
 namespace SpikeUI
 {
@@ -17,10 +24,18 @@ namespace SpikeUI
 			Back = 2
 		};
 
-		class __declspec(dllexport) UI
+		enum UIState
+		{
+			Initial = 0,
+			Ready = 1
+		};
+
+		class SPIKEUI_EXPORT UI
 		{
 		public:
-			UI(SpikeUI::Containers::Rectangle const &);
+			UI();
+
+			void Init(SpikeUI::Containers::Rectangle const &);
 			
 			template <typename T>
 			void Insert(T const &, UIOrder const &);
@@ -34,16 +49,21 @@ namespace SpikeUI
 			void IterateFrontToBack(
 				std::function<void(std::shared_ptr<SpikeUI::UI::Drawable>)>);
 
-			void Update(
+			void UpdateForPointer(
 				SpikeUI::Containers::Point const &,
 				bool,
 				bool);
 
-			
+			void UpdateForKey(
+				SpikeUI::Containers::Key const &);
+
+			UIState GetState() const;
+
 		private:
-			std::shared_ptr<SpikeUI::UI::Drawable> UIRoot;
-			std::shared_ptr<SpikeUI::UI::Drawable> UIFocus;
-			std::unordered_map<std::string, std::shared_ptr<SpikeUI::UI::Drawable>> UIElems;
+			std::shared_ptr<SpikeUI::UI::Drawable> _UIRoot;
+			std::shared_ptr<SpikeUI::UI::Drawable> _UIFocus;
+			std::unordered_map<std::string, std::shared_ptr<SpikeUI::UI::Drawable>> _UIElems;
+			UIState _UIState;
 
 			void SwitchFocus(std::shared_ptr<SpikeUI::UI::Drawable>);
 			void Erase(std::shared_ptr<SpikeUI::UI::Drawable>, std::string const &);
@@ -61,14 +81,14 @@ namespace SpikeUI
 			UIOrder const & order)
 		{
 			auto ptr = std::make_shared<T>(drawable);
-			UIElems.insert({
+			_UIElems.insert({
 				ptr->_SpikeEngineId(),
 				ptr });
 
 			if (order == UIOrder::Front)
-				UIRoot->DChildren.push_back(ptr);
+				_UIRoot->DChildren.push_back(ptr);
 			else if (order == UIOrder::Back)
-				UIRoot->DChildren.push_front(ptr);
+				_UIRoot->DChildren.push_front(ptr);
 		}
 
 		template<typename T>
@@ -78,7 +98,7 @@ namespace SpikeUI
 			UIOrder const & order)
 		{
 			auto ptr = std::make_shared<T>(drawable);
-			UIElems.insert({
+			_UIElems.insert({
 				ptr->_SpikeEngineId(),
 				ptr });
 

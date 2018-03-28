@@ -1,5 +1,17 @@
-#include "SpikeConfig.h"
+#include <fstream>
+#include "Config.h"
+#include "Exceptions.h"
 #include "picojson.h"
+
+// Platform specific headers
+#ifdef __linux__
+
+#elif _WIN32
+
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+
+#endif
 
 void SpikeConfig::Config::Load(const std::string & path)
 {

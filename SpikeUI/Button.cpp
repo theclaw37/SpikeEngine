@@ -1,7 +1,5 @@
 #include "Button.h"
 
-#include <Windows.h>
-
 SpikeUI::Controls::Button::Button(SpikeUI::Containers::Rectangle const & place,
 	SpikeUI::Colour::Colour const & colour) :
 	Place(place),
@@ -17,6 +15,12 @@ void SpikeUI::Controls::Button::MouseUpdate(bool leftClickDown, bool leftClickUp
 		LeftClickDown();
 	else if (leftClickUp)
 		LeftClickUp();
+}
+
+void SpikeUI::Controls::Button::KeyboardUpdate(SpikeUI::Containers::Key const & key)
+{
+	if (receiveKey)
+		receiveKey(*this, key);
 }
 
 void SpikeUI::Controls::Button::Update()

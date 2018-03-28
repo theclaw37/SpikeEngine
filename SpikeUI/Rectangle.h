@@ -2,11 +2,17 @@
 
 #include "Point.h"
 
+#ifdef DLL_SPIKEUI
+#define SPIKEUI_EXPORT __declspec(dllexport)
+#else
+#define SPIKEUI_EXPORT __declspec(dllimport)
+#endif
+
 namespace SpikeUI
 {
 	namespace Containers
 	{
-		struct __declspec(dllexport) Rectangle : Shape
+		struct SPIKEUI_EXPORT Rectangle : public Shape
 		{
 			Point TopLeft, BottomRight;
 

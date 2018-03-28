@@ -2,9 +2,15 @@
 
 #include <chrono>
 
+#ifdef DLL_SPIKEUTILS
+#define SPIKEUTILS_EXPORT __declspec(dllexport)
+#else
+#define SPIKEUTILS_EXPORT __declspec(dllimport)
+#endif
+
 namespace SpikeUtils
 {
-	class __declspec(dllexport) Timer
+	class SPIKEUTILS_EXPORT Timer
 	{
 	public:
 		enum Milliseconds;

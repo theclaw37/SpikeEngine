@@ -11,6 +11,10 @@ void SpikeUI::Controls::EmptyArea::MouseUpdate(bool leftClickDown, bool leftClic
 {
 }
 
+void SpikeUI::Controls::EmptyArea::KeyboardUpdate(SpikeUI::Containers::Key const &)
+{
+}
+
 void SpikeUI::Controls::EmptyArea::Update()
 {
 }

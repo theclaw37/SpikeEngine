@@ -4,14 +4,19 @@
 #include "EmptyArea.h"
 
 
-SpikeUI::UI::UI::UI(SpikeUI::Containers::Rectangle const & rootArea) : 
-	UIRoot(std::make_shared<SpikeUI::Controls::EmptyArea>(rootArea))
+SpikeUI::UI::UI::UI() : _UIState(UIState::Initial)
 {}
+
+void SpikeUI::UI::UI::Init(SpikeUI::Containers::Rectangle const & rootArea)
+{
+	_UIRoot = std::make_shared<SpikeUI::Controls::EmptyArea>(rootArea);
+	_UIState = UIState::Ready;
+}
 
 std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::Get(std::string const & guid)
 {
-	auto elem = UIElems.find(guid);
-	if (elem != UIElems.end())
+	auto elem = _UIElems.find(guid);
+	if (elem != _UIElems.end())
 	{
 		return elem->second;
 	}
@@ -19,9 +24,10 @@ std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::Get(std::string const & 
 	return nullptr;
 }
 
+
 void SpikeUI::UI::UI::Erase(std::string const & guid)
 {
-	Erase(UIRoot, guid);
+	Erase(_UIRoot, guid);
 }
 
 void SpikeUI::UI::UI::Erase(
@@ -50,7 +56,7 @@ void SpikeUI::UI::UI::Erase(
 		}
 		else
 		{
-			UIElems.erase(guid);
+			_UIElems.erase(guid);
 		}
 	}
 }
@@ -59,7 +65,7 @@ void SpikeUI::UI::UI::Erase(
 void SpikeUI::UI::UI::IterateBackToFront(
 	std::function<void(std::shared_ptr<SpikeUI::UI::Drawable>)> functor)
 {
-	IterateBackToFront(UIRoot, functor);
+	IterateBackToFront(_UIRoot, functor);
 }
 
 void SpikeUI::UI::UI::IterateBackToFront(
@@ -76,7 +82,7 @@ void SpikeUI::UI::UI::IterateBackToFront(
 void SpikeUI::UI::UI::IterateFrontToBack(
 	std::function<void(std::shared_ptr<SpikeUI::UI::Drawable>)> functor)
 {
-	IterateFrontToBack(UIRoot, functor);
+	IterateFrontToBack(_UIRoot, functor);
 }
 
 void SpikeUI::UI::UI::IterateFrontToBack(
@@ -90,13 +96,13 @@ void SpikeUI::UI::UI::IterateFrontToBack(
 	}
 }
 
-void SpikeUI::UI::UI::Update(
+void SpikeUI::UI::UI::UpdateForPointer(
 	SpikeUI::Containers::Point const & mouse, 
 	bool leftClickDown, 
 	bool leftClickUp)
 {
 	std::shared_ptr<SpikeUI::UI::Drawable> focus = nullptr;
-	IterateFrontToBack(UIRoot, 
+	IterateFrontToBack(_UIRoot, 
 		[&focus, &mouse, &leftClickDown, &leftClickUp](std::shared_ptr<SpikeUI::UI::Drawable> drawable) 
 	{
 		if (!focus)
@@ -113,15 +119,25 @@ void SpikeUI::UI::UI::Update(
 	SwitchFocus(focus);
 }
 
+void SpikeUI::UI::UI::UpdateForKey(SpikeUI::Containers::Key const & msg)
+{
+	_UIFocus->KeyboardUpdate(msg);
+}
+
+SpikeUI::UI::UIState SpikeUI::UI::UI::GetState() const
+{
+	return _UIState;
+}
+
 void SpikeUI::UI::UI::SwitchFocus(std::shared_ptr<SpikeUI::UI::Drawable> target)
 {
-	if (UIFocus) 
-		UIFocus->LoseFocus();
+	if (_UIFocus) 
+		_UIFocus->LoseFocus();
 
 	if (target)
 	{
 		target->ReceiveFocus();
-		UIFocus = target;
+		_UIFocus = target;
 	}
 }
 

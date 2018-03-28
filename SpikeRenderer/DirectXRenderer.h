@@ -1,37 +1,26 @@
 #pragma once
 
-#ifdef _WIN32
-
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <windowsx.h>
-#include <d3d11.h>
-#include <d3dx11.h>
-#include <d3dx10.h>
-#include <d2d1.h>
-#include <d2d1helper.h>
-#include <dwrite_1.h>
 #include "Renderer.h"
 
-#pragma comment (lib, "d3d11.lib")
-#pragma comment (lib, "d3dx11.lib")
-#pragma comment (lib, "d3dx10.lib")
-#pragma comment (lib, "d2d1.lib")
-#pragma comment( lib, "dwrite.lib")
+#ifdef DLL_SPIKERENDERER
+#define SPIKERENDERER_EXPORT __declspec(dllexport)
+#else
+#define SPIKERENDERER_EXPORT __declspec(dllimport)
+#endif
 
 namespace SpikeRenderer
 {
-	class __declspec(dllexport) DirectXRenderer : public Renderer
+	class SPIKERENDERER_EXPORT DirectXRenderer : public Renderer
 	{
 	public:
-		DirectXRenderer(HWND);
-		virtual void InitRenderer();
+		DirectXRenderer();
+		virtual void InitRenderer(HWND, UINT, UINT);
 		virtual void RenderFrame(float, float, float);
 		virtual void RenderUI(SpikeUI::UI::UI & ui);
 		virtual void PresentToScreen();
 		virtual void ShutdownRenderer();
 	private:
-		HWND _hWnd;
+		HWND Rhwnd;
 		IDXGISwapChain *swapchain;
 		ID3D11Device *dev;
 		ID3D11DeviceContext *devcon;
@@ -45,5 +34,3 @@ namespace SpikeRenderer
 		void RenderUIButton(SpikeUI::Controls::Button const & button);
 	};
 }
-
-#endif
