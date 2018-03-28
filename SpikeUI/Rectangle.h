@@ -26,6 +26,60 @@ namespace SpikeUI
 					&& (point.y >= TopLeft.y)
 					&& (point.y <= BottomRight.y);
 			}
+
+			inline double Width()
+			{
+				return (BottomRight.x - TopLeft.x);
+			}
+
+			inline double Height()
+			{
+				return (BottomRight.y - TopLeft.y);
+			}
+
+			inline Point RelativeToAbsolute(Point const & relativeCoords)
+			{
+				return SpikeUI::Containers::Point(
+					TopLeft.x + relativeCoords.x * Width(),
+					TopLeft.y + relativeCoords.y * Height());
+			}
+
+			inline Rectangle RelativeMoveToAbsolute(Point const & relativeCoords)
+			{
+				auto topLeft = RelativeToAbsolute(relativeCoords);
+				return Rectangle(
+					topLeft.x,
+					topLeft.y,
+					topLeft.x + Width(),
+					topLeft.y + Height()
+				);
+			}
+
+			friend Rectangle operator-(Rectangle lhs, Point const & rhs)
+			{
+				lhs -= rhs;
+				return lhs;
+			}
+
+			friend Rectangle operator+(Rectangle lhs, Point const & rhs)
+			{
+				lhs += rhs;
+				return lhs;
+			}
+
+			Rectangle& operator-=(Point const & rhs)
+			{
+				TopLeft -= rhs;
+				BottomRight -= rhs;
+				return (*this);
+			}
+
+			Rectangle& operator+=(Point const & rhs)
+			{
+				TopLeft += rhs;
+				BottomRight += rhs;
+				return (*this);
+			}
 		};
 	}
 }

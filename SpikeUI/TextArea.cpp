@@ -34,6 +34,26 @@ bool SpikeUI::Controls::TextArea::Contains(SpikeUI::Containers::Point const & mo
 	return Place.Contains(mouse);
 }
 
+void SpikeUI::Controls::TextArea::MoveByPixels(SpikeUI::Containers::Point const & pixels)
+{
+	Place += pixels;
+}
+
+SpikeUI::Containers::Point SpikeUI::Controls::TextArea::MoveToPixels(SpikeUI::Containers::Point const & pixels)
+{
+	auto width = Place.Width();
+	auto height = Place.Height();
+	auto newPlace = SpikeUI::Containers::Rectangle(pixels.x, pixels.y, pixels.x + width, pixels.y + height);
+	auto delta = newPlace.TopLeft - Place.TopLeft;
+	Place = newPlace;
+	return delta;
+}
+
+SpikeUI::Containers::Point SpikeUI::Controls::TextArea::RelativePixelDelta(SpikeUI::Containers::Point const & relativePosition)
+{
+	return Place.RelativeToAbsolute(relativePosition) - Place.TopLeft;
+}
+
 void SpikeUI::Controls::TextArea::ReceiveFocus()
 {
 	DState = SpikeUI::UI::DrawableState::Hover;

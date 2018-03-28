@@ -43,6 +43,8 @@ namespace SpikeUI
 			void Insert(T const &, std::string const &, UIOrder const &);
 			void Erase(std::string const &);
 			std::shared_ptr<SpikeUI::UI::Drawable> Get(std::string const &);
+			void MoveTo(std::shared_ptr<SpikeUI::UI::Drawable>, SpikeUI::Containers::Point const &);
+			void MoveBy(std::shared_ptr<SpikeUI::UI::Drawable>, SpikeUI::Containers::Point const &);
 
 			void IterateBackToFront(
 				std::function<void(std::shared_ptr<SpikeUI::UI::Drawable>)>);
@@ -85,6 +87,8 @@ namespace SpikeUI
 				ptr->_SpikeEngineId(),
 				ptr });
 
+			ptr->DParent = _UIRoot;
+
 			if (order == UIOrder::Front)
 				_UIRoot->DChildren.push_back(ptr);
 			else if (order == UIOrder::Back)
@@ -105,6 +109,8 @@ namespace SpikeUI
 			auto parent = Get(guid);
 			if (parent)
 			{
+				ptr->DParent = parent;
+
 				if (order == UIOrder::Front)
 					parent->DChildren.push_back(ptr);
 				else if (order == UIOrder::Back)

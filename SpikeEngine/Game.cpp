@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "SpikeConfig.h"
 
+std::string test;
+SpikeUI::Containers::Point point(0, 0);
 
 SpikeEngine::Game::Game() : GameState(GameState::Initial)
 {}
@@ -78,6 +80,13 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	{
 	};
 
+	auto hoverInBLOL = [this](SpikeUI::Controls::Button& ref)
+	{
+		GameUI.MoveTo(
+			GameUI.Get(ref._SpikeEngineId()),
+			SpikeUI::Containers::Point((rand() %  100) / 100.0, (rand() % 100) / 100.0));
+	};
+
 	auto hoverInB = [](SpikeUI::Controls::Button& ref)
 	{
 		ref.Colour = SpikeUI::Colour::Colour(1.0, 1.0, 1.0);
@@ -103,7 +112,7 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	textArea_title.lClickDown = lClickDown;
 	textArea_title.lClickUp = lClickUp;
 
-	button1.receiveFocus = hoverInB;
+	button1.receiveFocus = hoverInBLOL;
 	button1.loseFocus = hoverOutB;
 	button1.lClickDown = lClickDownB;
 	button1.lClickUp = lClickUpB;
@@ -132,6 +141,8 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	GameUI.Insert(button2_text, button2._SpikeEngineId(), SpikeUI::UI::Front);
 	GameUI.Insert(button3_text, button3._SpikeEngineId(), SpikeUI::UI::Front);
 	GameUI.Insert(button4_text, button4._SpikeEngineId(), SpikeUI::UI::Front);
+
+	test = button1._SpikeEngineId();
 }
 
 #ifdef _WIN32

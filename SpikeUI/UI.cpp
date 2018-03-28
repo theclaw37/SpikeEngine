@@ -24,6 +24,36 @@ std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::Get(std::string const & 
 	return nullptr;
 }
 
+void SpikeUI::UI::UI::MoveTo(std::shared_ptr<SpikeUI::UI::Drawable> target, SpikeUI::Containers::Point const & position)
+{
+	if (&(*target) != &(*_UIRoot))
+	{
+		auto positionPercentage(position);
+		positionPercentage.ClampToPercentage();
+
+		auto movedTo = target->DParent->RelativePixelDelta(positionPercentage);
+		auto deltaPixels = target->MoveToPixels(movedTo);
+		IterateBackToFront(target, [&deltaPixels](std::shared_ptr<SpikeUI::UI::Drawable> child) {
+			child->MoveByPixels(deltaPixels);
+		});
+	}
+}
+
+void SpikeUI::UI::UI::MoveBy(std::shared_ptr<SpikeUI::UI::Drawable> target, SpikeUI::Containers::Point const & position)
+{
+	if (&(*target) != &(*_UIRoot))
+	{
+		auto positionPercentage(position);
+		positionPercentage.ClampToPercentage();
+
+		auto movedBy = target->DParent->RelativePixelDelta(positionPercentage);
+		target->MoveByPixels(movedBy);
+		IterateBackToFront(target, [&movedBy](std::shared_ptr<SpikeUI::UI::Drawable> child) {
+			child->MoveByPixels(movedBy);
+		});
+	}
+}
+
 
 void SpikeUI::UI::UI::Erase(std::string const & guid)
 {

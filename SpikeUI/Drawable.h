@@ -52,6 +52,9 @@ namespace SpikeUI
 			virtual void KeyboardUpdate(SpikeUI::Containers::Key const &) = 0;
 			virtual void Update() = 0;
 			virtual bool Contains(SpikeUI::Containers::Point const &) = 0;
+			virtual void MoveByPixels(SpikeUI::Containers::Point const &) = 0;
+			virtual SpikeUI::Containers::Point MoveToPixels(SpikeUI::Containers::Point const &) = 0;
+			virtual SpikeUI::Containers::Point RelativePixelDelta(SpikeUI::Containers::Point const &) = 0;
 			virtual void ReceiveFocus() = 0;
 			virtual void LoseFocus() = 0;
 			virtual void LeftClickDown() = 0;
