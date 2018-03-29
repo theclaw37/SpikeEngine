@@ -57,7 +57,7 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 
 	SpikeUI::Controls::Button button4(
 		SpikeUI::Containers::Rectangle(30, 400, 230, 450),
-		SpikeUI::Colour::Colour(0.5, 0.5, 0.5));
+		SpikeUI::Colour::Colour(1.0, 0.5, 0.5));
 	SpikeUI::Controls::TextArea button4_text(
 		SpikeUI::Containers::Rectangle(30, 400, 230, 450),
 		SpikeUI::Containers::Font("Arial", 25),
@@ -95,6 +95,10 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	{
 		ref.Colour = SpikeUI::Colour::Colour(0.5, 0.5, 0.5);
 	};
+	auto hoverOutBQuit = [](SpikeUI::Controls::Button& ref)
+	{
+		ref.Colour = SpikeUI::Colour::Colour(1.0, 0.5, 0.5);
+	};
 	auto lClickDownB = [](SpikeUI::Controls::Button& ref)
 	{
 	};
@@ -128,7 +132,7 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	button3.lClickUp = lClickUpB;
 
 	button4.receiveFocus = hoverInB;
-	button4.loseFocus = hoverOutB;
+	button4.loseFocus = hoverOutBQuit;
 	button4.lClickDown = lClickDownB;
 	button4.lClickUp = lClickUpBQuit;
 
