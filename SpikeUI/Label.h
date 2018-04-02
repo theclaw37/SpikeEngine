@@ -17,17 +17,17 @@ namespace SpikeUI
 {
 	namespace Controls
 	{
-		struct SPIKEUI_EXPORT TextArea : SpikeUI::UI::Drawable
+		struct SPIKEUI_EXPORT Label : SpikeUI::UI::Drawable
 		{
 			SpikeUI::Containers::Rectangle Place;
 			SpikeUI::Containers::Font Font;
 			SpikeUI::Colour::Colour Colour;
 			std::string Text;
 
-			std::function<void(TextArea &)> receiveFocus, loseFocus, lClickDown, lClickUp;
-			std::function<void(TextArea &, SpikeUI::Containers::Key const &)> receiveKey;
+			std::function<void(Label &)> receiveFocus, loseFocus, lClickDown, lClickUp;
+			std::function<void(Label &, SpikeUI::Containers::Key const &)> receiveKey;
 
-			TextArea(SpikeUI::Containers::Rectangle const &,
+			Label(SpikeUI::Containers::Rectangle const &,
 				SpikeUI::Containers::Font const &,
 				SpikeUI::Colour::Colour const &);
 
@@ -42,7 +42,7 @@ namespace SpikeUI
 			virtual void LoseFocus();
 			virtual void LeftClickDown();
 			virtual void LeftClickUp();
-			virtual ~TextArea() = default;
+			virtual ~Label() = default;
 		};
 	}
 }

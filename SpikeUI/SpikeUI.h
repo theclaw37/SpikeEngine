@@ -3,5 +3,5 @@
 #include "UI.h"
 #include "Drawable.h"
 #include "Button.h"
-#include "TextArea.h"
+#include "Label.h"
 #include "EmptyArea.h"

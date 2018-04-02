@@ -21,7 +21,7 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 		SpikeConfig::Config::Instance().GetWindow().GetClientHeight()
 	));
 
-	SpikeUI::Controls::TextArea textArea_title(
+	SpikeUI::Controls::Label textArea_title(
 		SpikeUI::Containers::Rectangle(30, 30, 230, 80),
 		SpikeUI::Containers::Font("Arial", 25),
 		SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
@@ -31,7 +31,7 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	SpikeUI::Controls::Button button1(
 		SpikeUI::Containers::Rectangle(30, 100, 230, 150),
 		SpikeUI::Colour::Colour(0.5, 0.5, 0.5));
-	SpikeUI::Controls::TextArea button1_text(
+	SpikeUI::Controls::Label button1_text(
 		SpikeUI::Containers::Rectangle(30, 100, 230, 150),
 		SpikeUI::Containers::Font("Arial", 25),
 		SpikeUI::Colour::Colour(0.0, 0.0, 0.0));
@@ -40,7 +40,7 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	SpikeUI::Controls::Button button2(
 		SpikeUI::Containers::Rectangle(30, 200, 230, 250),
 		SpikeUI::Colour::Colour(0.5, 0.5, 0.5));
-	SpikeUI::Controls::TextArea button2_text(
+	SpikeUI::Controls::Label button2_text(
 		SpikeUI::Containers::Rectangle(30, 200, 230, 250),
 		SpikeUI::Containers::Font("Arial", 25),
 		SpikeUI::Colour::Colour(0.0, 0.0, 0.0));
@@ -49,7 +49,7 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	SpikeUI::Controls::Button button3(
 		SpikeUI::Containers::Rectangle(30, 300, 230, 350),
 		SpikeUI::Colour::Colour(0.5, 0.5, 0.5));
-	SpikeUI::Controls::TextArea button3_text(
+	SpikeUI::Controls::Label button3_text(
 		SpikeUI::Containers::Rectangle(30, 300, 230, 350),
 		SpikeUI::Containers::Font("Arial", 25),
 		SpikeUI::Colour::Colour(0.0, 0.0, 0.0));
@@ -58,25 +58,25 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	SpikeUI::Controls::Button button4(
 		SpikeUI::Containers::Rectangle(30, 400, 230, 450),
 		SpikeUI::Colour::Colour(0.5, 0.5, 0.5));
-	SpikeUI::Controls::TextArea button4_text(
+	SpikeUI::Controls::Label button4_text(
 		SpikeUI::Containers::Rectangle(30, 400, 230, 450),
 		SpikeUI::Containers::Font("Arial", 25),
 		SpikeUI::Colour::Colour(0.0, 0.0, 0.0));
 	button4_text.Text = "Quit";
 
 
-	auto hoverIn = [](SpikeUI::Controls::TextArea& ref)
+	auto hoverIn = [](SpikeUI::Controls::Label& ref)
 	{
 		ref.Colour = SpikeUI::Colour::Colour(0.0, 0.0, 0.0);
 	};
-	auto hoverOut = [](SpikeUI::Controls::TextArea& ref)
+	auto hoverOut = [](SpikeUI::Controls::Label& ref)
 	{
 		ref.Colour = SpikeUI::Colour::Colour(1.0, 1.0, 1.0);
 	};
-	auto lClickDown = [](SpikeUI::Controls::TextArea& ref)
+	auto lClickDown = [](SpikeUI::Controls::Label& ref)
 	{
 	};
-	auto lClickUp = [](SpikeUI::Controls::TextArea& ref)
+	auto lClickUp = [](SpikeUI::Controls::Label& ref)
 	{
 	};
 

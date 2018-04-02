@@ -130,7 +130,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="SpikeUI.h" />
-    <ClInclude Include="TextArea.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
@@ -141,7 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="EmptyArea.cpp" />
-    <ClCompile Include="TextArea.cpp" />
+    <ClCompile Include="Label.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -139,9 +139,9 @@ void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 	{
 		switch (iter->DType)
 		{
-			case SpikeUI::UI::DrawableType::TextArea:
+			case SpikeUI::UI::DrawableType::Label:
 			{
-				auto item = std::static_pointer_cast<SpikeUI::Controls::TextArea>(iter);
+				auto item = std::static_pointer_cast<SpikeUI::Controls::Label>(iter);
 				RenderUITextArea(*item);
 				break;
 			}
@@ -171,7 +171,7 @@ void SpikeRenderer::DirectXRenderer::ShutdownRenderer()
 	devcon->Release();
 }
 
-void SpikeRenderer::DirectXRenderer::RenderUITextArea(SpikeUI::Controls::TextArea const & textArea)
+void SpikeRenderer::DirectXRenderer::RenderUITextArea(SpikeUI::Controls::Label const & textArea)
 {
 	size_t cSize = strlen(textArea.Font.FontFamily.c_str()) + 1;
 	wchar_t* wc = new wchar_t[cSize];

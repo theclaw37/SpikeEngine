@@ -18,7 +18,7 @@ namespace SpikeUI
 	{
 		enum DrawableType
 		{
-			TextArea = 1,
+			Label = 1,
 			Button = 2,
 			EmptyArea = 4,
 

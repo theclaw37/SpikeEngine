@@ -13,9 +13,6 @@
     <ClInclude Include="Colour.h">
       <Filter>Colour</Filter>
     </ClInclude>
-    <ClInclude Include="TextArea.h">
-      <Filter>Controls</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -35,6 +32,9 @@
       <Filter>Containers</Filter>
     </ClInclude>
     <ClInclude Include="SpikeUI.h" />
+    <ClInclude Include="Label.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Colour">
@@ -51,9 +51,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TextArea.cpp">
-      <Filter>Controls</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -61,6 +58,9 @@
       <Filter>Controls</Filter>
     </ClCompile>
     <ClCompile Include="EmptyArea.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
       <Filter>Controls</Filter>
     </ClCompile>
   </ItemGroup>
