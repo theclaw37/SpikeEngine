@@ -20,10 +20,12 @@ namespace SpikeUI
 			Point(double x, double y) : x(x), y(y)
 			{}
 
-			void ClampToPercentage()
+			Point& ClampToPercentage()
 			{
 				x = (x < 0.0) ? 0.0 : ((x > 1.0) ? 1.0 : x);
 				y = (y < 0.0) ? 0.0 : ((y > 1.0) ? 1.0 : y);
+
+				return (*this);
 			}
 
 			friend Point operator-(Point lhs, Point const & rhs)

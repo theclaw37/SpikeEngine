@@ -41,7 +41,7 @@ SpikeUI::Containers::Point SpikeUI::Controls::EmptyArea::MoveToPixels(SpikeUI::C
 
 SpikeUI::Containers::Point SpikeUI::Controls::EmptyArea::RelativePixelDelta(SpikeUI::Containers::Point const & relativePosition)
 {
-	return Place.RelativeToAbsolute(relativePosition) - Place.TopLeft;
+	return Place.RelativeToAbsolute(relativePosition);
 }
 
 void SpikeUI::Controls::EmptyArea::ReceiveFocus()

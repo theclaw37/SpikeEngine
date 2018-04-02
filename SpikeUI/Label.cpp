@@ -51,7 +51,7 @@ SpikeUI::Containers::Point SpikeUI::Controls::Label::MoveToPixels(SpikeUI::Conta
 
 SpikeUI::Containers::Point SpikeUI::Controls::Label::RelativePixelDelta(SpikeUI::Containers::Point const & relativePosition)
 {
-	return Place.RelativeToAbsolute(relativePosition) - Place.TopLeft;
+	return Place.RelativeToAbsolute(relativePosition);
 }
 
 void SpikeUI::Controls::Label::ReceiveFocus()
@@ -66,7 +66,7 @@ void SpikeUI::Controls::Label::LoseFocus()
 {
 	DState = SpikeUI::UI::DrawableState::Default;
 
-	if (receiveFocus)
+	if (loseFocus)
 		loseFocus(*this);
 }
 

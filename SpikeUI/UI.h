@@ -83,11 +83,18 @@ namespace SpikeUI
 			UIOrder const & order)
 		{
 			auto ptr = std::make_shared<T>(drawable);
+			ptr->DParent = _UIRoot;
+
+			auto newTopLeft = _UIRoot->RelativePixelDelta(
+				ptr->Place.TopLeft.ClampToPercentage());
+			auto newBottomRight = _UIRoot->RelativePixelDelta(
+				ptr->Place.BottomRight.ClampToPercentage());
+			ptr->Place.TopLeft = newTopLeft;
+			ptr->Place.BottomRight = newBottomRight;
+			
 			_UIElems.insert({
 				ptr->_SpikeEngineId(),
 				ptr });
-
-			ptr->DParent = _UIRoot;
 
 			if (order == UIOrder::Front)
 				_UIRoot->DChildren.push_back(ptr);
@@ -101,20 +108,31 @@ namespace SpikeUI
 			std::string const & guid, 
 			UIOrder const & order)
 		{
-			auto ptr = std::make_shared<T>(drawable);
-			_UIElems.insert({
-				ptr->_SpikeEngineId(),
-				ptr });
-
 			auto parent = Get(guid);
 			if (parent)
 			{
+				auto ptr = std::make_shared<T>(drawable);
 				ptr->DParent = parent;
+				
+				auto newTopLeft = parent->RelativePixelDelta(
+					ptr->Place.TopLeft.ClampToPercentage());
+				auto newBottomRight = parent->RelativePixelDelta(
+					ptr->Place.BottomRight.ClampToPercentage());
+
+				ptr->Place.TopLeft = newTopLeft;
+				ptr->Place.BottomRight = newBottomRight;
+
+				_UIElems.insert({
+					ptr->_SpikeEngineId(),
+					ptr });
+
 
 				if (order == UIOrder::Front)
 					parent->DChildren.push_back(ptr);
 				else if (order == UIOrder::Back)
 					parent->DChildren.push_front(ptr);
+
+
 			}
 		}
 	}
