@@ -36,9 +36,7 @@ namespace SpikeRenderer
 	class SPIKERENDERER_EXPORT Renderer
 	{
 	public:
-#ifdef _WIN32
 		virtual void InitRenderer(HWND, UINT, UINT) = 0;
-#endif
 		virtual void RenderFrame(float, float, float) = 0;
 		virtual void RenderUI(SpikeUI::UI::UI &) = 0;
 		virtual void PresentToScreen() = 0;

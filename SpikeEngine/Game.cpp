@@ -1,5 +1,8 @@
 #include "Game.h"
 #include "SpikeConfig.h"
+#include "SpikeInput.h"
+
+std::string fps_text_id;
 
 SpikeEngine::Game::Game() : GameState(GameState::Initial)
 {}
@@ -11,7 +14,7 @@ void SpikeEngine::Game::SetErrorState()
 
 void SpikeEngine::Game::LoadConfig(std::string const & path)
 {
-	if (GameState != GameState::Unloading)
+	if (GetState() != GameState::Unloading)
 	{
 		SpikeConfig::Config::Instance().Load(path);
 	}
@@ -20,19 +23,21 @@ void SpikeEngine::Game::LoadConfig(std::string const & path)
 #ifdef _WIN32
 void SpikeEngine::Game::LoadRenderer(HWND hWnd)
 {
-	if (GameState != GameState::Unloading)
+	if (GetState() != GameState::Unloading)
 	{
 		Objects.GameRenderer.InitRenderer(
 			hWnd,
 			SpikeConfig::Config::Instance().GetWindow().GetClientWidth(),
 			SpikeConfig::Config::Instance().GetWindow().GetClientHeight());
+
+		Values.Hwnd = hWnd;
 	}
 }
 #endif
 
 void SpikeEngine::Game::LoadUI()
 {
-	if (GameState != GameState::Unloading)
+	if (GetState() != GameState::Unloading)
 	{
 		//TODO: load UI config from file	
 		Objects.GameUI.Init(SpikeUI::Containers::Rectangle(
@@ -47,6 +52,13 @@ void SpikeEngine::Game::LoadUI()
 			SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
 		textArea_title.Text = "Test Label with Hover enable";
 		textArea_title.DHit = SpikeUI::UI::DrawableHit::Enable;
+
+		SpikeUI::Controls::Label textArea_fps(
+			SpikeUI::Containers::Rectangle(0.90, 0.0, 1.0, 0.5),
+			SpikeUI::Containers::Font("Arial", 15),
+			SpikeUI::Colour::Colour(0.0, 1.0, 1.0));
+		textArea_title.DHit = SpikeUI::UI::DrawableHit::Disable;
+		fps_text_id = textArea_fps._SpikeEngineId();
 
 		SpikeUI::Controls::Button button1(
 			SpikeUI::Containers::Rectangle(0.1, 0.3, 0.4, 0.45),
@@ -149,6 +161,7 @@ void SpikeEngine::Game::LoadUI()
 		button_test_subbutton.receiveFocus = hoverInBLOL;
 
 		Objects.GameUI.Insert(textArea_title, SpikeUI::UI::Front);
+		Objects.GameUI.Insert(textArea_fps, SpikeUI::UI::Front);
 		Objects.GameUI.Insert(button1, SpikeUI::UI::Front);
 		Objects.GameUI.Insert(button4, SpikeUI::UI::Front);
 		Objects.GameUI.Insert(button1_text, button1._SpikeEngineId(), SpikeUI::UI::Front);
@@ -162,7 +175,7 @@ void SpikeEngine::Game::LoadUI()
 
 void SpikeEngine::Game::Frame(float deltaTime)
 {
-	if (GameState >= GameState::Loaded && GameState != GameState::Unloading)
+	if (GetState() >= GameState::Loaded && GetState() != GameState::Unloading)
 	{
 		Objects.GameRenderer.RenderFrame(0.0, 0.0, 0.0);
 		Objects.GameRenderer.RenderUI(Objects.GameUI);
@@ -172,9 +185,15 @@ void SpikeEngine::Game::Frame(float deltaTime)
 
 void SpikeEngine::Game::Update(float deltaTime)
 {
-	if (GameState >= GameState::Loaded && GameState != GameState::Unloading)
+	if (GetState() >= GameState::Loaded && GetState() != GameState::Unloading)
 	{
-		//TODO: Do update
+		auto mouseForUI = SpikeInput::MouseInput::Instance().GetAbsoluteMouse(Values.Hwnd);
+		Objects.GameUI.UpdateForPointer(
+			mouseForUI.MOCoords,
+			mouseForUI.MOLeftButtonDown,
+			mouseForUI.MOLeftButtonUp);
+
+		std::static_pointer_cast<SpikeUI::Controls::Label>(Objects.GameUI.Get(fps_text_id))->Text = "FPS: " + std::to_string((unsigned)floor(1.0/deltaTime));
 	}
 }
 
@@ -188,10 +207,11 @@ SpikeEngine::GameState SpikeEngine::Game::GetState()
 		{
 			GameState = GameState::Loading;
 		}
-
-		if (SpikeConfig::Config::Instance().GetState() == SpikeConfig::ConfigState::Loaded &&
-			(Objects.GameUI.GetState() > SpikeUI::UI::UIState::Initial &&
-			Objects.GameRenderer.GetState() > SpikeRenderer::RendererState::Initial))
+	}
+	else if (GameState == GameState::Loading)
+	{
+		if (Objects.GameUI.GetState() > SpikeUI::UI::UIState::Initial &&
+				Objects.GameRenderer.GetState() > SpikeRenderer::RendererState::Initial)
 		{
 			GameState = GameState::Loaded;
 		}

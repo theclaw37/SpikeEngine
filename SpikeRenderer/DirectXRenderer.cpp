@@ -94,45 +94,6 @@ void SpikeRenderer::DirectXRenderer::RenderFrame(float r, float g, float b)
 
 void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 {
-	POINT cursorPos;
-	GetCursorPos(&cursorPos);
-	ScreenToClient(Rhwnd, &cursorPos);
-	SpikeUI::Containers::Point point(cursorPos.x, cursorPos.y);
-
-	static bool lButton;
-	bool lButtonDown = false, lButtonUp = false;
-
-	if (GetKeyState(VK_LBUTTON) < 0)
-	{
-		if (!lButton)
-		{
-			lButtonDown = true;
-			lButtonUp = false;
-		}
-		else
-		{
-			lButtonDown = false;
-			lButtonUp = false;
-		}
-		lButton = true;
-	}
-	else
-	{
-		if (!lButton)
-		{
-			lButtonDown = false;
-			lButtonUp = false;
-		}
-		else
-		{
-			lButtonDown = false;
-			lButtonUp = true;
-		}
-		lButton = false;
-	}
-
-	ui.UpdateForPointer(point, lButtonDown, lButtonUp);
-
 	d2dbackbuffer->BeginDraw();
 
 	ui.IterateBackToFront([this](std::shared_ptr<SpikeUI::UI::Drawable> iter)

@@ -26,8 +26,8 @@ namespace SpikeUI
 
 		enum UIState
 		{
-			Initial = 0,
-			Ready = 1
+			Initial = 1,
+			Ready = 2
 		};
 
 		class SPIKEUI_EXPORT UI

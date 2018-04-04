@@ -41,7 +41,7 @@ namespace SpikeEngine
 		struct Values
 		{
 #ifdef _WIN32
-
+			HWND Hwnd;
 #endif
 		} Values;
 
