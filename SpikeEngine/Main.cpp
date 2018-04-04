@@ -39,53 +39,51 @@ int WINAPI WinMain(HINSTANCE hInstance,
 {
 	try
 	{
-		SpikeConfig::Config::Instance().Load("config.json");
+		game.LoadConfig("config.json");
 	}
 	catch (SpikeConfig::Exceptions::ConfigSectionNotFoundException& csnfe)
 	{
 		return -1;
 	}
-	catch (std::exception& e)
-	{
-		return -1;
-	}
 
 	HWND hWnd;
-	WNDCLASSEX wc;
+	{
+		WNDCLASSEX wc;
 
-	ZeroMemory(&wc, sizeof(WNDCLASSEX));
+		ZeroMemory(&wc, sizeof(WNDCLASSEX));
 
-	wc.cbSize = sizeof(WNDCLASSEX);
-	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.lpfnWndProc = WindowProc;
-	wc.hInstance = hInstance;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.lpszClassName = L"SpikeMainWindow";
+		wc.cbSize = sizeof(WNDCLASSEX);
+		wc.style = CS_HREDRAW | CS_VREDRAW;
+		wc.lpfnWndProc = WindowProc;
+		wc.hInstance = hInstance;
+		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wc.lpszClassName = L"SpikeWindow";
 
-	RegisterClassEx(&wc);
+		RegisterClassEx(&wc);
 
-	RECT clientWindow = { 
-		0, 
-		0, 
-		SpikeConfig::Config::Instance().GetWindow().GetClientWidth(), 
-		SpikeConfig::Config::Instance().GetWindow().GetClientHeight()};
-	AdjustWindowRect(&clientWindow, WS_OVERLAPPEDWINDOW, FALSE);
+		RECT clientWindow = {
+			0,
+			0,
+			SpikeConfig::Config::Instance().GetWindow().GetClientWidth(),
+			SpikeConfig::Config::Instance().GetWindow().GetClientHeight() };
+		AdjustWindowRect(&clientWindow, WS_OVERLAPPEDWINDOW, FALSE);
 
-	hWnd = CreateWindowEx(NULL,
-		L"SpikeMainWindow",
-		L"SpikeEngine",
-		WS_OVERLAPPEDWINDOW,
-		0, 0,
-		clientWindow.right - clientWindow.left,
-		clientWindow.bottom - clientWindow.top,
-		NULL,
-		NULL,
-		hInstance,
-		NULL);
+		hWnd = CreateWindowEx(NULL,
+			L"SpikeWindow",
+			L"SpikeGame",
+			WS_OVERLAPPEDWINDOW,
+			0, 0,
+			clientWindow.right - clientWindow.left,
+			clientWindow.bottom - clientWindow.top,
+			NULL,
+			NULL,
+			hInstance,
+			NULL);
 
-	ShowWindow(hWnd, nCmdShow);
+		ShowWindow(hWnd, nCmdShow);
+	}
 	
-	game.LoadUI("");
+	game.LoadUI();
 	game.LoadRenderer(hWnd);
 
 	MSG msg;
@@ -106,7 +104,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		deltaTime = deltaTimer.Measure<SpikeUtils::Timer::Seconds>();
 	}
 
-	UnregisterClass(L"SpikeMainWindow", hInstance);
+	UnregisterClass(L"SpikeWindow", hInstance);
 	return msg.wParam;
 }
 
@@ -128,5 +126,4 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
-
 #endif

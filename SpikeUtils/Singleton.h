@@ -22,5 +22,6 @@ namespace SpikeUtils
 		void operator=(Singleton const&) = delete;
 	protected:
 		Singleton() = default;
+		virtual ~Singleton() = default;
 	};
 }

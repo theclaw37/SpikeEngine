@@ -30,20 +30,32 @@ namespace SpikeEngine
 	class Game
 	{
 		GameState GameState;
-		SpikeUI::UI::UI GameUI;
+		struct Objects
+		{
+			SpikeUI::UI::UI GameUI;
 #ifdef _WIN32
-		SpikeRenderer::DirectXRenderer GameRenderer;
+			SpikeRenderer::DirectXRenderer GameRenderer;
 #endif
+		} Objects;
+
+		struct Values
+		{
+#ifdef _WIN32
+
+#endif
+		} Values;
 
 		void SetErrorState();
 
 	public:
 		Game();
 
-		void LoadUI(std::string const &);
+		void LoadConfig(std::string const &);
 #ifdef _WIN32
 		void LoadRenderer(HWND);
 #endif
+		void LoadUI();
+
 		void Frame(float);
 		void Update(float);
 
