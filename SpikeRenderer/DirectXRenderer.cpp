@@ -142,13 +142,19 @@ void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 			case SpikeUI::UI::DrawableType::Label:
 			{
 				auto item = std::static_pointer_cast<SpikeUI::Controls::Label>(iter);
-				RenderUITextArea(*item);
+				RenderUILabel(*item);
 				break;
 			}
 			case SpikeUI::UI::DrawableType::Button:
 			{
 				auto item = std::static_pointer_cast<SpikeUI::Controls::Button>(iter);
 				RenderUIButton(*item);
+				break;
+			}
+			case SpikeUI::UI::DrawableType::Progress:
+			{
+				auto item = std::static_pointer_cast<SpikeUI::Controls::Progress>(iter);
+				RenderUIProgress(*item);
 				break;
 			}
 		}
@@ -171,7 +177,7 @@ void SpikeRenderer::DirectXRenderer::ShutdownRenderer()
 	devcon->Release();
 }
 
-void SpikeRenderer::DirectXRenderer::RenderUITextArea(SpikeUI::Controls::Label const & textArea)
+void SpikeRenderer::DirectXRenderer::RenderUILabel(SpikeUI::Controls::Label const & textArea)
 {
 	size_t cSize = strlen(textArea.Font.FontFamily.c_str()) + 1;
 	wchar_t* wc = new wchar_t[cSize];
@@ -221,4 +227,32 @@ void SpikeRenderer::DirectXRenderer::RenderUIButton(SpikeUI::Controls::Button co
 		button.Place.BottomRight.y);
 
 	d2dbackbuffer->FillRectangle(rect, brush);
+}
+
+void SpikeRenderer::DirectXRenderer::RenderUIProgress(SpikeUI::Controls::Progress const & progress)
+{
+	ID2D1SolidColorBrush* brushFill;
+	d2dbackbuffer->CreateSolidColorBrush(
+		D2D1::ColorF(progress.FillColour.r, progress.FillColour.g, progress.FillColour.b),
+		&brushFill);
+
+	ID2D1SolidColorBrush* brushEmpty;
+	d2dbackbuffer->CreateSolidColorBrush(
+		D2D1::ColorF(progress.EmptyColour.r, progress.EmptyColour.g, progress.EmptyColour.b),
+		&brushEmpty);
+
+	D2D1_RECT_F fill = D2D1::RectF(
+		progress.Place.TopLeft.x,
+		progress.Place.TopLeft.y,
+		progress.GetValueCoord(),
+		progress.Place.BottomRight.y);
+
+	D2D1_RECT_F empty = D2D1::RectF(
+		progress.GetValueCoord(),
+		progress.Place.TopLeft.y,
+		progress.Place.BottomRight.x,
+		progress.Place.BottomRight.y);
+
+	d2dbackbuffer->FillRectangle(fill, brushFill);
+	d2dbackbuffer->FillRectangle(empty, brushEmpty);
 }

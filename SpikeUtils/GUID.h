@@ -17,7 +17,7 @@ namespace SpikeUtils
 		GUID& operator=(GUID& other) = default;
 
 		static GUID Generate();
-		std::string const & Value();
+		std::string const & Value() const;
 	private:
 		GUID(std::string const & value) : value(value)
 		{}

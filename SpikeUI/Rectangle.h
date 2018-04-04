@@ -27,17 +27,17 @@ namespace SpikeUI
 					&& (point.y <= BottomRight.y);
 			}
 
-			inline double Width()
+			inline double Width() const
 			{
 				return (BottomRight.x - TopLeft.x);
 			}
 
-			inline double Height()
+			inline double Height() const
 			{
 				return (BottomRight.y - TopLeft.y);
 			}
 
-			inline Point RelativeToAbsolute(Point const & relativeCoords)
+			inline Point RelativeToAbsolute(Point const & relativeCoords) const
 			{
 				return SpikeUI::Containers::Point(
 					TopLeft.x + relativeCoords.x * Width(),

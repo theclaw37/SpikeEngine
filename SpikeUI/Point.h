@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include "Shape.h"
+#include "SpikeUtils.h"
 
 #ifdef DLL_SPIKEUI
 #define SPIKEUI_EXPORT __declspec(dllexport)
@@ -22,8 +23,8 @@ namespace SpikeUI
 
 			Point& ClampToPercentage()
 			{
-				x = (x < 0.0) ? 0.0 : ((x > 1.0) ? 1.0 : x);
-				y = (y < 0.0) ? 0.0 : ((y > 1.0) ? 1.0 : y);
+				x = CLAMP(x, 0.0, 1.0);
+				y = CLAMP(y, 0.0, 1.0);
 
 				return (*this);
 			}

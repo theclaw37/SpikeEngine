@@ -127,6 +127,7 @@
     <ClInclude Include="EmptyArea.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="Progress.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="SpikeUI.h" />
@@ -142,6 +143,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="EmptyArea.cpp" />
     <ClCompile Include="Label.cpp" />
+    <ClCompile Include="Progress.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

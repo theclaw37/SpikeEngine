@@ -35,6 +35,9 @@
     <ClInclude Include="Label.h">
       <Filter>Controls</Filter>
     </ClInclude>
+    <ClInclude Include="Progress.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Colour">
@@ -61,6 +64,9 @@
       <Filter>Controls</Filter>
     </ClCompile>
     <ClCompile Include="Label.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Progress.cpp">
       <Filter>Controls</Filter>
     </ClCompile>
   </ItemGroup>

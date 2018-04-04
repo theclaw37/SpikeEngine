@@ -59,6 +59,11 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	button_test_subbutton_label.Text = "Test Nested bounds";
 	button_test_subbutton_label.DHit = SpikeUI::UI::DrawableHit::Disable;
 
+	SpikeUI::Controls::Progress prog_bar({ 0.1, 0.9, 0.9, 0.95 },
+		{ 0.0, 1.0, 0.0 },
+		{ 0.5, 0.5, 0.5 }
+	);
+
 
 	auto hoverIn = [](SpikeUI::Controls::Label& ref)
 	{
@@ -93,8 +98,11 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	auto lClickDownB = [](SpikeUI::Controls::Button& ref)
 	{
 	};
-	auto lClickUpB = [](SpikeUI::Controls::Button& ref)
+	auto lClickUpB = [this, prog_bar](SpikeUI::Controls::Button& ref)
 	{
+		auto pr_bar = GameUI.Get(prog_bar._SpikeEngineId());
+		auto bar = std::static_pointer_cast<SpikeUI::Controls::Progress>(pr_bar);
+		bar->IncreaseProgress(0.1);
 	};
 
 	auto lClickUpBQuit = [](SpikeUI::Controls::Button& ref)
@@ -129,6 +137,7 @@ void SpikeEngine::Game::LoadUI(std::string const & path)
 	GameUI.Insert(button_test, SpikeUI::UI::Front);
 	GameUI.Insert(button_test_subbutton, button_test._SpikeEngineId(), SpikeUI::UI::Front);
 	GameUI.Insert(button_test_subbutton_label, button_test_subbutton._SpikeEngineId(), SpikeUI::UI::Front);
+	GameUI.Insert(prog_bar, SpikeUI::UI::Front);
 }
 
 #ifdef _WIN32

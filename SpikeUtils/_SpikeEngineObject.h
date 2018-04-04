@@ -14,7 +14,7 @@ namespace SpikeUtils
 	{
 	public:
 		_SpikeEngineObject();
-		const std::string & _SpikeEngineId()
+		const std::string & _SpikeEngineId() const
 		{
 			return _SpikeRef.Value();
 		}

@@ -5,3 +5,4 @@
 #include "Button.h"
 #include "Label.h"
 #include "EmptyArea.h"
+#include "Progress.h"

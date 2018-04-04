@@ -30,7 +30,8 @@ namespace SpikeRenderer
 		IDWriteTextFormat *textFormat;
 		IDWriteFactory1 *writeFactory;
 
-		void RenderUITextArea(SpikeUI::Controls::Label const & textArea);
-		void RenderUIButton(SpikeUI::Controls::Button const & button);
+		void RenderUILabel(SpikeUI::Controls::Label const &);
+		void RenderUIButton(SpikeUI::Controls::Button const &);
+		void RenderUIProgress(SpikeUI::Controls::Progress const &);
 	};
 }

@@ -26,7 +26,7 @@ SpikeUtils::GUID SpikeUtils::GUID::Generate()
 	return guid;
 }
 
-std::string const & SpikeUtils::GUID::Value()
+std::string const & SpikeUtils::GUID::Value() const
 {
 	return value;
 }

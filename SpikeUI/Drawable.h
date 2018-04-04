@@ -21,7 +21,7 @@ namespace SpikeUI
 			Label = 1,
 			Button = 2,
 			EmptyArea = 4,
-
+			Progress = 8
 		};
 
 		enum DrawableState
