@@ -11,18 +11,27 @@ SpikeUI::Controls::Label::Label(SpikeUI::Containers::Rectangle const & place,
 	DHit = SpikeUI::UI::DrawableHit::Disable;
 }
 
-void SpikeUI::Controls::Label::MouseUpdate(bool leftClickDown, bool leftClickUp)
+void SpikeUI::Controls::Label::PointerUpdate(bool lButtonDown,
+	bool lButtonUp,
+	bool rButtonDown,
+	bool rButtonUp)
 {
-	if (leftClickDown)
-		LeftClickDown();
-	else if (leftClickUp)
-		LeftClickUp();
-}
-
-void SpikeUI::Controls::Label::KeyboardUpdate(SpikeUI::Containers::Key const & key)
-{
-	if (receiveKey)
-		receiveKey(*this, key);
+	if (lButtonDown && this->lButtonDown)
+	{
+		this->lButtonDown(*this);
+	}
+	if (lButtonUp && this->lButtonUp)
+	{
+		this->lButtonUp(*this);
+	}
+	if (rButtonDown && this->rButtonDown)
+	{
+		this->rButtonDown(*this);
+	}
+	if (rButtonUp && this->rButtonUp)
+	{
+		this->rButtonUp(*this);
+	}
 }
 
 void SpikeUI::Controls::Label::Update()
@@ -54,7 +63,7 @@ SpikeUI::Containers::Point SpikeUI::Controls::Label::RelativePixelDelta(SpikeUI:
 	return Place.RelativeToAbsolute(relativePosition);
 }
 
-void SpikeUI::Controls::Label::ReceiveFocus()
+void SpikeUI::Controls::Label::HoverIn()
 {
 	DState = SpikeUI::UI::DrawableState::Hover;
 	
@@ -62,22 +71,10 @@ void SpikeUI::Controls::Label::ReceiveFocus()
 		receiveFocus(*this);
 }
 
-void SpikeUI::Controls::Label::LoseFocus()
+void SpikeUI::Controls::Label::HoverOut()
 {
 	DState = SpikeUI::UI::DrawableState::Default;
 
 	if (loseFocus)
 		loseFocus(*this);
-}
-
-void SpikeUI::Controls::Label::LeftClickDown()
-{
-	if (lClickDown)
-		lClickDown(*this);
-}
-
-void SpikeUI::Controls::Label::LeftClickUp()
-{
-	if (lClickUp)
-		lClickUp(*this);
 }

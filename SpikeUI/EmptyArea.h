@@ -20,17 +20,10 @@ namespace SpikeUI
 
 			EmptyArea(SpikeUI::Containers::Rectangle const &);
 
-			virtual void MouseUpdate(bool, bool);
-			virtual void KeyboardUpdate(SpikeUI::Containers::Key const &);
-			virtual void Update();
 			virtual bool Contains(SpikeUI::Containers::Point const &);
 			virtual void MoveByPixels(SpikeUI::Containers::Point const &);
 			virtual SpikeUI::Containers::Point MoveToPixels(SpikeUI::Containers::Point const &);
 			virtual SpikeUI::Containers::Point RelativePixelDelta(SpikeUI::Containers::Point const &);
-			virtual void ReceiveFocus();
-			virtual void LoseFocus();
-			virtual void LeftClickDown();
-			virtual void LeftClickUp();
 			virtual ~EmptyArea() = default;
 		};
 	}

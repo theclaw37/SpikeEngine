@@ -27,11 +27,7 @@ double SpikeUI::Controls::Progress::GetValueCoord() const
 	return Place.RelativeToAbsolute({ Value, 0 }).x;
 }
 
-void SpikeUI::Controls::Progress::MouseUpdate(bool leftClickDown, bool leftClickUp)
-{
-}
-
-void SpikeUI::Controls::Progress::KeyboardUpdate(SpikeUI::Containers::Key const &)
+void SpikeUI::Controls::Progress::PointerUpdate(bool leftClickDown, bool leftClickUp)
 {
 }
 
@@ -62,20 +58,4 @@ SpikeUI::Containers::Point SpikeUI::Controls::Progress::MoveToPixels(SpikeUI::Co
 SpikeUI::Containers::Point SpikeUI::Controls::Progress::RelativePixelDelta(SpikeUI::Containers::Point const & relativePosition)
 {
 	return Place.RelativeToAbsolute(relativePosition);
-}
-
-void SpikeUI::Controls::Progress::ReceiveFocus()
-{
-}
-
-void SpikeUI::Controls::Progress::LoseFocus()
-{
-}
-
-void SpikeUI::Controls::Progress::LeftClickDown()
-{
-}
-
-void SpikeUI::Controls::Progress::LeftClickUp()
-{
 }

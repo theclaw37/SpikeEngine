@@ -7,8 +7,6 @@ SpikeInput::MouseOutput SpikeInput::MouseInput::GetAbsoluteMouse(HWND hWnd)
 	GetCursorPos(&cursorPos);
 	ScreenToClient(hWnd, &cursorPos);
 
-	SpikeUI::Containers::Point point(cursorPos.x, cursorPos.y);
-
 	static bool lButton;
 	auto lButtonState = GetKeyState(VK_LBUTTON) < 0;
 	auto lButtonDown = lButtonState ? !lButton : false;
@@ -23,7 +21,8 @@ SpikeInput::MouseOutput SpikeInput::MouseInput::GetAbsoluteMouse(HWND hWnd)
 	rButton = rButtonState;
 
 	return SpikeInput::MouseOutput ({ 
-		SpikeUI::Containers::Point(cursorPos.x, cursorPos.y),  
+		cursorPos.x,
+		cursorPos.y,
 		lButtonDown,
 		lButtonUp,
 		rButtonDown,

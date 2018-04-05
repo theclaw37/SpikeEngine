@@ -12,6 +12,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include "SpikeConfig.h"
+#include "SpikeInput.h"
 
 
 SpikeEngine::Game game;
@@ -121,6 +122,12 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		{
 			if (wParam == VK_ESCAPE)
 				PostQuitMessage(0);
+			if (wParam == VK_BACK)
+				SpikeInput::CharacterInput::Instance().PopCharacterInput();
+			if (wParam == VK_SPACE)
+				SpikeInput::CharacterInput::Instance().PushCharacterInput(0x20);
+			if (wParam >= 0x41 && wParam <= 0x5A)
+				SpikeInput::CharacterInput::Instance().PushCharacterInput(wParam);
 		} break;
 	}
 

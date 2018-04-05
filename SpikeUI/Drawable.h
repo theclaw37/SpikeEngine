@@ -48,17 +48,17 @@ namespace SpikeUI
 			std::shared_ptr<Drawable> DParent;
 			std::deque<std::shared_ptr<Drawable>> DChildren;
 
-			virtual void MouseUpdate(bool, bool) = 0;
-			virtual void KeyboardUpdate(SpikeUI::Containers::Key const &) = 0;
-			virtual void Update() = 0;
+			virtual void PointerUpdate(bool, bool, bool, bool) {};
+			virtual void KeyInput(SpikeUI::Containers::Key &) {};
+			virtual void Update() {};
 			virtual bool Contains(SpikeUI::Containers::Point const &) = 0;
 			virtual void MoveByPixels(SpikeUI::Containers::Point const &) = 0;
 			virtual SpikeUI::Containers::Point MoveToPixels(SpikeUI::Containers::Point const &) = 0;
 			virtual SpikeUI::Containers::Point RelativePixelDelta(SpikeUI::Containers::Point const &) = 0;
-			virtual void ReceiveFocus() = 0;
-			virtual void LoseFocus() = 0;
-			virtual void LeftClickDown() = 0;
-			virtual void LeftClickUp() = 0;
+			virtual void HoverIn() {};
+			virtual void HoverOut() {};
+			virtual void Focus() {};
+			virtual void Unfocus() {};
 			virtual ~Drawable() = default;
 		};
 	}

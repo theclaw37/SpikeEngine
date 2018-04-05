@@ -128,30 +128,48 @@ void SpikeUI::UI::UI::IterateFrontToBack(
 
 void SpikeUI::UI::UI::UpdateForPointer(
 	SpikeUI::Containers::Point const & mouse, 
-	bool leftClickDown, 
-	bool leftClickUp)
+	bool lButtonDown, 
+	bool lButtonUp,
+	bool rButtonDown,
+	bool rButtonUp)
 {
 	std::shared_ptr<SpikeUI::UI::Drawable> focus = nullptr;
 	IterateFrontToBack(_UIRoot, 
-		[&focus, &mouse, &leftClickDown, &leftClickUp](std::shared_ptr<SpikeUI::UI::Drawable> drawable) 
+		[&focus, 
+		&mouse, 
+		&lButtonDown, 
+		&lButtonUp, 
+		&rButtonDown, 
+		&rButtonUp](std::shared_ptr<SpikeUI::UI::Drawable> drawable)
 	{
 		if (!focus)
 		{
 			if (drawable->DHit == SpikeUI::UI::DrawableHit::Enable && drawable->Contains(mouse))
 			{
 				focus = drawable;
-				drawable->MouseUpdate(leftClickDown, leftClickUp);
+				drawable->PointerUpdate(lButtonDown, 
+					lButtonUp,
+					rButtonDown,
+					rButtonUp);
 			}
 		}
 		drawable->Update();
 	});
 
-	SwitchFocus(focus);
+	SwitchHover(focus);
+
+	if (rButtonUp)
+		SwitchFocus(focus);
+
 }
 
-void SpikeUI::UI::UI::UpdateForKey(SpikeUI::Containers::Key const & msg)
+void SpikeUI::UI::UI::UpdateForCharacterInput(SpikeUI::Containers::Key const & msg)
 {
-	_UIFocus->KeyboardUpdate(msg);
+}
+
+std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::GetFocusedItem() const
+{
+	return _UIFocus;
 }
 
 SpikeUI::UI::UIState SpikeUI::UI::UI::GetState() const
@@ -159,15 +177,27 @@ SpikeUI::UI::UIState SpikeUI::UI::UI::GetState() const
 	return _UIState;
 }
 
-void SpikeUI::UI::UI::SwitchFocus(std::shared_ptr<SpikeUI::UI::Drawable> target)
+void SpikeUI::UI::UI::SwitchHover(std::shared_ptr<SpikeUI::UI::Drawable> target)
 {
-	if (_UIFocus) 
-		_UIFocus->LoseFocus();
+	if (_UIHover) 
+		_UIHover->HoverOut();
 
 	if (target)
 	{
-		target->ReceiveFocus();
-		_UIFocus = target;
+		target->HoverIn();
 	}
+	_UIHover = target;
+}
+
+void SpikeUI::UI::UI::SwitchFocus(std::shared_ptr<SpikeUI::UI::Drawable> target)
+{
+	if (_UIFocus)
+		_UIFocus->Unfocus();
+
+	if (target)
+	{
+		target->Focus();
+	}
+	_UIFocus = target;
 }
 

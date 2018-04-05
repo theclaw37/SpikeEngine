@@ -18,7 +18,7 @@ namespace SpikeInput
 {
 	struct SPIKEINPUT_EXPORT MouseOutput
 	{
-		SpikeUI::Containers::Point MOCoords;
+		long MOx, MOy;
 		bool MOLeftButtonDown, MOLeftButtonUp, MORightButtonDown, MORightButtonUp;
 	};
 

@@ -54,19 +54,25 @@ namespace SpikeUI
 			void UpdateForPointer(
 				SpikeUI::Containers::Point const &,
 				bool,
+				bool,
+				bool,
 				bool);
 
-			void UpdateForKey(
+			void UpdateForCharacterInput(
 				SpikeUI::Containers::Key const &);
+
+			std::shared_ptr<SpikeUI::UI::Drawable> GetFocusedItem() const;
 
 			UIState GetState() const;
 
 		private:
 			std::shared_ptr<SpikeUI::UI::Drawable> _UIRoot;
+			std::shared_ptr<SpikeUI::UI::Drawable> _UIHover;
 			std::shared_ptr<SpikeUI::UI::Drawable> _UIFocus;
 			std::unordered_map<std::string, std::shared_ptr<SpikeUI::UI::Drawable>> _UIElems;
 			UIState _UIState;
 
+			void SwitchHover(std::shared_ptr<SpikeUI::UI::Drawable>);
 			void SwitchFocus(std::shared_ptr<SpikeUI::UI::Drawable>);
 			void Erase(std::shared_ptr<SpikeUI::UI::Drawable>, std::string const &);
 			void IterateBackToFront(

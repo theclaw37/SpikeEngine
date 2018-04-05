@@ -24,24 +24,21 @@ namespace SpikeUI
 			SpikeUI::Colour::Colour Colour;
 			std::string Text;
 
-			std::function<void(Label &)> receiveFocus, loseFocus, lClickDown, lClickUp;
+			std::function<void(Label &)> receiveFocus, loseFocus, lButtonDown, lButtonUp, rButtonDown, rButtonUp;;
 			std::function<void(Label &, SpikeUI::Containers::Key const &)> receiveKey;
 
 			Label(SpikeUI::Containers::Rectangle const &,
 				SpikeUI::Containers::Font const &,
 				SpikeUI::Colour::Colour const &);
 
-			virtual void MouseUpdate(bool, bool);
-			virtual void KeyboardUpdate(SpikeUI::Containers::Key const &);
+			virtual void PointerUpdate(bool, bool, bool, bool);
 			virtual void Update();
 			virtual bool Contains(SpikeUI::Containers::Point const &);
 			virtual void MoveByPixels(SpikeUI::Containers::Point const &);
 			virtual SpikeUI::Containers::Point MoveToPixels(SpikeUI::Containers::Point const &);
 			virtual SpikeUI::Containers::Point RelativePixelDelta(SpikeUI::Containers::Point const &);
-			virtual void ReceiveFocus();
-			virtual void LoseFocus();
-			virtual void LeftClickDown();
-			virtual void LeftClickUp();
+			virtual void HoverIn();
+			virtual void HoverOut();
 			virtual ~Label() = default;
 		};
 	}

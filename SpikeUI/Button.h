@@ -21,23 +21,20 @@ namespace SpikeUI
 			SpikeUI::Containers::Rectangle Place;
 			SpikeUI::Colour::Colour Colour;
 
-			std::function<void(Button &)> receiveFocus, loseFocus, lClickDown, lClickUp;
+			std::function<void(Button &)> receiveFocus, loseFocus, lButtonDown, lButtonUp, rButtonDown, rButtonUp;
 			std::function<void(Button &, SpikeUI::Containers::Key const &)> receiveKey;
 
 			Button(SpikeUI::Containers::Rectangle const &,
 				SpikeUI::Colour::Colour const &);
 
-			virtual void MouseUpdate(bool, bool);
-			virtual void KeyboardUpdate(SpikeUI::Containers::Key const &);
+			virtual void PointerUpdate(bool, bool, bool, bool);
 			virtual void Update();
 			virtual bool Contains(SpikeUI::Containers::Point const &);
 			virtual void MoveByPixels(SpikeUI::Containers::Point const &);
 			virtual SpikeUI::Containers::Point MoveToPixels(SpikeUI::Containers::Point const &);
 			virtual SpikeUI::Containers::Point RelativePixelDelta(SpikeUI::Containers::Point const &);
-			virtual void ReceiveFocus();
-			virtual void LoseFocus();
-			virtual void LeftClickDown();
-			virtual void LeftClickUp();
+			virtual void HoverIn();
+			virtual void HoverOut();
 			virtual ~Button() = default;
 		};
 	}
