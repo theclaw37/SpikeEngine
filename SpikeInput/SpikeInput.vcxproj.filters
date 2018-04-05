@@ -17,12 +17,18 @@
     <ClInclude Include="CharacterInput.h">
       <Filter>Input</Filter>
     </ClInclude>
+    <ClInclude Include="CommandInput.h">
+      <Filter>Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MouseInput.cpp">
       <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="CharacterInput.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandInput.cpp">
       <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>

@@ -24,7 +24,7 @@ namespace SpikeUI
 			SpikeUI::Colour::Colour Colour;
 			std::string Text;
 
-			std::function<void(Label &)> receiveFocus, loseFocus, lButtonDown, lButtonUp, rButtonDown, rButtonUp;;
+			std::function<void(Label &)> hoverIn, hoverOut, lButtonDown, lButtonUp, rButtonDown, rButtonUp;;
 			std::function<void(Label &, SpikeUI::Containers::Key const &)> receiveKey;
 
 			Label(SpikeUI::Containers::Rectangle const &,

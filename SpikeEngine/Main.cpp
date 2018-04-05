@@ -123,11 +123,29 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			if (wParam == VK_ESCAPE)
 				PostQuitMessage(0);
 			if (wParam == VK_BACK)
-				SpikeInput::CharacterInput::Instance().PopCharacterInput();
+				SpikeInput::CommandInput::Instance().PushCommandInput(SpikeInput::CommandBackspace);
 			if (wParam == VK_SPACE)
-				SpikeInput::CharacterInput::Instance().PushCharacterInput(0x20);
-			if (wParam >= 0x41 && wParam <= 0x5A)
+				SpikeInput::CommandInput::Instance().PushCommandInput(SpikeInput::CommandSpace);
+			if (wParam == VK_RETURN)
+				SpikeInput::CommandInput::Instance().PushCommandInput(SpikeInput::CommandEnter);
+			if ((wParam >= 0x41 && wParam <= 0x5A) || (wParam >= 0x30 && wParam <= 0x39))
 				SpikeInput::CharacterInput::Instance().PushCharacterInput(wParam);
+			if (wParam == VK_OEM_COMMA)
+				SpikeInput::CharacterInput::Instance().PushCharacterInput(',');
+			if (wParam == VK_OEM_PERIOD)
+				SpikeInput::CharacterInput::Instance().PushCharacterInput('.');
+			if (wParam == VK_OEM_MINUS)
+				SpikeInput::CharacterInput::Instance().PushCharacterInput('-');
+			if (wParam == VK_OEM_PLUS)
+				SpikeInput::CharacterInput::Instance().PushCharacterInput('+');
+		} break;
+		case WM_LBUTTONDOWN:
+		{
+			SpikeInput::MouseInput::Instance().SetLButtonState(true);
+		} break;
+		case WM_LBUTTONUP:
+		{
+			SpikeInput::MouseInput::Instance().SetLButtonState(false);
 		} break;
 	}
 

@@ -2,9 +2,9 @@
 
 SpikeUI::Controls::EmptyArea::EmptyArea(SpikeUI::Containers::Rectangle const & place) :
 	Place(place),
-	Drawable(SpikeUI::UI::DrawableType::EmptyArea)
+	Drawable(SpikeUI::UI::EmptyArea)
 {
-	DHit = SpikeUI::UI::DrawableHit::Disable;
+	DHit = SpikeUI::UI::HitDisable;
 }
 
 bool SpikeUI::Controls::EmptyArea::Contains(SpikeUI::Containers::Point const & mouse)

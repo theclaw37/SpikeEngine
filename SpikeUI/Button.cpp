@@ -4,9 +4,9 @@ SpikeUI::Controls::Button::Button(SpikeUI::Containers::Rectangle const & place,
 	SpikeUI::Colour::Colour const & colour) :
 	Place(place),
 	Colour(colour),
-	Drawable(SpikeUI::UI::DrawableType::Button)
+	Drawable(SpikeUI::UI::Button)
 {
-	DHit = SpikeUI::UI::DrawableHit::Enable;
+	DHit = SpikeUI::UI::HitEnable;
 }
 
 void SpikeUI::Controls::Button::PointerUpdate(bool lButtonDown, 
@@ -63,16 +63,16 @@ SpikeUI::Containers::Point SpikeUI::Controls::Button::RelativePixelDelta(SpikeUI
 
 void SpikeUI::Controls::Button::HoverIn()
 {
-	DState = SpikeUI::UI::DrawableState::Hover;
+	Drawable::HoverIn();
 
-	if (receiveFocus)
-		receiveFocus(*this);
+	if (hoverIn)
+		hoverIn(*this);
 }
 
 void SpikeUI::Controls::Button::HoverOut()
 {
-	DState = SpikeUI::UI::DrawableState::Default;
+	Drawable::HoverOut();
 
-	if (loseFocus)
-		loseFocus(*this);
+	if (hoverOut)
+		hoverOut(*this);
 }

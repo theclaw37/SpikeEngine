@@ -15,7 +15,7 @@
 
 namespace SpikeInput
 {
-	using SequenceCharacterOutput = std::string;
+	using SequenceCharacterOutput = char;
 	using PipeCharacterInput = char;
 
 	class SPIKEINPUT_EXPORT CharacterInput : public SpikeUtils::Singleton<CharacterInput>

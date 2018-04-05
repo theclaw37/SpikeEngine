@@ -33,5 +33,6 @@ namespace SpikeRenderer
 		void RenderUILabel(SpikeUI::Controls::Label const &);
 		void RenderUIButton(SpikeUI::Controls::Button const &);
 		void RenderUIProgress(SpikeUI::Controls::Progress const &);
+		void RenderUITextArea(SpikeUI::Controls::TextArea const &);
 	};
 }

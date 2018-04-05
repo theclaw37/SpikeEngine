@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterInput.h" />
+    <ClInclude Include="CommandInput.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="SpikeInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CharacterInput.cpp" />
+    <ClCompile Include="CommandInput.cpp" />
     <ClCompile Include="MouseInput.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -7,9 +7,9 @@ SpikeUI::Controls::Progress::Progress(SpikeUI::Containers::Rectangle const & pla
 	FillColour(fill),
 	EmptyColour(empty),
 	Value(0),
-	Drawable(SpikeUI::UI::DrawableType::Progress)
+	Drawable(SpikeUI::UI::Progress)
 {
-	DHit = SpikeUI::UI::DrawableHit::Disable;
+	DHit = SpikeUI::UI::HitDisable;
 }
 
 void SpikeUI::Controls::Progress::SetProgress(double value)

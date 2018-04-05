@@ -3,17 +3,16 @@
 SpikeInput::SequenceCharacterOutput SpikeInput::CharacterInput::GetCharacterInput()
 {
 	auto copy = _CIOutput;
-	_CIOutput.clear();
+	_CIOutput = 0;
 	return copy;
 }
 
 void SpikeInput::CharacterInput::PushCharacterInput(PipeCharacterInput input)
 {
-	_CIOutput += input;
+	_CIOutput = input;
 }
 
 void SpikeInput::CharacterInput::PopCharacterInput()
 {
-	if (!_CIOutput.empty())
-		_CIOutput.pop_back();
+	_CIOutput = 0;
 }

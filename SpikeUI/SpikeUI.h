@@ -6,3 +6,4 @@
 #include "Label.h"
 #include "EmptyArea.h"
 #include "Progress.h"
+#include "TextArea.h"

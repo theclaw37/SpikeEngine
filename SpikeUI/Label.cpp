@@ -6,9 +6,9 @@ SpikeUI::Controls::Label::Label(SpikeUI::Containers::Rectangle const & place,
 		Place(place), 
 		Font(font), 
 		Colour(colour),
-		Drawable(SpikeUI::UI::DrawableType::Label)
+		Drawable(SpikeUI::UI::Label)
 {
-	DHit = SpikeUI::UI::DrawableHit::Disable;
+	DHit = SpikeUI::UI::HitDisable;
 }
 
 void SpikeUI::Controls::Label::PointerUpdate(bool lButtonDown,
@@ -65,16 +65,16 @@ SpikeUI::Containers::Point SpikeUI::Controls::Label::RelativePixelDelta(SpikeUI:
 
 void SpikeUI::Controls::Label::HoverIn()
 {
-	DState = SpikeUI::UI::DrawableState::Hover;
+	Drawable::HoverIn();
 	
-	if (receiveFocus)
-		receiveFocus(*this);
+	if (hoverIn)
+		hoverIn(*this);
 }
 
 void SpikeUI::Controls::Label::HoverOut()
 {
-	DState = SpikeUI::UI::DrawableState::Default;
+	Drawable::HoverOut();
 
-	if (loseFocus)
-		loseFocus(*this);
+	if (hoverOut)
+		hoverOut(*this);
 }

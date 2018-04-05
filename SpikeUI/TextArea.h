@@ -1,9 +1,10 @@
 #pragma once
 
 #include <functional>
-#include "Colour.h"
 #include "Rectangle.h"
+#include "Font.h"
 #include "Drawable.h"
+#include "Colour.h"
 #include "Key.h"
 
 #ifdef DLL_SPIKEUI
@@ -16,18 +17,24 @@ namespace SpikeUI
 {
 	namespace Controls
 	{
-		struct SPIKEUI_EXPORT Button : public SpikeUI::UI::Drawable
+		struct SPIKEUI_EXPORT TextArea : SpikeUI::UI::Drawable
 		{
 			SpikeUI::Containers::Rectangle Place;
-			SpikeUI::Colour::Colour Colour;
+			SpikeUI::Containers::Font Font;
+			SpikeUI::Colour::Colour TextColour;
+			SpikeUI::Colour::Colour BackgroundColour;
+			std::string Text;
 
-			std::function<void(Button &)> hoverIn, hoverOut, lButtonDown, lButtonUp, rButtonDown, rButtonUp;
-			std::function<void(Button &, SpikeUI::Containers::Key const &)> receiveKey;
+			std::function<void(TextArea &)> hoverIn, hoverOut, lButtonDown, lButtonUp, rButtonDown, rButtonUp;;
+			std::function<void(TextArea &, SpikeUI::Containers::Key const &)> receiveKey;
 
-			Button(SpikeUI::Containers::Rectangle const &,
+			TextArea(SpikeUI::Containers::Rectangle const &,
+				SpikeUI::Containers::Font const &,
+				SpikeUI::Colour::Colour const &,
 				SpikeUI::Colour::Colour const &);
 
 			virtual void PointerUpdate(bool, bool, bool, bool);
+			virtual void KeyInput(SpikeUI::Containers::Key const &);
 			virtual void Update();
 			virtual bool Contains(SpikeUI::Containers::Point const &);
 			virtual void MoveByPixels(SpikeUI::Containers::Point const &);
@@ -35,7 +42,9 @@ namespace SpikeUI
 			virtual SpikeUI::Containers::Point RelativePixelDelta(SpikeUI::Containers::Point const &);
 			virtual void HoverIn();
 			virtual void HoverOut();
-			virtual ~Button() = default;
+			virtual void Focus();
+			virtual void Unfocus();
+			virtual ~TextArea() = default;
 		};
 	}
 }

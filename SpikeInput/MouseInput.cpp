@@ -3,29 +3,35 @@
 #ifdef _WIN32
 SpikeInput::MouseOutput SpikeInput::MouseInput::GetAbsoluteMouse(HWND hWnd)
 {
-	POINT cursorPos;
+	static MouseOutput result;
+
+	static POINT cursorPos;
 	GetCursorPos(&cursorPos);
+	GetMessagePos();
 	ScreenToClient(hWnd, &cursorPos);
 
+	result.MOx = cursorPos.x;
+	result.MOy = cursorPos.y;
+	
 	static bool lButton;
-	auto lButtonState = GetKeyState(VK_LBUTTON) < 0;
-	auto lButtonDown = lButtonState ? !lButton : false;
-	auto lButtonUp = lButtonState ? false : lButton;
+	static bool lButtonState;
+	lButtonState = _MOLButtonState;
+	result.MOLeftButtonDown = lButtonState ? !lButton : false;
+	result.MOLeftButtonUp = lButtonState ? false : lButton;
 
 	static bool rButton;
-	auto rButtonState = GetKeyState(VK_RBUTTON) < 0;
-	auto rButtonDown = rButtonState ? !rButton : false;
-	auto rButtonUp = rButtonState ? false : rButton;
+	static bool rButtonState;
+	rButtonState = GetAsyncKeyState(VK_RBUTTON) < 0;
+	result.MORightButtonDown = rButtonState ? !rButton : false;
+	result.MORightButtonUp = rButtonState ? false : rButton;
 
 	lButton = lButtonState;
 	rButton = rButtonState;
 
-	return SpikeInput::MouseOutput ({ 
-		cursorPos.x,
-		cursorPos.y,
-		lButtonDown,
-		lButtonUp,
-		rButtonDown,
-		rButtonUp});
+	return result;
 }
 #endif
+void SpikeInput::MouseInput::SetLButtonState(bool value)
+{
+	_MOLButtonState = value;
+}

@@ -100,22 +100,28 @@ void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 	{
 		switch (iter->DType)
 		{
-			case SpikeUI::UI::DrawableType::Label:
+			case SpikeUI::UI::Label:
 			{
 				auto item = std::static_pointer_cast<SpikeUI::Controls::Label>(iter);
 				RenderUILabel(*item);
 				break;
 			}
-			case SpikeUI::UI::DrawableType::Button:
+			case SpikeUI::UI::Button:
 			{
 				auto item = std::static_pointer_cast<SpikeUI::Controls::Button>(iter);
 				RenderUIButton(*item);
 				break;
 			}
-			case SpikeUI::UI::DrawableType::Progress:
+			case SpikeUI::UI::Progress:
 			{
 				auto item = std::static_pointer_cast<SpikeUI::Controls::Progress>(iter);
 				RenderUIProgress(*item);
+				break;
+			}
+			case SpikeUI::UI::TextArea:
+			{
+				auto item = std::static_pointer_cast<SpikeUI::Controls::TextArea>(iter);
+				RenderUITextArea(*item);
 				break;
 			}
 		}
@@ -138,19 +144,19 @@ void SpikeRenderer::DirectXRenderer::ShutdownRenderer()
 	devcon->Release();
 }
 
-void SpikeRenderer::DirectXRenderer::RenderUILabel(SpikeUI::Controls::Label const & textArea)
+void SpikeRenderer::DirectXRenderer::RenderUILabel(SpikeUI::Controls::Label const & label)
 {
-	size_t cSize = strlen(textArea.Font.FontFamily.c_str()) + 1;
+	size_t cSize = strlen(label.Font.FontFamily.c_str()) + 1;
 	wchar_t* wc = new wchar_t[cSize];
 	size_t outSize;
-	mbstowcs_s(&outSize, wc, cSize, textArea.Font.FontFamily.c_str(), cSize - 1);
+	mbstowcs_s(&outSize, wc, cSize, label.Font.FontFamily.c_str(), cSize - 1);
 	writeFactory->CreateTextFormat(
 		wc,
 		NULL,
 		DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
-		textArea.Font.Size,
+		label.Font.Size,
 		L"",
 		&textFormat);
 
@@ -158,18 +164,18 @@ void SpikeRenderer::DirectXRenderer::RenderUILabel(SpikeUI::Controls::Label cons
 
 	ID2D1SolidColorBrush* brush;
 	d2dbackbuffer->CreateSolidColorBrush(
-		D2D1::ColorF(textArea.Colour.r, textArea.Colour.g, textArea.Colour.b),
+		D2D1::ColorF(label.Colour.r, label.Colour.g, label.Colour.b),
 		&brush);
 
 	D2D1_RECT_F rect = D2D1::RectF(
-		textArea.Place.TopLeft.x,
-		textArea.Place.TopLeft.y,
-		textArea.Place.BottomRight.x,
-		textArea.Place.BottomRight.y);
+		label.Place.TopLeft.x,
+		label.Place.TopLeft.y,
+		label.Place.BottomRight.x,
+		label.Place.BottomRight.y);
 
-	cSize = strlen(textArea.Text.c_str()) + 1;
+	cSize = strlen(label.Text.c_str()) + 1;
 	wc = new wchar_t[cSize];
-	mbstowcs_s(&outSize, wc, cSize, textArea.Text.c_str(), cSize - 1);
+	mbstowcs_s(&outSize, wc, cSize, label.Text.c_str(), cSize - 1);
 	d2dbackbuffer->DrawTextW(wc, wcslen(wc), textFormat, &rect, brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 	delete wc;
 }
@@ -216,4 +222,47 @@ void SpikeRenderer::DirectXRenderer::RenderUIProgress(SpikeUI::Controls::Progres
 
 	d2dbackbuffer->FillRectangle(fill, brushFill);
 	d2dbackbuffer->FillRectangle(empty, brushEmpty);
+}
+
+void SpikeRenderer::DirectXRenderer::RenderUITextArea(SpikeUI::Controls::TextArea const & textArea)
+{
+	size_t cSize = strlen(textArea.Font.FontFamily.c_str()) + 1;
+	wchar_t* wc = new wchar_t[cSize];
+	size_t outSize;
+	mbstowcs_s(&outSize, wc, cSize, textArea.Font.FontFamily.c_str(), cSize - 1);
+	writeFactory->CreateTextFormat(
+		wc,
+		NULL,
+		DWRITE_FONT_WEIGHT_NORMAL,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		textArea.Font.Size,
+		L"",
+		&textFormat);
+
+	delete wc;
+
+	ID2D1SolidColorBrush* brushBack;
+	d2dbackbuffer->CreateSolidColorBrush(
+		D2D1::ColorF(textArea.BackgroundColour.r, textArea.BackgroundColour.g, textArea.BackgroundColour.b),
+		&brushBack);
+
+	ID2D1SolidColorBrush* brushText;
+	d2dbackbuffer->CreateSolidColorBrush(
+		D2D1::ColorF(textArea.TextColour.r, textArea.TextColour.g, textArea.TextColour.b),
+		&brushText);
+
+	D2D1_RECT_F rect = D2D1::RectF(
+		textArea.Place.TopLeft.x,
+		textArea.Place.TopLeft.y,
+		textArea.Place.BottomRight.x,
+		textArea.Place.BottomRight.y);
+
+	d2dbackbuffer->FillRectangle(rect, brushBack);
+
+	cSize = strlen(textArea.Text.c_str()) + 1;
+	wc = new wchar_t[cSize];
+	mbstowcs_s(&outSize, wc, cSize, textArea.Text.c_str(), cSize - 1);
+	d2dbackbuffer->DrawTextW(wc, wcslen(wc), textFormat, &rect, brushText, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+	delete wc;
 }

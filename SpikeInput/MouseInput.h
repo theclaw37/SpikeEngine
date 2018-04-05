@@ -16,7 +16,7 @@
 
 namespace SpikeInput
 {
-	struct SPIKEINPUT_EXPORT MouseOutput
+	struct SPIKEINPUT_EXPORT MouseOutput 
 	{
 		long MOx, MOy;
 		bool MOLeftButtonDown, MOLeftButtonUp, MORightButtonDown, MORightButtonUp;
@@ -28,5 +28,8 @@ namespace SpikeInput
 #ifdef _WIN32
 		MouseOutput GetAbsoluteMouse(HWND);
 #endif
+		void SetLButtonState(bool);
+	private:
+		bool _MOLButtonState;
 	};
 }

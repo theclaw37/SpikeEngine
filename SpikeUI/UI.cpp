@@ -3,6 +3,7 @@
 #include "Drawable.h"
 #include "EmptyArea.h"
 
+#include <Windows.h>
 
 SpikeUI::UI::UI::UI() : _UIState(UIState::Initial)
 {}
@@ -144,7 +145,7 @@ void SpikeUI::UI::UI::UpdateForPointer(
 	{
 		if (!focus)
 		{
-			if (drawable->DHit == SpikeUI::UI::DrawableHit::Enable && drawable->Contains(mouse))
+			if (drawable->DHit == SpikeUI::UI::DrawableHit::HitEnable && drawable->Contains(mouse))
 			{
 				focus = drawable;
 				drawable->PointerUpdate(lButtonDown, 
@@ -158,13 +159,14 @@ void SpikeUI::UI::UI::UpdateForPointer(
 
 	SwitchHover(focus);
 
-	if (rButtonUp)
+	if (lButtonUp)
 		SwitchFocus(focus);
-
 }
 
 void SpikeUI::UI::UI::UpdateForCharacterInput(SpikeUI::Containers::Key const & msg)
 {
+	if (_UIFocus)
+		_UIFocus->KeyInput(msg);
 }
 
 std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::GetFocusedItem() const
@@ -179,8 +181,10 @@ SpikeUI::UI::UIState SpikeUI::UI::UI::GetState() const
 
 void SpikeUI::UI::UI::SwitchHover(std::shared_ptr<SpikeUI::UI::Drawable> target)
 {
-	if (_UIHover) 
+	if (_UIHover)
+	{
 		_UIHover->HoverOut();
+	}
 
 	if (target)
 	{

@@ -26,13 +26,15 @@ namespace SpikeUI
 
 		struct SPIKEUI_EXPORT Key
 		{
-			KeyCharacterInput Character;
+			char Character;
 			KeyCharacterControlInput CharacterControl;
 
-			Key(KeyCharacterInput character, KeyCharacterControlInput control)
+			Key(char character, KeyCharacterControlInput control) : 
+				Character(character), 
+				CharacterControl(control)
 			{}
 
-			static Key CharacterKey(KeyCharacterInput character)
+			static Key CharacterKey(char & character)
 			{
 				return Key(character, None);
 			}
@@ -42,7 +44,7 @@ namespace SpikeUI
 				return Key(0, control);
 			}
 
-			bool IsCharacter()
+			bool IsCharacter() const
 			{
 				return Character;
 			}

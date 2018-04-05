@@ -21,25 +21,33 @@ namespace SpikeUI
 			Label = 1,
 			Button = 2,
 			EmptyArea = 4,
-			Progress = 8
+			Progress = 8,
+			TextArea = 16
 		};
 
-		enum DrawableState
+		enum DrawableHoverState
 		{
-			Default = 1,
-			Hover = 2
+			HoverDefault = 1,
+			HoverActive = 2
+		};
+
+		enum DrawableFocusState
+		{
+			FocusDefault = 1,
+			FocusActive = 2
 		};
 
 		enum DrawableHit
 		{
-			Enable = 1,
-			Disable = 2
+			HitEnable = 1,
+			HitDisable = 2
 		};
 
 		struct SPIKEUI_EXPORT Drawable : SpikeUtils::_SpikeEngineObject
 		{
 			DrawableType DType;
-			DrawableState DState;
+			DrawableHoverState DHoverState;
+			DrawableFocusState DFocusState;
 			DrawableHit DHit;
 
 			Drawable(DrawableType type) : DType(type)
@@ -49,16 +57,16 @@ namespace SpikeUI
 			std::deque<std::shared_ptr<Drawable>> DChildren;
 
 			virtual void PointerUpdate(bool, bool, bool, bool) {};
-			virtual void KeyInput(SpikeUI::Containers::Key &) {};
+			virtual void KeyInput(SpikeUI::Containers::Key const &) {};
 			virtual void Update() {};
 			virtual bool Contains(SpikeUI::Containers::Point const &) = 0;
 			virtual void MoveByPixels(SpikeUI::Containers::Point const &) = 0;
 			virtual SpikeUI::Containers::Point MoveToPixels(SpikeUI::Containers::Point const &) = 0;
 			virtual SpikeUI::Containers::Point RelativePixelDelta(SpikeUI::Containers::Point const &) = 0;
-			virtual void HoverIn() {};
-			virtual void HoverOut() {};
-			virtual void Focus() {};
-			virtual void Unfocus() {};
+			virtual void HoverIn() { DHoverState = HoverDefault; };
+			virtual void HoverOut() { DHoverState = HoverActive; };
+			virtual void Focus() { DFocusState = FocusDefault; };
+			virtual void Unfocus() { DFocusState = FocusActive; };
 			virtual ~Drawable() = default;
 		};
 	}

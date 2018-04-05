@@ -3,7 +3,7 @@
 #include "SpikeInput.h"
 
 std::string fps_text_id;
-std::string input_label_text_id;
+std::string input_textArea;
 
 SpikeEngine::Game::Game() : GameState(GameState::Initial)
 {}
@@ -47,26 +47,27 @@ void SpikeEngine::Game::LoadUI()
 			SpikeConfig::Config::Instance().GetWindow().GetClientHeight()
 		));
 
-		SpikeUI::Controls::Label textArea_title(
+		SpikeUI::Controls::Label label_title(
 			SpikeUI::Containers::Rectangle(0.1, 0.1, 0.4, 0.25),
 			SpikeUI::Containers::Font("Arial", 25),
 			SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
-		textArea_title.Text = "Test Label with Hover enable";
-		textArea_title.DHit = SpikeUI::UI::DrawableHit::Enable;
+		label_title.Text = "Test Label with Hover enable";
+		label_title.DHit = SpikeUI::UI::DrawableHit::HitEnable;
 
-		SpikeUI::Controls::Label textArea_fps(
+		SpikeUI::Controls::Label label_fps(
 			SpikeUI::Containers::Rectangle(0.90, 0.0, 1.0, 0.1),
 			SpikeUI::Containers::Font("Arial", 15),
 			SpikeUI::Colour::Colour(0.0, 1.0, 1.0));
-		textArea_fps.DHit = SpikeUI::UI::DrawableHit::Disable;
-		fps_text_id = textArea_fps._SpikeEngineId();
+		label_fps.DHit = SpikeUI::UI::DrawableHit::HitDisable;
+		fps_text_id = label_fps._SpikeEngineId();
 
-		SpikeUI::Controls::Label textArea_write(
-			SpikeUI::Containers::Rectangle(0.50, 0.5, 1.0, 1.0),
+		SpikeUI::Controls::TextArea textArea_write(
+			SpikeUI::Containers::Rectangle(0.50, 0.5, 0.9, 0.9),
 			SpikeUI::Containers::Font("Arial", 15),
-			SpikeUI::Colour::Colour(1.0, 1.0, 0.0));
-		textArea_write.DHit = SpikeUI::UI::DrawableHit::Enable;
-		input_label_text_id = textArea_write._SpikeEngineId();
+			SpikeUI::Colour::Colour(0.0, 0.0, 0.0),
+			SpikeUI::Colour::Colour(1.0, 1.0, 1.0)
+			);
+		input_textArea = textArea_write._SpikeEngineId();
 
 		SpikeUI::Controls::Button button1(
 			SpikeUI::Containers::Rectangle(0.1, 0.3, 0.4, 0.45),
@@ -97,7 +98,7 @@ void SpikeEngine::Game::LoadUI()
 			SpikeUI::Containers::Font("Arial", 15),
 			SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
 		button_test_subbutton_label.Text = "Test Nested bounds";
-		button_test_subbutton_label.DHit = SpikeUI::UI::DrawableHit::Disable;
+		button_test_subbutton_label.DHit = SpikeUI::UI::DrawableHit::HitDisable;
 
 		SpikeUI::Controls::Progress prog_bar({ 0.1, 0.9, 0.9, 0.95 },
 		{ 0.0, 1.0, 0.0 },
@@ -149,27 +150,27 @@ void SpikeEngine::Game::LoadUI()
 			PostQuitMessage(0);
 		};
 
-		textArea_title.receiveFocus = hoverIn;
-		textArea_title.loseFocus = hoverOut;
-		textArea_title.lButtonDown = lButtonDown;
-		textArea_title.lButtonUp = lButtonUp;
+		label_title.hoverIn = hoverIn;
+		label_title.hoverOut = hoverOut;
+		label_title.lButtonDown = lButtonDown;
+		label_title.lButtonUp = lButtonUp;
 
-		button1.receiveFocus = hoverInB;
-		button1.loseFocus = hoverOutB;
+		button1.hoverIn = hoverInB;
+		button1.hoverOut = hoverOutB;
 		button1.lButtonDown = lClickDownB;
 		button1.lButtonUp = lClickUpB;
 
-		button4.receiveFocus = hoverInB;
-		button4.loseFocus = hoverOutB;
+		button4.hoverIn = hoverInB;
+		button4.hoverOut = hoverOutB;
 		button4.lButtonDown = lClickDownB;
 		button4.lButtonUp = lClickUpBQuit;
 
-		button_test.receiveFocus = hoverInB;
-		button_test.loseFocus = hoverOutB;
-		button_test_subbutton.receiveFocus = hoverInBLOL;
+		button_test.hoverIn = hoverInB;
+		button_test.hoverOut = hoverOutB;
+		button_test_subbutton.hoverIn = hoverInBLOL;
 
-		Objects.GameUI.Insert(textArea_title, SpikeUI::UI::Front);
-		Objects.GameUI.Insert(textArea_fps, SpikeUI::UI::Front);
+		Objects.GameUI.Insert(label_title, SpikeUI::UI::Front);
+		Objects.GameUI.Insert(label_fps, SpikeUI::UI::Front);
 		Objects.GameUI.Insert(textArea_write, SpikeUI::UI::Front);
 		Objects.GameUI.Insert(button1, SpikeUI::UI::Front);
 		Objects.GameUI.Insert(button4, SpikeUI::UI::Front);
@@ -206,14 +207,27 @@ void SpikeEngine::Game::Update(float deltaTime)
 
 		std::static_pointer_cast<SpikeUI::Controls::Label>(Objects.GameUI.Get(fps_text_id))->Text = "FPS: " + std::to_string((unsigned)floor(1.0/deltaTime));
 		
-		auto charactersForUI = SpikeInput::CharacterInput::Instance().GetCharacterInput();
-		auto focusUI = Objects.GameUI.GetFocusedItem();
-		if (focusUI && focusUI->DType == SpikeUI::UI::DrawableType::Label)
+		auto characterForUI = SpikeInput::CharacterInput::Instance().GetCharacterInput();
+		if (characterForUI)
 		{
-			auto label = std::static_pointer_cast<SpikeUI::Controls::Label>(focusUI);
-			label->Text += charactersForUI;
+			Objects.GameUI.UpdateForCharacterInput(SpikeUI::Containers::Key::CharacterKey(characterForUI));
 		}
-		//std::static_pointer_cast<SpikeUI::Controls::Label>(Objects.GameUI.Get(fps_text_id))->Text += charactersForUI;
+		else
+		{
+			auto commandForUI = SpikeInput::CommandInput::Instance().GetCommandInput();
+			switch (commandForUI)
+			{
+				case SpikeInput::CommandBackspace:
+					Objects.GameUI.UpdateForCharacterInput(SpikeUI::Containers::Key::ControlKey(SpikeUI::Containers::Backspace));
+					break;
+				case SpikeInput::CommandSpace:
+					Objects.GameUI.UpdateForCharacterInput(SpikeUI::Containers::Key::ControlKey(SpikeUI::Containers::Space));
+					break;
+				case SpikeInput::CommandEnter:
+					Objects.GameUI.UpdateForCharacterInput(SpikeUI::Containers::Key::ControlKey(SpikeUI::Containers::Enter));
+					break;
+			}
+		}
 	}
 }
 
