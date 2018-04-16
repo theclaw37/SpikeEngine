@@ -51,7 +51,7 @@ void SpikeEngine::Game::LoadUI()
 			SpikeUI::Containers::Rectangle(0.1, 0.1, 0.4, 0.25),
 			SpikeUI::Containers::Font("Arial", 25),
 			SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
-		label_title.Text = "Test Label with Hover enable";
+		label_title.Text = L"Test Label with Hover enable";
 		label_title.DHit = SpikeUI::UI::DrawableHit::HitEnable;
 
 		SpikeUI::Controls::Label label_fps(
@@ -76,7 +76,7 @@ void SpikeEngine::Game::LoadUI()
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
 			SpikeUI::Containers::Font("Arial", 25),
 			SpikeUI::Colour::Colour(0.0, 0.0, 0.0));
-		button1_text.Text = "Test Button with Hover enable";
+		button1_text.Text = L"Test Button with Hover enable";
 
 		SpikeUI::Controls::Button button4(
 			SpikeUI::Containers::Rectangle(0.1, 0.5, 0.4, 0.65),
@@ -85,7 +85,7 @@ void SpikeEngine::Game::LoadUI()
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
 			SpikeUI::Containers::Font("Arial", 25),
 			SpikeUI::Colour::Colour(0.0, 0.0, 0.0));
-		button4_text.Text = "Test Button with Action (QUIT)";
+		button4_text.Text = L"Test Button with Action (QUIT)";
 
 		SpikeUI::Controls::Button button_test(
 			SpikeUI::Containers::Rectangle(0.1, 0.7, 0.4, 0.85),
@@ -97,7 +97,7 @@ void SpikeEngine::Game::LoadUI()
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
 			SpikeUI::Containers::Font("Arial", 15),
 			SpikeUI::Colour::Colour(1.0, 1.0, 1.0));
-		button_test_subbutton_label.Text = "Test Nested bounds";
+		button_test_subbutton_label.Text = L"Test Nested bounds";
 		button_test_subbutton_label.DHit = SpikeUI::UI::DrawableHit::HitDisable;
 
 		SpikeUI::Controls::Progress prog_bar({ 0.1, 0.9, 0.9, 0.95 },
@@ -205,7 +205,7 @@ void SpikeEngine::Game::Update(float deltaTime)
 			mouseForUI.MORightButtonDown,
 			mouseForUI.MORightButtonUp);
 
-		std::static_pointer_cast<SpikeUI::Controls::Label>(Objects.GameUI.Get(fps_text_id))->Text = "FPS: " + std::to_string((unsigned)floor(1.0/deltaTime));
+		std::static_pointer_cast<SpikeUI::Controls::Label>(Objects.GameUI.Get(fps_text_id))->Text = L"FPS: " + std::to_wstring((unsigned)floor(1.0/deltaTime));
 		
 		auto characterForUI = SpikeInput::CharacterInput::Instance().GetCharacterInput();
 		if (characterForUI)

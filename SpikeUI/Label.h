@@ -22,7 +22,7 @@ namespace SpikeUI
 			SpikeUI::Containers::Rectangle Place;
 			SpikeUI::Containers::Font Font;
 			SpikeUI::Colour::Colour Colour;
-			std::string Text;
+			std::wstring Text;
 
 			std::function<void(Label &)> hoverIn, hoverOut, lButtonDown, lButtonUp, rButtonDown, rButtonUp;;
 			std::function<void(Label &, SpikeUI::Containers::Key const &)> receiveKey;
