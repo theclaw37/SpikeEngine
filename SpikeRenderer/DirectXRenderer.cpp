@@ -173,10 +173,11 @@ void SpikeRenderer::DirectXRenderer::RenderUILabel(SpikeUI::Controls::Label cons
 		label.Place.BottomRight.x,
 		label.Place.BottomRight.y);
 
-	d2dbackbuffer->DrawTextW(label.Text.c_str(), label.Text.length(), textFormat, &rect, brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-
-	textFormat->Release();
-	brush->Release();
+	cSize = strlen(label.Text.c_str()) + 1;
+	wc = new wchar_t[cSize];
+	mbstowcs_s(&outSize, wc, cSize, label.Text.c_str(), cSize - 1);
+	d2dbackbuffer->DrawTextW(wc, wcslen(wc), textFormat, &rect, brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+	delete wc;
 }
 
 void SpikeRenderer::DirectXRenderer::RenderUIButton(SpikeUI::Controls::Button const & button)
@@ -193,8 +194,6 @@ void SpikeRenderer::DirectXRenderer::RenderUIButton(SpikeUI::Controls::Button co
 		button.Place.BottomRight.y);
 
 	d2dbackbuffer->FillRectangle(rect, brush);
-
-	brush->Release();
 }
 
 void SpikeRenderer::DirectXRenderer::RenderUIProgress(SpikeUI::Controls::Progress const & progress)
@@ -223,9 +222,6 @@ void SpikeRenderer::DirectXRenderer::RenderUIProgress(SpikeUI::Controls::Progres
 
 	d2dbackbuffer->FillRectangle(fill, brushFill);
 	d2dbackbuffer->FillRectangle(empty, brushEmpty);
-
-	brushEmpty->Release();
-	brushFill->Release();
 }
 
 void SpikeRenderer::DirectXRenderer::RenderUITextArea(SpikeUI::Controls::TextArea const & textArea)
@@ -264,9 +260,9 @@ void SpikeRenderer::DirectXRenderer::RenderUITextArea(SpikeUI::Controls::TextAre
 
 	d2dbackbuffer->FillRectangle(rect, brushBack);
 
-	d2dbackbuffer->DrawTextW(textArea.Text.c_str(), textArea.Text.length(), textFormat, &rect, brushText, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-
-	textFormat->Release();
-	brushBack->Release();
-	brushText->Release();
+	cSize = strlen(textArea.Text.c_str()) + 1;
+	wc = new wchar_t[cSize];
+	mbstowcs_s(&outSize, wc, cSize, textArea.Text.c_str(), cSize - 1);
+	d2dbackbuffer->DrawTextW(wc, wcslen(wc), textFormat, &rect, brushText, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+	delete wc;
 }

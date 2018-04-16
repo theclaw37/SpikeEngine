@@ -23,7 +23,7 @@ namespace SpikeUI
 			SpikeUI::Containers::Font Font;
 			SpikeUI::Colour::Colour TextColour;
 			SpikeUI::Colour::Colour BackgroundColour;
-			std::wstring Text;
+			std::string Text;
 
 			std::function<void(TextArea &)> hoverIn, hoverOut, lButtonDown, lButtonUp, rButtonDown, rButtonUp;;
 			std::function<void(TextArea &, SpikeUI::Containers::Key const &)> receiveKey;
