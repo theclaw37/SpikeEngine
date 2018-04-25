@@ -50,7 +50,7 @@ namespace SpikeUI
 			DrawableFocusState DFocusState;
 			DrawableHit DHit;
 
-			Drawable(DrawableType type) : DType(type)
+			Drawable(DrawableType type, std::string const & id) : DType(type), _SpikeEngineObject(id)
 			{}
 
 			std::shared_ptr<Drawable> DParent;

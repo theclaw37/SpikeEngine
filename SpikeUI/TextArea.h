@@ -31,7 +31,8 @@ namespace SpikeUI
 			TextArea(SpikeUI::Containers::Rectangle const &,
 				SpikeUI::Containers::Font const &,
 				SpikeUI::Colour::Colour const &,
-				SpikeUI::Colour::Colour const &);
+				SpikeUI::Colour::Colour const &,
+				std::string const &);
 
 			virtual void PointerUpdate(bool, bool, bool, bool);
 			virtual void KeyInput(SpikeUI::Containers::Key const &);

@@ -24,7 +24,8 @@ namespace SpikeUI
 
 			Progress(SpikeUI::Containers::Rectangle const &,
 				SpikeUI::Colour::Colour const &,
-				SpikeUI::Colour::Colour const &);
+				SpikeUI::Colour::Colour const &,
+				std::string const &);
 
 			void SetProgress(double value);
 			void IncreaseProgress(double value);

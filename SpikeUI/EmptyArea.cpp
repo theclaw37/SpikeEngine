@@ -1,8 +1,10 @@
 #include "EmptyArea.h"
 
-SpikeUI::Controls::EmptyArea::EmptyArea(SpikeUI::Containers::Rectangle const & place) :
+SpikeUI::Controls::EmptyArea::EmptyArea(
+	SpikeUI::Containers::Rectangle const & place, 
+	std::string const & id) :
 	Place(place),
-	Drawable(SpikeUI::UI::EmptyArea)
+	Drawable(SpikeUI::UI::EmptyArea, id)
 {
 	DHit = SpikeUI::UI::HitDisable;
 }

@@ -4,12 +4,13 @@ SpikeUI::Controls::TextArea::TextArea(
 	SpikeUI::Containers::Rectangle const & place,
 	SpikeUI::Containers::Font const & font,
 	SpikeUI::Colour::Colour const & textColour,
-	SpikeUI::Colour::Colour const & backgroundColour) :
+	SpikeUI::Colour::Colour const & backgroundColour,
+	std::string const & id) :
 	Place(place),
 	Font(font),
 	TextColour(textColour),
 	BackgroundColour(backgroundColour),
-	Drawable(SpikeUI::UI::TextArea)
+	Drawable(SpikeUI::UI::TextArea, id)
 {
 	DHit = SpikeUI::UI::HitEnable;
 }

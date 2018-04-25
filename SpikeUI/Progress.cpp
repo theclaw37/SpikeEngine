@@ -2,12 +2,13 @@
 
 SpikeUI::Controls::Progress::Progress(SpikeUI::Containers::Rectangle const & place,
 	SpikeUI::Colour::Colour const & fill,
-	SpikeUI::Colour::Colour const & empty) :
+	SpikeUI::Colour::Colour const & empty,
+	std::string const & id) :
 	Place(place),
 	FillColour(fill),
 	EmptyColour(empty),
 	Value(0),
-	Drawable(SpikeUI::UI::Progress)
+	Drawable(SpikeUI::UI::Progress, id)
 {
 	DHit = SpikeUI::UI::HitDisable;
 }

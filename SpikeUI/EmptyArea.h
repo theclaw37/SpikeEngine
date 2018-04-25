@@ -18,7 +18,7 @@ namespace SpikeUI
 		{
 			SpikeUI::Containers::Rectangle Place;
 
-			EmptyArea(SpikeUI::Containers::Rectangle const &);
+			EmptyArea(SpikeUI::Containers::Rectangle const &, std::string const &);
 
 			virtual bool Contains(SpikeUI::Containers::Point const &);
 			virtual void MoveByPixels(SpikeUI::Containers::Point const &);

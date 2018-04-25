@@ -42,7 +42,8 @@ namespace SpikeUI
 			template <typename T>
 			void Insert(T const &, std::string const &, UIOrder const &);
 			void Erase(std::string const &);
-			std::shared_ptr<SpikeUI::UI::Drawable> Get(std::string const &);
+			std::shared_ptr<SpikeUI::UI::Drawable> GetByGuid(std::string const &);
+			std::shared_ptr<SpikeUI::UI::Drawable> GetById(std::string const &);
 			void MoveTo(std::shared_ptr<SpikeUI::UI::Drawable>, SpikeUI::Containers::Point const &);
 			void MoveBy(std::shared_ptr<SpikeUI::UI::Drawable>, SpikeUI::Containers::Point const &);
 
@@ -70,6 +71,7 @@ namespace SpikeUI
 			std::shared_ptr<SpikeUI::UI::Drawable> _UIHover;
 			std::shared_ptr<SpikeUI::UI::Drawable> _UIFocus;
 			std::unordered_map<std::string, std::shared_ptr<SpikeUI::UI::Drawable>> _UIElems;
+			std::unordered_map<std::string, std::shared_ptr<SpikeUI::UI::Drawable>> _UIElemsById;
 			UIState _UIState;
 
 			void SwitchHover(std::shared_ptr<SpikeUI::UI::Drawable>);
@@ -114,7 +116,7 @@ namespace SpikeUI
 			std::string const & guid, 
 			UIOrder const & order)
 		{
-			auto parent = Get(guid);
+			auto parent = GetByGuid(guid);
 			if (parent)
 			{
 				auto ptr = std::make_shared<T>(drawable);

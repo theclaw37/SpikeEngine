@@ -1,10 +1,11 @@
 #include "Button.h"
 
 SpikeUI::Controls::Button::Button(SpikeUI::Containers::Rectangle const & place,
-	SpikeUI::Colour::Colour const & colour) :
+	SpikeUI::Colour::Colour const & colour,
+	std::string const & id) :
 	Place(place),
 	Colour(colour),
-	Drawable(SpikeUI::UI::Button)
+	Drawable(SpikeUI::UI::Button, id)
 {
 	DHit = SpikeUI::UI::HitEnable;
 }

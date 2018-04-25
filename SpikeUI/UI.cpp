@@ -10,14 +10,25 @@ SpikeUI::UI::UI::UI() : _UIState(UIState::Initial)
 
 void SpikeUI::UI::UI::Init(SpikeUI::Containers::Rectangle const & rootArea)
 {
-	_UIRoot = std::make_shared<SpikeUI::Controls::EmptyArea>(rootArea);
+	_UIRoot = std::make_shared<SpikeUI::Controls::EmptyArea>(rootArea, "ui_root");
 	_UIState = UIState::Ready;
 }
 
-std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::Get(std::string const & guid)
+std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::GetByGuid(std::string const & guid)
 {
 	auto elem = _UIElems.find(guid);
 	if (elem != _UIElems.end())
+	{
+		return elem->second;
+	}
+
+	return nullptr;
+}
+
+std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::GetById(std::string const & id)
+{
+	auto elem = _UIElemsById.find(id);
+	if (elem != _UIElemsById.end())
 	{
 		return elem->second;
 	}
@@ -56,14 +67,14 @@ void SpikeUI::UI::UI::MoveBy(std::shared_ptr<SpikeUI::UI::Drawable> target, Spik
 }
 
 
-void SpikeUI::UI::UI::Erase(std::string const & guid)
+void SpikeUI::UI::UI::Erase(std::string const & identifier)
 {
-	Erase(_UIRoot, guid);
+	Erase(_UIRoot, identifier);
 }
 
 void SpikeUI::UI::UI::Erase(
 	std::shared_ptr<SpikeUI::UI::Drawable> target, 
-	std::string const & guid)
+	std::string const & identifier)
 {
 	auto childrenSize = target->DChildren.size();
 
@@ -73,21 +84,22 @@ void SpikeUI::UI::UI::Erase(
 			std::remove_if(
 				target->DChildren.begin(),
 				target->DChildren.end(),
-				[guid](auto elem)
+				[&identifier](auto elem)
 		{
-			return elem->_SpikeEngineId() == guid;
+			return elem->_SpikeEngineId() == identifier 
+				|| elem->_SpikeObjectId() == identifier;
 		}));
 
 		if (target->DChildren.size() == childrenSize)
 		{
 			for (auto & child : target->DChildren)
 			{
-				Erase(child, guid);
+				Erase(child, identifier);
 			}
 		}
 		else
 		{
-			_UIElems.erase(guid);
+			_UIElems.erase(identifier);
 		}
 	}
 }

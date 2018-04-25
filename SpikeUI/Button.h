@@ -25,7 +25,8 @@ namespace SpikeUI
 			std::function<void(Button &, SpikeUI::Containers::Key const &)> receiveKey;
 
 			Button(SpikeUI::Containers::Rectangle const &,
-				SpikeUI::Colour::Colour const &);
+				SpikeUI::Colour::Colour const &,
+				std::string const &);
 
 			virtual void PointerUpdate(bool, bool, bool, bool);
 			virtual void Update();

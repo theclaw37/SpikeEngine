@@ -2,11 +2,12 @@
 
 SpikeUI::Controls::Label::Label(SpikeUI::Containers::Rectangle const & place, 
 	SpikeUI::Containers::Font const & font, 
-	SpikeUI::Colour::Colour const & colour) : 
+	SpikeUI::Colour::Colour const & colour,
+	std::string const & id) : 
 		Place(place), 
 		Font(font), 
 		Colour(colour),
-		Drawable(SpikeUI::UI::Label)
+		Drawable(SpikeUI::UI::Label, id)
 {
 	DHit = SpikeUI::UI::HitDisable;
 }
