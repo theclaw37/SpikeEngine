@@ -123,6 +123,7 @@
     <ClInclude Include="SpikeUtils.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="_SpikeEngineObject.h" />
+    <ClInclude Include="_SpikeEngineResource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GUID.cpp" />

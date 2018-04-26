@@ -13,6 +13,9 @@
     <Filter Include="GUID">
       <UniqueIdentifier>{b3b30719-2737-4220-a208-c23531ec10ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{754f825d-dc3e-4017-aefb-a290563b73c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -24,10 +27,13 @@
     <ClInclude Include="GUID.h">
       <Filter>GUID</Filter>
     </ClInclude>
-    <ClInclude Include="_SpikeEngineObject.h">
-      <Filter>GUID</Filter>
-    </ClInclude>
     <ClInclude Include="SpikeUtils.h" />
+    <ClInclude Include="_SpikeEngineObject.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="_SpikeEngineResource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
@@ -37,7 +43,7 @@
       <Filter>GUID</Filter>
     </ClCompile>
     <ClCompile Include="_SpikeEngineObject.cpp">
-      <Filter>GUID</Filter>
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

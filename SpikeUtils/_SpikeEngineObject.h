@@ -15,9 +15,9 @@ namespace SpikeUtils
 	public:
 		_SpikeEngineObject(std::string const &);
 		
-		const std::string & _SpikeEngineId() const
+		const SpikeUtils::GUID & _SpikeEngineId() const
 		{
-			return _SpikeRef.Value();
+			return _SpikeRef;
 		}
 
 		const std::string & _SpikeObjectId() const
@@ -25,11 +25,9 @@ namespace SpikeUtils
 			return _SpikeId;
 		}
 
-		virtual ~_SpikeEngineObject() = 0;
+		virtual ~_SpikeEngineObject() = default;
 	private:
 		SpikeUtils::GUID _SpikeRef;
 		std::string _SpikeId;
 	};
-
-	inline _SpikeEngineObject::~_SpikeEngineObject() = default;
 }

@@ -1,9 +1,34 @@
 #include "Game.h"
 #include "SpikeConfig.h"
 #include "SpikeInput.h"
+#include <unordered_set>
 
-std::string fps_text_id;
-std::string input_textArea;
+class SampleResource : SpikeUtils::_SpikeEngineResource<SampleResource>
+{
+public:
+	SampleResource(int _x, int _y) : x(_x), y(_y) {}
+	int x, y;
+
+	bool operator==(SampleResource const & other) const
+	{
+		return (x == other.x && y == other.y);
+	}
+};
+
+namespace std
+{
+	template <>
+	struct hash<SampleResource>
+	{
+		size_t operator()(SampleResource const & ref) const
+		{
+			return ((
+				hash<int>()(ref.x) ^ 
+				(hash<int>()(ref.y) << 1)
+					)>> 1);
+		}
+	};
+}
 
 SpikeEngine::Game::Game() : GameState(GameState::Initial)
 {}
@@ -61,7 +86,6 @@ void SpikeEngine::Game::LoadUI()
 			SpikeUI::Colour::Colour(0.0, 1.0, 1.0),
 			"label_fps");
 		label_fps.DHit = SpikeUI::UI::DrawableHit::HitDisable;
-		fps_text_id = label_fps._SpikeEngineId();
 
 		SpikeUI::Controls::TextArea textArea_write(
 			SpikeUI::Containers::Rectangle(0.50, 0.5, 0.9, 0.9),
@@ -69,7 +93,6 @@ void SpikeEngine::Game::LoadUI()
 			SpikeUI::Colour::Colour(0.0, 0.0, 0.0),
 			SpikeUI::Colour::Colour(1.0, 1.0, 1.0),
 			"textArea_write");
-		input_textArea = textArea_write._SpikeEngineId();
 
 		SpikeUI::Controls::Button button1(
 			SpikeUI::Containers::Rectangle(0.1, 0.3, 0.4, 0.45),
@@ -190,6 +213,17 @@ void SpikeEngine::Game::LoadUI()
 		Objects.GameUI.Insert(button_test_subbutton, button_test._SpikeEngineId(), SpikeUI::UI::Front);
 		Objects.GameUI.Insert(button_test_subbutton_label, button_test_subbutton._SpikeEngineId(), SpikeUI::UI::Front);
 		Objects.GameUI.Insert(prog_bar, SpikeUI::UI::Front);
+
+		// Test for testing inserting unique resources in a set
+		std::unordered_set<SampleResource> set;
+		SampleResource xxx(2, 3);
+		SampleResource yyy(4, 5);
+		SampleResource zzz(2, 3);
+
+		auto result = set.insert(xxx);
+		result = set.insert(yyy);
+		result = set.insert(zzz);
+
 	}
 }
 
@@ -215,7 +249,7 @@ void SpikeEngine::Game::Update(float deltaTime)
 			mouseForUI.MORightButtonDown,
 			mouseForUI.MORightButtonUp);
 
-		std::static_pointer_cast<SpikeUI::Controls::Label>(Objects.GameUI.GetByGuid(fps_text_id))->Text = "FPS: " + std::to_string((unsigned)floor(1.0/deltaTime));
+		std::static_pointer_cast<SpikeUI::Controls::Label>(Objects.GameUI.GetById("label_fps"))->Text = "FPS: " + std::to_string((unsigned)floor(1.0/deltaTime));
 		
 		auto characterForUI = SpikeInput::CharacterInput::Instance().GetCharacterInput();
 		if (characterForUI)

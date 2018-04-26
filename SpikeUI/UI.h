@@ -40,9 +40,10 @@ namespace SpikeUI
 			template <typename T>
 			void Insert(T const &, UIOrder const &);
 			template <typename T>
-			void Insert(T const &, std::string const &, UIOrder const &);
+			void Insert(T const &, SpikeUtils::GUID const &, UIOrder const &);
 			void Erase(std::string const &);
-			std::shared_ptr<SpikeUI::UI::Drawable> GetByGuid(std::string const &);
+			void Erase(SpikeUtils::GUID const &);
+			std::shared_ptr<SpikeUI::UI::Drawable> GetByGuid(SpikeUtils::GUID const &);
 			std::shared_ptr<SpikeUI::UI::Drawable> GetById(std::string const &);
 			void MoveTo(std::shared_ptr<SpikeUI::UI::Drawable>, SpikeUI::Containers::Point const &);
 			void MoveBy(std::shared_ptr<SpikeUI::UI::Drawable>, SpikeUI::Containers::Point const &);
@@ -70,13 +71,13 @@ namespace SpikeUI
 			std::shared_ptr<SpikeUI::UI::Drawable> _UIRoot;
 			std::shared_ptr<SpikeUI::UI::Drawable> _UIHover;
 			std::shared_ptr<SpikeUI::UI::Drawable> _UIFocus;
-			std::unordered_map<std::string, std::shared_ptr<SpikeUI::UI::Drawable>> _UIElems;
+			std::unordered_map<SpikeUtils::GUID, std::shared_ptr<SpikeUI::UI::Drawable>> _UIElems;
 			std::unordered_map<std::string, std::shared_ptr<SpikeUI::UI::Drawable>> _UIElemsById;
 			UIState _UIState;
 
 			void SwitchHover(std::shared_ptr<SpikeUI::UI::Drawable>);
 			void SwitchFocus(std::shared_ptr<SpikeUI::UI::Drawable>);
-			void Erase(std::shared_ptr<SpikeUI::UI::Drawable>, std::string const &);
+			void Erase(std::shared_ptr<SpikeUI::UI::Drawable>);
 			void IterateBackToFront(
 				std::shared_ptr<SpikeUI::UI::Drawable>,
 				std::function<void(std::shared_ptr<SpikeUI::UI::Drawable>)>);
@@ -103,6 +104,9 @@ namespace SpikeUI
 			_UIElems.insert({
 				ptr->_SpikeEngineId(),
 				ptr });
+			_UIElemsById.insert({
+				ptr->_SpikeObjectId(),
+				ptr });
 
 			if (order == UIOrder::Front)
 				_UIRoot->DChildren.push_back(ptr);
@@ -113,7 +117,7 @@ namespace SpikeUI
 		template<typename T>
 		inline void UI::Insert(
 			T const & drawable, 
-			std::string const & guid, 
+			SpikeUtils::GUID const & guid,
 			UIOrder const & order)
 		{
 			auto parent = GetByGuid(guid);
@@ -132,6 +136,9 @@ namespace SpikeUI
 
 				_UIElems.insert({
 					ptr->_SpikeEngineId(),
+					ptr });
+				_UIElemsById.insert({
+					ptr->_SpikeObjectId(),
 					ptr });
 
 

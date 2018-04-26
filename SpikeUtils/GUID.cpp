@@ -7,6 +7,16 @@
 
 #endif
 
+bool SpikeUtils::GUID::operator==(GUID const & other) const
+{
+	return value == other.value;
+}
+
+SpikeUtils::GUID::operator std::string() const
+{
+	return value;
+}
+
 SpikeUtils::GUID SpikeUtils::GUID::Generate()
 {
 #ifdef _WIN32
@@ -24,6 +34,17 @@ SpikeUtils::GUID SpikeUtils::GUID::Generate()
 
 #endif
 	return guid;
+}
+
+SpikeUtils::GUID SpikeUtils::GUID::Parse(std::string const & input)
+{
+	UUID uuid;
+	if (UuidFromStringA((RPC_CSTR)input.c_str(), &uuid) == RPC_S_OK)
+	{
+		return SpikeUtils::GUID(input);
+	}
+
+	return nullptr;
 }
 
 std::string const & SpikeUtils::GUID::Value() const

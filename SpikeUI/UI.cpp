@@ -3,7 +3,7 @@
 #include "Drawable.h"
 #include "EmptyArea.h"
 
-#include <Windows.h>
+#include <windows.h>
 
 SpikeUI::UI::UI::UI() : _UIState(UIState::Initial)
 {}
@@ -14,7 +14,7 @@ void SpikeUI::UI::UI::Init(SpikeUI::Containers::Rectangle const & rootArea)
 	_UIState = UIState::Ready;
 }
 
-std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::GetByGuid(std::string const & guid)
+std::shared_ptr<SpikeUI::UI::Drawable> SpikeUI::UI::UI::GetByGuid(SpikeUtils::GUID const & guid)
 {
 	auto elem = _UIElems.find(guid);
 	if (elem != _UIElems.end())
@@ -66,44 +66,31 @@ void SpikeUI::UI::UI::MoveBy(std::shared_ptr<SpikeUI::UI::Drawable> target, Spik
 	}
 }
 
-
 void SpikeUI::UI::UI::Erase(std::string const & identifier)
 {
-	Erase(_UIRoot, identifier);
+	auto node = GetById(identifier);
+	Erase(node);
+}
+
+void SpikeUI::UI::UI::Erase(SpikeUtils::GUID const & guid)
+{
+	auto node = GetByGuid(guid);
+	Erase(node);
 }
 
 void SpikeUI::UI::UI::Erase(
-	std::shared_ptr<SpikeUI::UI::Drawable> target, 
-	std::string const & identifier)
+	std::shared_ptr<SpikeUI::UI::Drawable> target)
 {
-	auto childrenSize = target->DChildren.size();
+	if (!target)
+		return;
 
-	if (childrenSize > 0)
-	{
-		target->DChildren.erase(
-			std::remove_if(
-				target->DChildren.begin(),
-				target->DChildren.end(),
-				[&identifier](auto elem)
-		{
-			return elem->_SpikeEngineId() == identifier 
-				|| elem->_SpikeObjectId() == identifier;
-		}));
+	auto& siblings = target->DParent->DChildren;
+	siblings.erase(
+		std::remove(siblings.begin(), siblings.end(), target));
 
-		if (target->DChildren.size() == childrenSize)
-		{
-			for (auto & child : target->DChildren)
-			{
-				Erase(child, identifier);
-			}
-		}
-		else
-		{
-			_UIElems.erase(identifier);
-		}
-	}
+	_UIElems.erase(target->_SpikeEngineId());
+	_UIElemsById.erase(target->_SpikeObjectId());
 }
-
 
 void SpikeUI::UI::UI::IterateBackToFront(
 	std::function<void(std::shared_ptr<SpikeUI::UI::Drawable>)> functor)
