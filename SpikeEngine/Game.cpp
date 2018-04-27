@@ -28,6 +28,33 @@ namespace std
 					)>> 1);
 		}
 	};
+
+
+	template <>
+	struct hash<std::shared_ptr<SampleResource>>
+	{
+		size_t operator()(std::shared_ptr<SampleResource> const & ref) const
+		{
+			return hash<SampleResource>()(*ref);
+		}
+	};
+
+	template <>
+	struct equal_to<std::shared_ptr<SampleResource>>
+	{
+		bool operator()(std::shared_ptr<SampleResource> const & lhs, 
+			std::shared_ptr<SampleResource> const & rhs) const
+		{
+			if (lhs == rhs)
+			{
+				return true;
+			}
+			else
+			{
+				return *lhs == *rhs;
+			}
+		}
+	};
 }
 
 SpikeEngine::Game::Game() : GameState(GameState::Initial)
@@ -220,9 +247,9 @@ void SpikeEngine::Game::LoadUI()
 		SampleResource yyy(4, 5);
 		SampleResource zzz(2, 3);
 
-		auto result = set.insert(xxx);
-		result = set.insert(yyy);
-		result = set.insert(zzz);
+		auto ptr1 = SpikeUtils::SpikeResourceManager::RegisterResource(xxx);
+		auto ptr2 = SpikeUtils::SpikeResourceManager::RegisterResource(yyy);
+		auto ptr3 = SpikeUtils::SpikeResourceManager::RegisterResource(zzz);
 
 	}
 }

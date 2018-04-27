@@ -34,6 +34,9 @@
     <ClInclude Include="_SpikeEngineResource.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="SpikeEngineResourceManager.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">

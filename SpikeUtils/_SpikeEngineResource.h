@@ -7,13 +7,17 @@
 #endif
 
 #include "GUID.h"
-#include <unordered_map>
+#include "SpikeEngineResourceManager.h"
+#include <unordered_set>
+#include <memory>
 
 namespace SpikeUtils
 {
 	template <class ResourceType>
 	class _SpikeEngineResource
 	{
+		friend class SpikeResourceManager;
+
 	public:
 		_SpikeEngineResource() : _SpikeRef(SpikeUtils::GUID::Generate()) {}
 
@@ -27,8 +31,12 @@ namespace SpikeUtils
 
 		virtual ~_SpikeEngineResource() = default;
 	private:
+		static std::unordered_set<std::shared_ptr<ResourceType>> _Items;
 		SpikeUtils::GUID _SpikeRef;
 	};
+
+	template <typename ResourceType>
+	std::unordered_set<std::shared_ptr<ResourceType>> _SpikeEngineResource<ResourceType>::_Items;
 }
 
 namespace std 
