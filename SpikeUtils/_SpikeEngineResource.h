@@ -9,6 +9,7 @@
 #include "GUID.h"
 #include "SpikeEngineResourceManager.h"
 #include <unordered_set>
+#include <unordered_map>
 #include <memory>
 
 namespace SpikeUtils
@@ -21,9 +22,9 @@ namespace SpikeUtils
 	public:
 		_SpikeEngineResource() : _SpikeRef(SpikeUtils::GUID::Generate()) {}
 
-		const std::string & _SpikeResourceId() const
+		const SpikeUtils::GUID & _SpikeResourceId() const
 		{
-			return _SpikeRef.Value();
+			return _SpikeRef;
 		}
 
 		bool operator==(_SpikeEngineResource const &) = delete;
@@ -31,12 +32,16 @@ namespace SpikeUtils
 
 		virtual ~_SpikeEngineResource() = default;
 	private:
-		static std::unordered_set<std::shared_ptr<ResourceType>> _Items;
+		static std::unordered_set<std::shared_ptr<ResourceType>> _SEResources;
+		static std::unordered_map<SpikeUtils::GUID, std::shared_ptr<ResourceType>> _SEResourcesById;
 		SpikeUtils::GUID _SpikeRef;
 	};
 
 	template <typename ResourceType>
-	std::unordered_set<std::shared_ptr<ResourceType>> _SpikeEngineResource<ResourceType>::_Items;
+	std::unordered_set<std::shared_ptr<ResourceType>> _SpikeEngineResource<ResourceType>::_SEResources;
+
+	template <typename ResourceType>
+	std::unordered_map<SpikeUtils::GUID, std::shared_ptr<ResourceType>> _SpikeEngineResource<ResourceType>::_SEResourcesById;
 }
 
 namespace std 

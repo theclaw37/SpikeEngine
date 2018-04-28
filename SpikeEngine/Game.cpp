@@ -3,7 +3,7 @@
 #include "SpikeInput.h"
 #include <unordered_set>
 
-class SampleResource : SpikeUtils::_SpikeEngineResource<SampleResource>
+class SampleResource : public SpikeUtils::_SpikeEngineResource<SampleResource>
 {
 public:
 	SampleResource(int _x, int _y) : x(_x), y(_y) {}
@@ -251,6 +251,7 @@ void SpikeEngine::Game::LoadUI()
 		auto ptr2 = SpikeUtils::SpikeResourceManager::RegisterResource(yyy);
 		auto ptr3 = SpikeUtils::SpikeResourceManager::RegisterResource(zzz);
 
+		auto getptr = SpikeUtils::SpikeResourceManager::RetrieveResource<SampleResource>(xxx._SpikeResourceId());
 	}
 }
 
