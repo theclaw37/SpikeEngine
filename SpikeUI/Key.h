@@ -1,11 +1,5 @@
 #pragma once
 
-#ifdef DLL_SPIKEUI
-#define SPIKEUI_EXPORT __declspec(dllexport)
-#else
-#define SPIKEUI_EXPORT __declspec(dllimport)
-#endif
-
 namespace SpikeUI
 {
 	namespace Containers
@@ -24,7 +18,7 @@ namespace SpikeUI
 			Down = 128
 		};
 
-		struct SPIKEUI_EXPORT Key
+		struct Key
 		{
 			char Character;
 			KeyCharacterControlInput CharacterControl;

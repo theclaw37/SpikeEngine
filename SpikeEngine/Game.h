@@ -34,7 +34,7 @@ namespace SpikeEngine
 		{
 			SpikeUI::UI::UI GameUI;
 #ifdef _WIN32
-			SpikeRenderer::DirectXRenderer GameRenderer;
+			SpikeRenderer::DirectX::DirectXRenderer GameRenderer;
 #endif
 		} Objects;
 

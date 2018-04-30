@@ -10,11 +10,11 @@
     <Filter Include="Patterns\Singleton">
       <UniqueIdentifier>{53f35aa5-1cef-49bb-b4f8-e8f2c1ad43dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUID">
-      <UniqueIdentifier>{b3b30719-2737-4220-a208-c23531ec10ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{754f825d-dc3e-4017-aefb-a290563b73c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fingerprint">
+      <UniqueIdentifier>{b3b30719-2737-4220-a208-c23531ec10ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,7 +25,7 @@
       <Filter>Timer</Filter>
     </ClInclude>
     <ClInclude Include="GUID.h">
-      <Filter>GUID</Filter>
+      <Filter>Fingerprint</Filter>
     </ClInclude>
     <ClInclude Include="SpikeUtils.h" />
     <ClInclude Include="_SpikeEngineObject.h">
@@ -37,16 +37,25 @@
     <ClInclude Include="SpikeEngineResourceManager.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="MurmurHash3.h">
+      <Filter>Fingerprint</Filter>
+    </ClInclude>
+    <ClInclude Include="Hashes.h">
+      <Filter>Fingerprint</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
       <Filter>Timer</Filter>
     </ClCompile>
     <ClCompile Include="GUID.cpp">
-      <Filter>GUID</Filter>
+      <Filter>Fingerprint</Filter>
     </ClCompile>
     <ClCompile Include="_SpikeEngineObject.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="MurmurHash3.cpp">
+      <Filter>Fingerprint</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

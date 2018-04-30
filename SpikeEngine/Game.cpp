@@ -3,60 +3,6 @@
 #include "SpikeInput.h"
 #include <unordered_set>
 
-class SampleResource : public SpikeUtils::_SpikeEngineResource<SampleResource>
-{
-public:
-	SampleResource(int _x, int _y) : x(_x), y(_y) {}
-	int x, y;
-
-	bool operator==(SampleResource const & other) const
-	{
-		return (x == other.x && y == other.y);
-	}
-};
-
-namespace std
-{
-	template <>
-	struct hash<SampleResource>
-	{
-		size_t operator()(SampleResource const & ref) const
-		{
-			return ((
-				hash<int>()(ref.x) ^ 
-				(hash<int>()(ref.y) << 1)
-					)>> 1);
-		}
-	};
-
-
-	template <>
-	struct hash<std::shared_ptr<SampleResource>>
-	{
-		size_t operator()(std::shared_ptr<SampleResource> const & ref) const
-		{
-			return hash<SampleResource>()(*ref);
-		}
-	};
-
-	template <>
-	struct equal_to<std::shared_ptr<SampleResource>>
-	{
-		bool operator()(std::shared_ptr<SampleResource> const & lhs, 
-			std::shared_ptr<SampleResource> const & rhs) const
-		{
-			if (lhs == rhs)
-			{
-				return true;
-			}
-			else
-			{
-				return *lhs == *rhs;
-			}
-		}
-	};
-}
-
 SpikeEngine::Game::Game() : GameState(GameState::Initial)
 {}
 
@@ -102,7 +48,7 @@ void SpikeEngine::Game::LoadUI()
 		SpikeUI::Controls::Label label_title(
 			SpikeUI::Containers::Rectangle(0.1, 0.1, 0.4, 0.25),
 			SpikeUI::Containers::Font("Arial", 25),
-			SpikeUI::Colour::Colour(1.0, 1.0, 1.0),
+			SpikeUI::Colour(1.0, 1.0, 1.0),
 			"label_title");
 		label_title.Text = "Test Label with Hover enable";
 		label_title.DHit = SpikeUI::UI::DrawableHit::HitEnable;
@@ -110,68 +56,69 @@ void SpikeEngine::Game::LoadUI()
 		SpikeUI::Controls::Label label_fps(
 			SpikeUI::Containers::Rectangle(0.90, 0.0, 1.0, 0.1),
 			SpikeUI::Containers::Font("Arial", 15),
-			SpikeUI::Colour::Colour(0.0, 1.0, 1.0),
+			SpikeUI::Colour(0.0, 1.0, 1.0),
 			"label_fps");
 		label_fps.DHit = SpikeUI::UI::DrawableHit::HitDisable;
 
 		SpikeUI::Controls::TextArea textArea_write(
 			SpikeUI::Containers::Rectangle(0.50, 0.5, 0.9, 0.9),
 			SpikeUI::Containers::Font("Arial", 15),
-			SpikeUI::Colour::Colour(0.0, 0.0, 0.0),
-			SpikeUI::Colour::Colour(1.0, 1.0, 1.0),
+			SpikeUI::Colour(0.0, 0.0, 0.0),
+			SpikeUI::Colour(1.0, 1.0, 1.0),
 			"textArea_write");
 
 		SpikeUI::Controls::Button button1(
 			SpikeUI::Containers::Rectangle(0.1, 0.3, 0.4, 0.45),
-			SpikeUI::Colour::Colour(0.5, 0.5, 0.5),
+			SpikeUI::Colour(0.5, 0.5, 0.5),
 			"button1");
 		SpikeUI::Controls::Label button1_text(
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
 			SpikeUI::Containers::Font("Arial", 25),
-			SpikeUI::Colour::Colour(0.0, 0.0, 0.0),
+			SpikeUI::Colour(0.0, 0.0, 0.0),
 			"button1_text");
 		button1_text.Text = "Test Button with Hover enable";
 
 		SpikeUI::Controls::Button button4(
 			SpikeUI::Containers::Rectangle(0.1, 0.5, 0.4, 0.65),
-			SpikeUI::Colour::Colour(0.5, 0.5, 0.5),
+			SpikeUI::Colour(0.5, 0.5, 0.5),
 			"button4");
 		SpikeUI::Controls::Label button4_text(
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
 			SpikeUI::Containers::Font("Arial", 25),
-			SpikeUI::Colour::Colour(0.0, 0.0, 0.0),
+			SpikeUI::Colour(0.0, 0.0, 0.0),
 			"button4_text");
 		button4_text.Text = "Test Button with Action (QUIT)";
 
 		SpikeUI::Controls::Button button_test(
 			SpikeUI::Containers::Rectangle(0.1, 0.7, 0.4, 0.85),
-			SpikeUI::Colour::Colour(0.5, 0.5, 0.5),
+			SpikeUI::Colour(0.5, 0.5, 0.5),
 			"button_test");
 		SpikeUI::Controls::Button button_test_subbutton(
 			SpikeUI::Containers::Rectangle(0.25, 0.25, 0.75, 0.75),
-			SpikeUI::Colour::Colour(1.0, 0.0, 0.0),
+			SpikeUI::Colour(1.0, 0.0, 0.0),
 			"button_test_subbutton");
 		SpikeUI::Controls::Label button_test_subbutton_label(
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
 			SpikeUI::Containers::Font("Arial", 15),
-			SpikeUI::Colour::Colour(1.0, 1.0, 1.0),
+			SpikeUI::Colour(1.0, 1.0, 1.0),
 			"button_test_subbutton_label");
 		button_test_subbutton_label.Text = "Test Nested bounds";
 		button_test_subbutton_label.DHit = SpikeUI::UI::DrawableHit::HitDisable;
 
-		SpikeUI::Controls::Progress prog_bar({ 0.1, 0.9, 0.9, 0.95 },
-		{ 0.0, 1.0, 0.0 },
-		{ 0.5, 0.5, 0.5 },
-		"prog_bar"
+		SpikeUI::Controls::Progress prog_bar(
+			{ 0.1, 0.9, 0.9, 0.95 },
+			{ 0.0, 1.0, 0.0 },
+			{ 0.5, 0.5, 0.5 },
+			"prog_bar"
 		);
 
 		auto hoverIn = [](SpikeUI::Controls::Label& ref)
 		{
-			ref.Colour = SpikeUI::Colour::Colour(0.0, 0.0, 0.0);
+			ref.Colour = SpikeUI::Colour(0.0, 0.0, 0.0);
 		};
 		auto hoverOut = [](SpikeUI::Controls::Label& ref)
 		{
-			ref.Colour = SpikeUI::Colour::Colour(1.0, 1.0, 1.0);
+			ref.Colour = SpikeUI::Colour(1.0, 1.0, 1.0);
 		};
 		auto lButtonDown = [](SpikeUI::Controls::Label& ref)
 		{
@@ -189,11 +136,11 @@ void SpikeEngine::Game::LoadUI()
 
 		auto hoverInB = [](SpikeUI::Controls::Button& ref)
 		{
-			ref.Colour = SpikeUI::Colour::Colour(1.0, 1.0, 1.0);
+			ref.Colour = SpikeUI::Colour(1.0, 1.0, 1.0);
 		};
 		auto hoverOutB = [](SpikeUI::Controls::Button& ref)
 		{
-			ref.Colour = SpikeUI::Colour::Colour(0.5, 0.5, 0.5);
+			ref.Colour = SpikeUI::Colour(0.5, 0.5, 0.5);
 		};
 		auto lClickDownB = [](SpikeUI::Controls::Button& ref)
 		{
@@ -242,16 +189,13 @@ void SpikeEngine::Game::LoadUI()
 		Objects.GameUI.Insert(prog_bar, SpikeUI::UI::Front);
 
 		// Test for testing inserting unique resources in a set
-		std::unordered_set<SampleResource> set;
-		SampleResource xxx(2, 3);
-		SampleResource yyy(4, 5);
-		SampleResource zzz(2, 3);
+		auto r = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(1.0, 0.0, 0.0);
+		auto g = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 1.0, 0.0);
+		auto b = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 0.0, 1.0);
 
-		auto ptr1 = SpikeUtils::SpikeResourceManager::RegisterResource(xxx);
-		auto ptr2 = SpikeUtils::SpikeResourceManager::RegisterResource(yyy);
-		auto ptr3 = SpikeUtils::SpikeResourceManager::RegisterResource(zzz);
+		auto g2 = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 1.0, 0.0);
 
-		auto getptr = SpikeUtils::SpikeResourceManager::RetrieveResource<SampleResource>(xxx._SpikeResourceId());
+		auto b2 = SpikeUtils::ResourceManager::RetrieveResource<SpikeUI::Colour>(b->_SpikeResourceId());
 	}
 }
 

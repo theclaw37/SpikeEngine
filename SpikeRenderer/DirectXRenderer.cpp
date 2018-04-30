@@ -1,12 +1,12 @@
 #include "DirectXRenderer.h"
 #include "SpikeUtils.h"
 
-SpikeRenderer::DirectXRenderer::DirectXRenderer()
+SpikeRenderer::DirectX::DirectXRenderer::DirectXRenderer()
 {
 	RendererState = RendererState::Initial;
 }
 
-void SpikeRenderer::DirectXRenderer::InitRenderer(HWND hwnd, UINT width, UINT height)
+void SpikeRenderer::DirectX::DirectXRenderer::InitRenderer(HWND hwnd, UINT width, UINT height)
 {
 	Rhwnd = hwnd;
 	DXGI_SWAP_CHAIN_DESC scd;
@@ -87,12 +87,12 @@ void SpikeRenderer::DirectXRenderer::InitRenderer(HWND hwnd, UINT width, UINT he
 	RendererState = RendererState::Ready;
 }
 
-void SpikeRenderer::DirectXRenderer::RenderFrame(float r, float g, float b)
+void SpikeRenderer::DirectX::DirectXRenderer::RenderFrame(float r, float g, float b)
 {
 	devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(r, g, b, 1.0f));
 }
 
-void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
+void SpikeRenderer::DirectX::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 {
 	d2dbackbuffer->BeginDraw();
 
@@ -130,12 +130,12 @@ void SpikeRenderer::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 	d2dbackbuffer->EndDraw();
 }
 
-void SpikeRenderer::DirectXRenderer::PresentToScreen()
+void SpikeRenderer::DirectX::DirectXRenderer::PresentToScreen()
 {
 	swapchain->Present(0, 0);
 }
 
-void SpikeRenderer::DirectXRenderer::ShutdownRenderer()
+void SpikeRenderer::DirectX::DirectXRenderer::ShutdownRenderer()
 {
 	swapchain->SetFullscreenState(FALSE, NULL);
 	swapchain->Release();
@@ -144,7 +144,7 @@ void SpikeRenderer::DirectXRenderer::ShutdownRenderer()
 	devcon->Release();
 }
 
-void SpikeRenderer::DirectXRenderer::RenderUILabel(SpikeUI::Controls::Label const & label)
+void SpikeRenderer::DirectX::DirectXRenderer::RenderUILabel(SpikeUI::Controls::Label const & label)
 {
 	size_t cSize = strlen(label.Font.FontFamily.c_str()) + 1;
 	wchar_t* wc = new wchar_t[cSize];
@@ -180,7 +180,7 @@ void SpikeRenderer::DirectXRenderer::RenderUILabel(SpikeUI::Controls::Label cons
 	delete wc;
 }
 
-void SpikeRenderer::DirectXRenderer::RenderUIButton(SpikeUI::Controls::Button const & button)
+void SpikeRenderer::DirectX::DirectXRenderer::RenderUIButton(SpikeUI::Controls::Button const & button)
 {
 	ID2D1SolidColorBrush* brush;
 	d2dbackbuffer->CreateSolidColorBrush(
@@ -196,7 +196,7 @@ void SpikeRenderer::DirectXRenderer::RenderUIButton(SpikeUI::Controls::Button co
 	d2dbackbuffer->FillRectangle(rect, brush);
 }
 
-void SpikeRenderer::DirectXRenderer::RenderUIProgress(SpikeUI::Controls::Progress const & progress)
+void SpikeRenderer::DirectX::DirectXRenderer::RenderUIProgress(SpikeUI::Controls::Progress const & progress)
 {
 	ID2D1SolidColorBrush* brushFill;
 	d2dbackbuffer->CreateSolidColorBrush(
@@ -224,7 +224,7 @@ void SpikeRenderer::DirectXRenderer::RenderUIProgress(SpikeUI::Controls::Progres
 	d2dbackbuffer->FillRectangle(empty, brushEmpty);
 }
 
-void SpikeRenderer::DirectXRenderer::RenderUITextArea(SpikeUI::Controls::TextArea const & textArea)
+void SpikeRenderer::DirectX::DirectXRenderer::RenderUITextArea(SpikeUI::Controls::TextArea const & textArea)
 {
 	size_t cSize = strlen(textArea.Font.FontFamily.c_str()) + 1;
 	wchar_t* wc = new wchar_t[cSize];

@@ -17,7 +17,7 @@ namespace SpikeUtils
 	template <class ResourceType>
 	class _SpikeEngineResource
 	{
-		friend class SpikeResourceManager;
+		friend class ResourceManager;
 
 	public:
 		_SpikeEngineResource() : _SpikeRef(SpikeUtils::GUID::Generate()) {}

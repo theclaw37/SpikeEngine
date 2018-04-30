@@ -3,8 +3,8 @@
 SpikeUI::Controls::TextArea::TextArea(
 	SpikeUI::Containers::Rectangle const & place,
 	SpikeUI::Containers::Font const & font,
-	SpikeUI::Colour::Colour const & textColour,
-	SpikeUI::Colour::Colour const & backgroundColour,
+	SpikeUI::Colour const & textColour,
+	SpikeUI::Colour const & backgroundColour,
 	std::string const & id) :
 	Place(place),
 	Font(font),

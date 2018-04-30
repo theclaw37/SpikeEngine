@@ -21,8 +21,8 @@ namespace SpikeUI
 		{
 			SpikeUI::Containers::Rectangle Place;
 			SpikeUI::Containers::Font Font;
-			SpikeUI::Colour::Colour TextColour;
-			SpikeUI::Colour::Colour BackgroundColour;
+			SpikeUI::Colour TextColour;
+			SpikeUI::Colour BackgroundColour;
 			std::string Text;
 
 			std::function<void(TextArea &)> hoverIn, hoverOut, lButtonDown, lButtonUp, rButtonDown, rButtonUp;;
@@ -30,8 +30,8 @@ namespace SpikeUI
 
 			TextArea(SpikeUI::Containers::Rectangle const &,
 				SpikeUI::Containers::Font const &,
-				SpikeUI::Colour::Colour const &,
-				SpikeUI::Colour::Colour const &,
+				SpikeUI::Colour const &,
+				SpikeUI::Colour const &,
 				std::string const &);
 
 			virtual void PointerUpdate(bool, bool, bool, bool);

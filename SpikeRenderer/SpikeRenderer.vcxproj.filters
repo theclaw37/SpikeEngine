@@ -8,6 +8,9 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="SpikeRenderer.h" />
+    <ClInclude Include="Brush.h">
+      <Filter>Renderer\DirectX\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -15,6 +18,9 @@
     </Filter>
     <Filter Include="Renderer\DirectX">
       <UniqueIdentifier>{c3622e3d-9445-4760-9fec-e9d7af916c99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\DirectX\Resources">
+      <UniqueIdentifier>{e946d931-6518-4384-91cc-699bf0ee382c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

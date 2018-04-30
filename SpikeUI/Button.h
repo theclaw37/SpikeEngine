@@ -19,13 +19,13 @@ namespace SpikeUI
 		struct SPIKEUI_EXPORT Button : public SpikeUI::UI::Drawable
 		{
 			SpikeUI::Containers::Rectangle Place;
-			SpikeUI::Colour::Colour Colour;
+			SpikeUI::Colour Colour;
 
 			std::function<void(Button &)> hoverIn, hoverOut, lButtonDown, lButtonUp, rButtonDown, rButtonUp;
 			std::function<void(Button &, SpikeUI::Containers::Key const &)> receiveKey;
 
 			Button(SpikeUI::Containers::Rectangle const &,
-				SpikeUI::Colour::Colour const &,
+				SpikeUI::Colour const &,
 				std::string const &);
 
 			virtual void PointerUpdate(bool, bool, bool, bool);

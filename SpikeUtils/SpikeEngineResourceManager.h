@@ -4,13 +4,13 @@
 
 namespace SpikeUtils
 {
-	class SpikeResourceManager
+	class ResourceManager
 	{
 	public:
-		template <typename ResourceType>
-		static std::shared_ptr<ResourceType> RegisterResource(ResourceType & resource)
+		template <typename ResourceType, typename ... ResourceArgs>
+		static std::shared_ptr<ResourceType> RegisterResource(ResourceArgs ... args)
 		{
-			auto pointer = std::make_shared<ResourceType>(resource);
+			auto pointer = std::make_shared<ResourceType>(ResourceType(args...));
 			if (pointer)
 			{
 				auto result = _SpikeEngineResource<ResourceType>::_SEResources.insert(pointer);

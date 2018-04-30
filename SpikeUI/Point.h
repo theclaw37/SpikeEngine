@@ -4,17 +4,11 @@
 #include "Shape.h"
 #include "SpikeUtils.h"
 
-#ifdef DLL_SPIKEUI
-#define SPIKEUI_EXPORT __declspec(dllexport)
-#else
-#define SPIKEUI_EXPORT __declspec(dllimport)
-#endif
-
 namespace SpikeUI
 {
 	namespace Containers
 	{
-		struct SPIKEUI_EXPORT Point : public Shape
+		struct Point : public Shape
 		{
 			double x, y;
 

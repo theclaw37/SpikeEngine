@@ -2,7 +2,7 @@
 
 SpikeUI::Controls::Label::Label(SpikeUI::Containers::Rectangle const & place, 
 	SpikeUI::Containers::Font const & font, 
-	SpikeUI::Colour::Colour const & colour,
+	SpikeUI::Colour const & colour,
 	std::string const & id) : 
 		Place(place), 
 		Font(font), 

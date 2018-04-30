@@ -1,8 +1,8 @@
 #include "Progress.h"
 
 SpikeUI::Controls::Progress::Progress(SpikeUI::Containers::Rectangle const & place,
-	SpikeUI::Colour::Colour const & fill,
-	SpikeUI::Colour::Colour const & empty,
+	SpikeUI::Colour const & fill,
+	SpikeUI::Colour const & empty,
 	std::string const & id) :
 	Place(place),
 	FillColour(fill),

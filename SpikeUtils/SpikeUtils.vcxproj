@@ -119,6 +119,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GUID.h" />
+    <ClInclude Include="Hashes.h" />
+    <ClInclude Include="MurmurHash3.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SpikeEngineResourceManager.h" />
     <ClInclude Include="SpikeUtils.h" />
@@ -128,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GUID.cpp" />
+    <ClCompile Include="MurmurHash3.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="_SpikeEngineObject.cpp" />
   </ItemGroup>

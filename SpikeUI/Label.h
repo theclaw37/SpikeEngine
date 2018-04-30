@@ -21,7 +21,7 @@ namespace SpikeUI
 		{
 			SpikeUI::Containers::Rectangle Place;
 			SpikeUI::Containers::Font Font;
-			SpikeUI::Colour::Colour Colour;
+			SpikeUI::Colour Colour;
 			std::string Text;
 
 			std::function<void(Label &)> hoverIn, hoverOut, lButtonDown, lButtonUp, rButtonDown, rButtonUp;;
@@ -29,7 +29,7 @@ namespace SpikeUI
 
 			Label(SpikeUI::Containers::Rectangle const &,
 				SpikeUI::Containers::Font const &,
-				SpikeUI::Colour::Colour const &,
+				SpikeUI::Colour const &,
 				std::string const &);
 
 			virtual void PointerUpdate(bool, bool, bool, bool);

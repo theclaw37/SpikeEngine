@@ -1,7 +1,7 @@
 #include "Button.h"
 
 SpikeUI::Controls::Button::Button(SpikeUI::Containers::Rectangle const & place,
-	SpikeUI::Colour::Colour const & colour,
+	SpikeUI::Colour const & colour,
 	std::string const & id) :
 	Place(place),
 	Colour(colour),

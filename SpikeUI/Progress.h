@@ -18,13 +18,13 @@ namespace SpikeUI
 		struct SPIKEUI_EXPORT Progress : SpikeUI::UI::Drawable
 		{
 			SpikeUI::Containers::Rectangle Place;
-			SpikeUI::Colour::Colour FillColour;
-			SpikeUI::Colour::Colour EmptyColour;
+			SpikeUI::Colour FillColour;
+			SpikeUI::Colour EmptyColour;
 			double Value;
 
 			Progress(SpikeUI::Containers::Rectangle const &,
-				SpikeUI::Colour::Colour const &,
-				SpikeUI::Colour::Colour const &,
+				SpikeUI::Colour const &,
+				SpikeUI::Colour const &,
 				std::string const &);
 
 			void SetProgress(double value);
