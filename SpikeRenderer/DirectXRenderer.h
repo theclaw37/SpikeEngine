@@ -8,6 +8,7 @@
 #endif
 
 #include "Renderer.h"
+#include "Brush.h"
 
 namespace SpikeRenderer
 {

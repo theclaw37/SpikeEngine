@@ -14,7 +14,7 @@
 
 namespace SpikeUtils
 {
-	template <class ResourceType>
+	template <typename ResourceType>
 	class _SpikeEngineResource
 	{
 		friend class ResourceManager;

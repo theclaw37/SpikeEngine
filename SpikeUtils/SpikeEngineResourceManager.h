@@ -31,7 +31,7 @@ namespace SpikeUtils
 		}
 
 		template <typename ResourceType>
-		static std::shared_ptr<ResourceType> RetrieveResource(SpikeUtils::GUID const & guid)
+		static std::shared_ptr<ResourceType> const RetrieveResource(SpikeUtils::GUID const & guid)
 		{
 			auto search = _SpikeEngineResource<ResourceType>::_SEResourcesById.find(guid);
 			if (search != _SpikeEngineResource<ResourceType>::_SEResourcesById.end())

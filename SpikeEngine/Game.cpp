@@ -196,6 +196,20 @@ void SpikeEngine::Game::LoadUI()
 		auto g2 = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 1.0, 0.0);
 
 		auto b2 = SpikeUtils::ResourceManager::RetrieveResource<SpikeUI::Colour>(b->_SpikeResourceId());
+
+		auto rr = SpikeUtils::ResourceManager::RegisterResource<SpikeRenderer::DirectX::Brush>((ID2D1SolidColorBrush*)0x1);
+		auto gr = SpikeUtils::ResourceManager::RegisterResource<SpikeRenderer::DirectX::Brush>((ID2D1SolidColorBrush*)0x2);
+		auto br = SpikeUtils::ResourceManager::RegisterResource<SpikeRenderer::DirectX::Brush>((ID2D1SolidColorBrush*)0x3);
+
+		auto gr2 = SpikeUtils::ResourceManager::RegisterResource<SpikeRenderer::DirectX::Brush>((ID2D1SolidColorBrush*)0x2);
+
+		SpikeUtils::ResourceMapping<SpikeUI::Colour, SpikeRenderer::DirectX::Brush>::RegisterResource(
+			g2,
+			gr2);
+
+		auto res = SpikeUtils::ResourceMapping<SpikeUI::Colour, SpikeRenderer::DirectX::Brush>::RetrieveResource(
+			g2);
+
 	}
 }
 

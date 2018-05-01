@@ -6,6 +6,7 @@
 #include "_SpikeEngineObject.h"
 #include "_SpikeEngineResource.h"
 #include "SpikeEngineResourceManager.h"
+#include "SpikeEngineResourceMapping.h"
 #include "Hashes.h"
 #include "Singleton.h"
 #include "Timer.h"

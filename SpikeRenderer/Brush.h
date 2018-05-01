@@ -22,7 +22,7 @@ namespace SpikeRenderer
 
 			~Brush()
 			{
-				brush->Release();
+				//brush->Release();
 			}
 		};
 	}
@@ -35,7 +35,7 @@ namespace std
 	{
 		size_t operator()(SpikeRenderer::DirectX::Brush const & ref) const
 		{
-			return SpikeUtils::Hashes::HashToSizeT(ref);
+			return SpikeUtils::Hashes::HashToSizeT(ref.brush);
 		}
 	};
 

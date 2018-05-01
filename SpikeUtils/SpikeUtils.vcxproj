@@ -123,6 +123,7 @@
     <ClInclude Include="MurmurHash3.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SpikeEngineResourceManager.h" />
+    <ClInclude Include="SpikeEngineResourceMapping.h" />
     <ClInclude Include="SpikeUtils.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="_SpikeEngineObject.h" />
