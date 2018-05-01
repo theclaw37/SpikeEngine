@@ -9,6 +9,7 @@
 
 #include "Renderer.h"
 #include "Brush.h"
+#include "TextFormat.h"
 
 namespace SpikeRenderer
 {
@@ -31,13 +32,15 @@ namespace SpikeRenderer
 			ID3D11RenderTargetView *backbuffer;
 			ID2D1Factory* d2dfactory;
 			ID2D1RenderTarget* d2dbackbuffer;
-			IDWriteTextFormat *textFormat;
 			IDWriteFactory1 *writeFactory;
 
 			void RenderUILabel(SpikeUI::Controls::Label const &);
 			void RenderUIButton(SpikeUI::Controls::Button const &);
 			void RenderUIProgress(SpikeUI::Controls::Progress const &);
 			void RenderUITextArea(SpikeUI::Controls::TextArea const &);
+
+			std::shared_ptr<Brush> GetBrushFor(std::shared_ptr<SpikeUI::Colour>);
+			std::shared_ptr<TextFormat> GetTextFormatFor(std::shared_ptr<SpikeUI::Containers::Font>);
 		};
 	}
 }

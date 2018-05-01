@@ -20,18 +20,18 @@ namespace SpikeUI
 		struct SPIKEUI_EXPORT TextArea : SpikeUI::UI::Drawable
 		{
 			SpikeUI::Containers::Rectangle Place;
-			SpikeUI::Containers::Font Font;
-			SpikeUI::Colour TextColour;
-			SpikeUI::Colour BackgroundColour;
+			std::shared_ptr<SpikeUI::Containers::Font> Font;
+			std::shared_ptr<SpikeUI::Colour> TextColour;
+			std::shared_ptr<SpikeUI::Colour> BackgroundColour;
 			std::wstring Text;
 
 			std::function<void(TextArea &)> hoverIn, hoverOut, lButtonDown, lButtonUp, rButtonDown, rButtonUp;;
 			std::function<void(TextArea &, SpikeUI::Containers::Key const &)> receiveKey;
 
 			TextArea(SpikeUI::Containers::Rectangle const &,
-				SpikeUI::Containers::Font const &,
-				SpikeUI::Colour const &,
-				SpikeUI::Colour const &,
+				std::shared_ptr<SpikeUI::Containers::Font>,
+				std::shared_ptr<SpikeUI::Colour>,
+				std::shared_ptr<SpikeUI::Colour>,
 				std::string const &);
 
 			virtual void PointerUpdate(bool, bool, bool, bool);

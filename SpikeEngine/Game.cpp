@@ -62,14 +62,14 @@ void SpikeEngine::Game::LoadUI()
 
 		SpikeUI::Controls::TextArea textArea_write(
 			SpikeUI::Containers::Rectangle(0.50, 0.5, 0.9, 0.9),
-			SpikeUI::Containers::Font(L"Arial", 15),
-			SpikeUI::Colour(0.0, 0.0, 0.0),
-			SpikeUI::Colour(1.0, 1.0, 1.0),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Containers::Font>(L"Arial", 15),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 0.0, 0.0),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(1.0, 1.0, 1.0),
 			"textArea_write");
 
 		SpikeUI::Controls::Button button1(
 			SpikeUI::Containers::Rectangle(0.1, 0.3, 0.4, 0.45),
-			SpikeUI::Colour(0.5, 0.5, 0.5),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.5, 0.5, 0.5),
 			"button1");
 		SpikeUI::Controls::Label button1_text(
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
@@ -80,7 +80,7 @@ void SpikeEngine::Game::LoadUI()
 
 		SpikeUI::Controls::Button button4(
 			SpikeUI::Containers::Rectangle(0.1, 0.5, 0.4, 0.65),
-			SpikeUI::Colour(0.5, 0.5, 0.5),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.5, 0.5, 0.5),
 			"button4");
 		SpikeUI::Controls::Label button4_text(
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
@@ -91,24 +91,24 @@ void SpikeEngine::Game::LoadUI()
 
 		SpikeUI::Controls::Button button_test(
 			SpikeUI::Containers::Rectangle(0.1, 0.7, 0.4, 0.85),
-			SpikeUI::Colour(0.5, 0.5, 0.5),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.5, 0.5, 0.5),
 			"button_test");
 		SpikeUI::Controls::Button button_test_subbutton(
 			SpikeUI::Containers::Rectangle(0.25, 0.25, 0.75, 0.75),
-			SpikeUI::Colour(1.0, 0.0, 0.0),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(1.0, 0.0, 0.0),
 			"button_test_subbutton");
 		SpikeUI::Controls::Label button_test_subbutton_label(
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
-			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Containers::Font>(L"Arial", 25),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Containers::Font>(L"Arial", 15),
 			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 0.0, 0.0),
 			"button_test_subbutton_label");
 		button_test_subbutton_label.Text = L"Test Nested bounds";
 		button_test_subbutton_label.DHit = SpikeUI::UI::DrawableHit::HitDisable;
 
 		SpikeUI::Controls::Progress prog_bar(
-			{ 0.1, 0.9, 0.9, 0.95 },
-			{ 0.0, 1.0, 0.0 },
-			{ 0.5, 0.5, 0.5 },
+			SpikeUI::Containers::Rectangle(0.1, 0.9, 0.9, 0.95),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 1.0, 0.0),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.5, 0.5, 0.5),
 			"prog_bar"
 		);
 
@@ -136,11 +136,11 @@ void SpikeEngine::Game::LoadUI()
 
 		auto hoverInB = [](SpikeUI::Controls::Button& ref)
 		{
-			ref.Colour = SpikeUI::Colour(1.0, 1.0, 1.0);
+			ref.Colour = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(1.0, 1.0, 1.0);
 		};
 		auto hoverOutB = [](SpikeUI::Controls::Button& ref)
 		{
-			ref.Colour = SpikeUI::Colour(0.5, 0.5, 0.5);
+			ref.Colour = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.5, 0.5, 0.5);
 		};
 		auto lClickDownB = [](SpikeUI::Controls::Button& ref)
 		{

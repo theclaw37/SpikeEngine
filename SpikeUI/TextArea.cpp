@@ -2,9 +2,9 @@
 
 SpikeUI::Controls::TextArea::TextArea(
 	SpikeUI::Containers::Rectangle const & place,
-	SpikeUI::Containers::Font const & font,
-	SpikeUI::Colour const & textColour,
-	SpikeUI::Colour const & backgroundColour,
+	std::shared_ptr<SpikeUI::Containers::Font> font,
+	std::shared_ptr<SpikeUI::Colour> textColour,
+	std::shared_ptr<SpikeUI::Colour> backgroundColour,
 	std::string const & id) :
 	Place(place),
 	Font(font),
