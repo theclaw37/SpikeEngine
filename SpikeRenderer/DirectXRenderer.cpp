@@ -1,4 +1,5 @@
 #include "DirectXRenderer.h"
+#include "TextFormat.h"
 #include "SpikeUtils.h"
 
 SpikeRenderer::DirectX::DirectXRenderer::DirectXRenderer()
@@ -109,19 +110,19 @@ void SpikeRenderer::DirectX::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 			case SpikeUI::UI::Button:
 			{
 				auto item = std::static_pointer_cast<SpikeUI::Controls::Button>(iter);
-				RenderUIButton(*item);
+				//RenderUIButton(*item);
 				break;
 			}
 			case SpikeUI::UI::Progress:
 			{
 				auto item = std::static_pointer_cast<SpikeUI::Controls::Progress>(iter);
-				RenderUIProgress(*item);
+				//RenderUIProgress(*item);
 				break;
 			}
 			case SpikeUI::UI::TextArea:
 			{
 				auto item = std::static_pointer_cast<SpikeUI::Controls::TextArea>(iter);
-				RenderUITextArea(*item);
+				//RenderUITextArea(*item);
 				break;
 			}
 		}
@@ -146,26 +147,36 @@ void SpikeRenderer::DirectX::DirectXRenderer::ShutdownRenderer()
 
 void SpikeRenderer::DirectX::DirectXRenderer::RenderUILabel(SpikeUI::Controls::Label const & label)
 {
-	size_t cSize = strlen(label.Font.FontFamily.c_str()) + 1;
-	wchar_t* wc = new wchar_t[cSize];
-	size_t outSize;
-	mbstowcs_s(&outSize, wc, cSize, label.Font.FontFamily.c_str(), cSize - 1);
-	writeFactory->CreateTextFormat(
-		wc,
-		NULL,
-		DWRITE_FONT_WEIGHT_NORMAL,
-		DWRITE_FONT_STYLE_NORMAL,
-		DWRITE_FONT_STRETCH_NORMAL,
-		label.Font.Size,
-		L"",
-		&textFormat);
+	auto brush = SpikeUtils::ResourceMapping<SpikeUI::Colour, Brush>::RetrieveResource(label.Colour);
+	if (!brush)
+	{
+		ID2D1SolidColorBrush* tempBrush;
+		d2dbackbuffer->CreateSolidColorBrush(
+			D2D1::ColorF(label.Colour->r, label.Colour->g, label.Colour->b),
+			&tempBrush);
+		brush = SpikeUtils::ResourceMapping<SpikeUI::Colour, Brush>::RegisterResource(
+			label.Colour, 
+			SpikeUtils::ResourceManager::RegisterResource<Brush>(tempBrush));
+	}
 
-	delete wc;
+	auto textFormat = SpikeUtils::ResourceMapping<SpikeUI::Containers::Font, TextFormat>::RetrieveResource(label.Font);
+	if (!textFormat)
+	{
+		IDWriteTextFormat* tempTextFormat;
+		writeFactory->CreateTextFormat(
+			label.Font->FontFamily.c_str(),
+			NULL,
+			DWRITE_FONT_WEIGHT_NORMAL,
+			DWRITE_FONT_STYLE_NORMAL,
+			DWRITE_FONT_STRETCH_NORMAL,
+			label.Font->Size,
+			L"",
+			&tempTextFormat);
+		textFormat = SpikeUtils::ResourceMapping<SpikeUI::Containers::Font, TextFormat>::RegisterResource(
+			label.Font,
+			SpikeUtils::ResourceManager::RegisterResource<TextFormat>(tempTextFormat));
+	}
 
-	ID2D1SolidColorBrush* brush;
-	d2dbackbuffer->CreateSolidColorBrush(
-		D2D1::ColorF(label.Colour.r, label.Colour.g, label.Colour.b),
-		&brush);
 
 	D2D1_RECT_F rect = D2D1::RectF(
 		label.Place.TopLeft.x,
@@ -173,11 +184,7 @@ void SpikeRenderer::DirectX::DirectXRenderer::RenderUILabel(SpikeUI::Controls::L
 		label.Place.BottomRight.x,
 		label.Place.BottomRight.y);
 
-	cSize = strlen(label.Text.c_str()) + 1;
-	wc = new wchar_t[cSize];
-	mbstowcs_s(&outSize, wc, cSize, label.Text.c_str(), cSize - 1);
-	d2dbackbuffer->DrawTextW(wc, wcslen(wc), textFormat, &rect, brush, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-	delete wc;
+	d2dbackbuffer->DrawTextW(label.Text.c_str(), label.Text.length(), textFormat->TextFormatPointer, &rect, brush->BrushPointer, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }
 
 void SpikeRenderer::DirectX::DirectXRenderer::RenderUIButton(SpikeUI::Controls::Button const & button)
@@ -226,12 +233,8 @@ void SpikeRenderer::DirectX::DirectXRenderer::RenderUIProgress(SpikeUI::Controls
 
 void SpikeRenderer::DirectX::DirectXRenderer::RenderUITextArea(SpikeUI::Controls::TextArea const & textArea)
 {
-	size_t cSize = strlen(textArea.Font.FontFamily.c_str()) + 1;
-	wchar_t* wc = new wchar_t[cSize];
-	size_t outSize;
-	mbstowcs_s(&outSize, wc, cSize, textArea.Font.FontFamily.c_str(), cSize - 1);
 	writeFactory->CreateTextFormat(
-		wc,
+		textArea.Font.FontFamily.c_str(),
 		NULL,
 		DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE_NORMAL,
@@ -239,8 +242,6 @@ void SpikeRenderer::DirectX::DirectXRenderer::RenderUITextArea(SpikeUI::Controls
 		textArea.Font.Size,
 		L"",
 		&textFormat);
-
-	delete wc;
 
 	ID2D1SolidColorBrush* brushBack;
 	d2dbackbuffer->CreateSolidColorBrush(
@@ -260,9 +261,5 @@ void SpikeRenderer::DirectX::DirectXRenderer::RenderUITextArea(SpikeUI::Controls
 
 	d2dbackbuffer->FillRectangle(rect, brushBack);
 
-	cSize = strlen(textArea.Text.c_str()) + 1;
-	wc = new wchar_t[cSize];
-	mbstowcs_s(&outSize, wc, cSize, textArea.Text.c_str(), cSize - 1);
-	d2dbackbuffer->DrawTextW(wc, wcslen(wc), textFormat, &rect, brushText, D2D1_DRAW_TEXT_OPTIONS_CLIP);
-	delete wc;
+	d2dbackbuffer->DrawTextW(textArea.Text.c_str(), textArea.Text.length(), textFormat, &rect, brushText, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }

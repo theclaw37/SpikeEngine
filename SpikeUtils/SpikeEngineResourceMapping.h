@@ -9,24 +9,18 @@ namespace SpikeUtils
 	class ResourceMapping
 	{
 	public:
-		static std::shared_ptr<TFrom> RegisterResource(
+		static std::shared_ptr<TTo> RegisterResource(
 			std::shared_ptr<TFrom> from,
 			std::shared_ptr<TTo> to)
 		{
-			auto result = _RTRMap.insert({ from, to });
-			return (*(result.first)).first;
+			_RTRMap[from] = to;
+			return _RTRMap[from];
 		}
 
 		static std::shared_ptr<TTo> const RetrieveResource(
 			std::shared_ptr<TFrom> from)
 		{
-			auto result = _RTRMap.find(from);
-			if (result != _RTRMap.end())
-			{
-				return (*result).second;
-			}
-
-			return nullptr;
+			return _RTRMap[from];
 		}
 	private:
 		static std::unordered_map<std::shared_ptr<TFrom>, std::shared_ptr<TTo>> _RTRMap;

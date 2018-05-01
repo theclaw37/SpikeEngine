@@ -11,6 +11,9 @@
     <ClInclude Include="Brush.h">
       <Filter>Renderer\DirectX\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="TextFormat.h">
+      <Filter>Renderer\DirectX\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">

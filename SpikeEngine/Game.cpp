@@ -47,22 +47,22 @@ void SpikeEngine::Game::LoadUI()
 
 		SpikeUI::Controls::Label label_title(
 			SpikeUI::Containers::Rectangle(0.1, 0.1, 0.4, 0.25),
-			SpikeUI::Containers::Font("Arial", 25),
-			SpikeUI::Colour(1.0, 1.0, 1.0),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Containers::Font>(L"Arial", 25),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(1.0, 1.0, 1.0),
 			"label_title");
-		label_title.Text = "Test Label with Hover enable";
+		label_title.Text = L"Test Label with Hover enable";
 		label_title.DHit = SpikeUI::UI::DrawableHit::HitEnable;
 
 		SpikeUI::Controls::Label label_fps(
 			SpikeUI::Containers::Rectangle(0.90, 0.0, 1.0, 0.1),
-			SpikeUI::Containers::Font("Arial", 15),
-			SpikeUI::Colour(0.0, 1.0, 1.0),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Containers::Font>(L"Arial", 15),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 1.0, 1.0),
 			"label_fps");
 		label_fps.DHit = SpikeUI::UI::DrawableHit::HitDisable;
 
 		SpikeUI::Controls::TextArea textArea_write(
 			SpikeUI::Containers::Rectangle(0.50, 0.5, 0.9, 0.9),
-			SpikeUI::Containers::Font("Arial", 15),
+			SpikeUI::Containers::Font(L"Arial", 15),
 			SpikeUI::Colour(0.0, 0.0, 0.0),
 			SpikeUI::Colour(1.0, 1.0, 1.0),
 			"textArea_write");
@@ -73,10 +73,10 @@ void SpikeEngine::Game::LoadUI()
 			"button1");
 		SpikeUI::Controls::Label button1_text(
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
-			SpikeUI::Containers::Font("Arial", 25),
-			SpikeUI::Colour(0.0, 0.0, 0.0),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Containers::Font>(L"Arial", 25),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 0.0, 0.0),
 			"button1_text");
-		button1_text.Text = "Test Button with Hover enable";
+		button1_text.Text = L"Test Button with Hover enable";
 
 		SpikeUI::Controls::Button button4(
 			SpikeUI::Containers::Rectangle(0.1, 0.5, 0.4, 0.65),
@@ -84,10 +84,10 @@ void SpikeEngine::Game::LoadUI()
 			"button4");
 		SpikeUI::Controls::Label button4_text(
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
-			SpikeUI::Containers::Font("Arial", 25),
-			SpikeUI::Colour(0.0, 0.0, 0.0),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Containers::Font>(L"Arial", 25),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 0.0, 0.0),
 			"button4_text");
-		button4_text.Text = "Test Button with Action (QUIT)";
+		button4_text.Text = L"Test Button with Action (QUIT)";
 
 		SpikeUI::Controls::Button button_test(
 			SpikeUI::Containers::Rectangle(0.1, 0.7, 0.4, 0.85),
@@ -99,10 +99,10 @@ void SpikeEngine::Game::LoadUI()
 			"button_test_subbutton");
 		SpikeUI::Controls::Label button_test_subbutton_label(
 			SpikeUI::Containers::Rectangle(0.0, 0.0, 100.0, 100.0),
-			SpikeUI::Containers::Font("Arial", 15),
-			SpikeUI::Colour(1.0, 1.0, 1.0),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Containers::Font>(L"Arial", 25),
+			SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 0.0, 0.0),
 			"button_test_subbutton_label");
-		button_test_subbutton_label.Text = "Test Nested bounds";
+		button_test_subbutton_label.Text = L"Test Nested bounds";
 		button_test_subbutton_label.DHit = SpikeUI::UI::DrawableHit::HitDisable;
 
 		SpikeUI::Controls::Progress prog_bar(
@@ -114,11 +114,11 @@ void SpikeEngine::Game::LoadUI()
 
 		auto hoverIn = [](SpikeUI::Controls::Label& ref)
 		{
-			ref.Colour = SpikeUI::Colour(0.0, 0.0, 0.0);
+			ref.Colour = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 0.0, 0.0);
 		};
 		auto hoverOut = [](SpikeUI::Controls::Label& ref)
 		{
-			ref.Colour = SpikeUI::Colour(1.0, 1.0, 1.0);
+			ref.Colour = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(1.0, 1.0, 1.0);
 		};
 		auto lButtonDown = [](SpikeUI::Controls::Label& ref)
 		{
@@ -188,28 +188,6 @@ void SpikeEngine::Game::LoadUI()
 		Objects.GameUI.Insert(button_test_subbutton_label, button_test_subbutton._SpikeEngineId(), SpikeUI::UI::Front);
 		Objects.GameUI.Insert(prog_bar, SpikeUI::UI::Front);
 
-		// Test for testing inserting unique resources in a set
-		auto r = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(1.0, 0.0, 0.0);
-		auto g = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 1.0, 0.0);
-		auto b = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 0.0, 1.0);
-
-		auto g2 = SpikeUtils::ResourceManager::RegisterResource<SpikeUI::Colour>(0.0, 1.0, 0.0);
-
-		auto b2 = SpikeUtils::ResourceManager::RetrieveResource<SpikeUI::Colour>(b->_SpikeResourceId());
-
-		auto rr = SpikeUtils::ResourceManager::RegisterResource<SpikeRenderer::DirectX::Brush>((ID2D1SolidColorBrush*)0x1);
-		auto gr = SpikeUtils::ResourceManager::RegisterResource<SpikeRenderer::DirectX::Brush>((ID2D1SolidColorBrush*)0x2);
-		auto br = SpikeUtils::ResourceManager::RegisterResource<SpikeRenderer::DirectX::Brush>((ID2D1SolidColorBrush*)0x3);
-
-		auto gr2 = SpikeUtils::ResourceManager::RegisterResource<SpikeRenderer::DirectX::Brush>((ID2D1SolidColorBrush*)0x2);
-
-		SpikeUtils::ResourceMapping<SpikeUI::Colour, SpikeRenderer::DirectX::Brush>::RegisterResource(
-			g2,
-			gr2);
-
-		auto res = SpikeUtils::ResourceMapping<SpikeUI::Colour, SpikeRenderer::DirectX::Brush>::RetrieveResource(
-			g2);
-
 	}
 }
 
@@ -235,7 +213,7 @@ void SpikeEngine::Game::Update(float deltaTime)
 			mouseForUI.MORightButtonDown,
 			mouseForUI.MORightButtonUp);
 
-		std::static_pointer_cast<SpikeUI::Controls::Label>(Objects.GameUI.GetById("label_fps"))->Text = "FPS: " + std::to_string((unsigned)floor(1.0/deltaTime));
+		std::static_pointer_cast<SpikeUI::Controls::Label>(Objects.GameUI.GetById("label_fps"))->Text = L"FPS: " + std::to_wstring((unsigned)floor(1.0/deltaTime));
 		
 		auto characterForUI = SpikeInput::CharacterInput::Instance().GetCharacterInput();
 		if (characterForUI)

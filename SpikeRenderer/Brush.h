@@ -9,20 +9,28 @@ namespace SpikeRenderer
 	{
 		struct Brush : public SpikeUtils::_SpikeEngineResource<Brush>
 		{
-			ID2D1SolidColorBrush* brush;
+			ID2D1SolidColorBrush* BrushPointer;
 
-			Brush(ID2D1SolidColorBrush* brush) : brush(brush)
+			Brush(ID2D1SolidColorBrush* brush) : BrushPointer(brush)
+			{}
+
+			Brush(Brush && other)
 			{
+				BrushPointer = other.BrushPointer;
+				other.BrushPointer = nullptr;
 			}
 
 			bool operator==(Brush const & other) const
 			{
-				return (other.brush == brush);
+				return (other.BrushPointer == BrushPointer);
 			}
 
 			~Brush()
 			{
-				//brush->Release();
+				if (BrushPointer)
+				{
+					BrushPointer->Release();
+				}
 			}
 		};
 	}
@@ -35,7 +43,7 @@ namespace std
 	{
 		size_t operator()(SpikeRenderer::DirectX::Brush const & ref) const
 		{
-			return SpikeUtils::Hashes::HashToSizeT(ref.brush);
+			return SpikeUtils::Hashes::HashToSizeT(ref.BrushPointer);
 		}
 	};
 

@@ -1,8 +1,8 @@
 #include "Label.h"
 
 SpikeUI::Controls::Label::Label(SpikeUI::Containers::Rectangle const & place, 
-	SpikeUI::Containers::Font const & font, 
-	SpikeUI::Colour const & colour,
+	std::shared_ptr<SpikeUI::Containers::Font> font, 
+	std::shared_ptr<SpikeUI::Colour> colour,
 	std::string const & id) : 
 		Place(place), 
 		Font(font), 

@@ -20,16 +20,16 @@ namespace SpikeUI
 		struct SPIKEUI_EXPORT Label : SpikeUI::UI::Drawable
 		{
 			SpikeUI::Containers::Rectangle Place;
-			SpikeUI::Containers::Font Font;
-			SpikeUI::Colour Colour;
-			std::string Text;
+			std::shared_ptr<SpikeUI::Containers::Font> Font;
+			std::shared_ptr<SpikeUI::Colour> Colour;
+			std::wstring Text;
 
 			std::function<void(Label &)> hoverIn, hoverOut, lButtonDown, lButtonUp, rButtonDown, rButtonUp;;
 			std::function<void(Label &, SpikeUI::Containers::Key const &)> receiveKey;
 
 			Label(SpikeUI::Containers::Rectangle const &,
-				SpikeUI::Containers::Font const &,
-				SpikeUI::Colour const &,
+				std::shared_ptr<SpikeUI::Containers::Font>,
+				std::shared_ptr<SpikeUI::Colour>,
 				std::string const &);
 
 			virtual void PointerUpdate(bool, bool, bool, bool);
