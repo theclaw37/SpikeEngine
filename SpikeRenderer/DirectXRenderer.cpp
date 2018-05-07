@@ -83,7 +83,7 @@ void SpikeRenderer::DirectX::DirectXRenderer::InitRenderer(HWND hwnd, UINT width
 
 	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(_DXUIWriteFactory.WriteFactory), (IUnknown**)(&_DXUIWriteFactory.WriteFactory));
 
-	_DXSwapChain->SetFullscreenState(TRUE, NULL);
+	_DXSwapChain->SetFullscreenState(FALSE, NULL);
 
 	RendererState = RendererState::Ready;
 
