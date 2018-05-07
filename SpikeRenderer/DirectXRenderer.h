@@ -8,6 +8,12 @@
 #endif
 
 #include "Renderer.h"
+#include "DXSwapChain.h"
+#include "DX3DDevice.h"
+#include "DX3DDeviceContext.h"
+#include "DX3DRenderTargetView.h"
+#include "DX2DRenderTarget.h"
+#include "DX2DWriteFactory.h"
 #include "Brush.h"
 #include "TextFormat.h"
 
@@ -26,13 +32,12 @@ namespace SpikeRenderer
 			virtual void ShutdownRenderer();
 		private:
 			HWND Rhwnd;
-			IDXGISwapChain *swapchain;
-			ID3D11Device *dev;
-			ID3D11DeviceContext *devcon;
-			ID3D11RenderTargetView *backbuffer;
-			ID2D1Factory* d2dfactory;
-			ID2D1RenderTarget* d2dbackbuffer;
-			IDWriteFactory1 *writeFactory;
+			DXSwapChain _DXSwapChain;
+			DX3DDevice _DXDevice;
+			DX3DDeviceContext _DXDeviceContext;
+			DX3DRenderTargetView _DXBackBuffer;
+			DX2DRenderTarget _DXUIBackBuffer;
+			DX2DWriteFactory _DXUIWriteFactory;
 
 			void RenderUILabel(SpikeUI::Controls::Label const &);
 			void RenderUIButton(SpikeUI::Controls::Button const &);

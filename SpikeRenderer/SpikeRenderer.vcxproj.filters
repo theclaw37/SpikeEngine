@@ -9,10 +9,28 @@
     </ClInclude>
     <ClInclude Include="SpikeRenderer.h" />
     <ClInclude Include="Brush.h">
-      <Filter>Renderer\DirectX\Resources</Filter>
+      <Filter>Renderer\DirectX\Resources\Drawing</Filter>
     </ClInclude>
     <ClInclude Include="TextFormat.h">
-      <Filter>Renderer\DirectX\Resources</Filter>
+      <Filter>Renderer\DirectX\Resources\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="DXSwapChain.h">
+      <Filter>Renderer\DirectX\Resources\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="DX3DDevice.h">
+      <Filter>Renderer\DirectX\Resources\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="DX3DDeviceContext.h">
+      <Filter>Renderer\DirectX\Resources\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="DX3DRenderTargetView.h">
+      <Filter>Renderer\DirectX\Resources\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DRenderTarget.h">
+      <Filter>Renderer\DirectX\Resources\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DWriteFactory.h">
+      <Filter>Renderer\DirectX\Resources\Devices</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -24,6 +42,12 @@
     </Filter>
     <Filter Include="Renderer\DirectX\Resources">
       <UniqueIdentifier>{e946d931-6518-4384-91cc-699bf0ee382c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\DirectX\Resources\Drawing">
+      <UniqueIdentifier>{04339a7a-0537-44c4-b3a2-f81b96c1f204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\DirectX\Resources\Devices">
+      <UniqueIdentifier>{7d78c297-4088-4847-86f0-6ea57a9b24cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

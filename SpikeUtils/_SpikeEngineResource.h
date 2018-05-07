@@ -20,7 +20,8 @@ namespace SpikeUtils
 		friend class ResourceManager;
 
 	public:
-		_SpikeEngineResource() : _SpikeRef(SpikeUtils::GUID::Generate()) {}
+		_SpikeEngineResource() : _SpikeRef(SpikeUtils::GUID::Generate()) 
+		{}
 
 		const SpikeUtils::GUID & _SpikeResourceId() const
 		{

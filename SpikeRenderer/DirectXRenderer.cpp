@@ -30,18 +30,18 @@ void SpikeRenderer::DirectX::DirectXRenderer::InitRenderer(HWND hwnd, UINT width
 		NULL,
 		D3D11_SDK_VERSION,
 		&scd,
-		&swapchain,
-		&dev,
+		&_DXSwapChain.SwapChain,
+		&_DXDevice.Device,
 		NULL,
-		&devcon);
+		&_DXDeviceContext.Device);
 
 	ID3D11Texture2D *pBackBuffer;
-	swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+	_DXSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
-	dev->CreateRenderTargetView(pBackBuffer, NULL, &backbuffer);
+	_DXDevice->CreateRenderTargetView(pBackBuffer, NULL, &_DXBackBuffer.Device);
 	pBackBuffer->Release();
 
-	devcon->OMSetRenderTargets(1, &backbuffer, NULL);
+	_DXDeviceContext->OMSetRenderTargets(1, &_DXBackBuffer.Device, NULL);
 
 	// Set the viewport
 	D3D11_VIEWPORT viewport;
@@ -52,11 +52,12 @@ void SpikeRenderer::DirectX::DirectXRenderer::InitRenderer(HWND hwnd, UINT width
 	viewport.Width = static_cast<FLOAT>(width);
 	viewport.Height = static_cast<FLOAT>(height);
 
-	devcon->RSSetViewports(1, &viewport);
+	_DXDeviceContext->RSSetViewports(1, &viewport);
 
 	// Direct2D stuff
-	swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+	_DXSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
+	ID2D1Factory* d2dfactory;
 	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &d2dfactory);
 
 	FLOAT dpiX;
@@ -77,24 +78,26 @@ void SpikeRenderer::DirectX::DirectXRenderer::InitRenderer(HWND hwnd, UINT width
 	auto hr = d2dfactory->CreateDxgiSurfaceRenderTarget(
 		surface,
 		&props,
-		&d2dbackbuffer
+		&_DXUIBackBuffer.RenderTarget
 	);
 
-	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(writeFactory), (IUnknown**)(&writeFactory));
+	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(_DXUIWriteFactory.WriteFactory), (IUnknown**)(&_DXUIWriteFactory.WriteFactory));
 
-	//swapchain->SetFullscreenState(TRUE, NULL);
+	_DXSwapChain->SetFullscreenState(TRUE, NULL);
 
 	RendererState = RendererState::Ready;
+
+	d2dfactory->Release();
 }
 
 void SpikeRenderer::DirectX::DirectXRenderer::RenderFrame(float r, float g, float b)
 {
-	devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(r, g, b, 1.0f));
+	_DXDeviceContext->ClearRenderTargetView(_DXBackBuffer.Device, D3DXCOLOR(r, g, b, 1.0f));
 }
 
 void SpikeRenderer::DirectX::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 {
-	d2dbackbuffer->BeginDraw();
+	_DXUIBackBuffer->BeginDraw();
 
 	ui.IterateBackToFront([this](std::shared_ptr<SpikeUI::UI::Drawable> iter)
 	{
@@ -127,21 +130,17 @@ void SpikeRenderer::DirectX::DirectXRenderer::RenderUI(SpikeUI::UI::UI & ui)
 		}
 	});
 
-	d2dbackbuffer->EndDraw();
+	_DXUIBackBuffer->EndDraw();
 }
 
 void SpikeRenderer::DirectX::DirectXRenderer::PresentToScreen()
 {
-	swapchain->Present(0, 0);
+	_DXSwapChain->Present(0, 0);
 }
 
 void SpikeRenderer::DirectX::DirectXRenderer::ShutdownRenderer()
 {
-	swapchain->SetFullscreenState(FALSE, NULL);
-	swapchain->Release();
-	backbuffer->Release();
-	dev->Release();
-	devcon->Release();
+	_DXSwapChain->SetFullscreenState(FALSE, NULL);
 }
 
 void SpikeRenderer::DirectX::DirectXRenderer::RenderUILabel(SpikeUI::Controls::Label const & label)
@@ -152,7 +151,7 @@ void SpikeRenderer::DirectX::DirectXRenderer::RenderUILabel(SpikeUI::Controls::L
 		label.Place.BottomRight.x,
 		label.Place.BottomRight.y);
 
-	d2dbackbuffer->DrawTextW(label.Text.c_str(), label.Text.length(), GetTextFormatFor(label.Font)->TextFormatPointer, &rect, GetBrushFor(label.Colour)->BrushPointer, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+	_DXUIBackBuffer->DrawTextW(label.Text.c_str(), label.Text.length(), GetTextFormatFor(label.Font)->TextFormatPointer, &rect, GetBrushFor(label.Colour)->BrushPointer, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }
 
 void SpikeRenderer::DirectX::DirectXRenderer::RenderUIButton(SpikeUI::Controls::Button const & button)
@@ -163,7 +162,7 @@ void SpikeRenderer::DirectX::DirectXRenderer::RenderUIButton(SpikeUI::Controls::
 		button.Place.BottomRight.x,
 		button.Place.BottomRight.y);
 
-	d2dbackbuffer->FillRectangle(rect, GetBrushFor(button.Colour)->BrushPointer);
+	_DXUIBackBuffer->FillRectangle(rect, GetBrushFor(button.Colour)->BrushPointer);
 }
 
 void SpikeRenderer::DirectX::DirectXRenderer::RenderUIProgress(SpikeUI::Controls::Progress const & progress)
@@ -180,8 +179,8 @@ void SpikeRenderer::DirectX::DirectXRenderer::RenderUIProgress(SpikeUI::Controls
 		progress.Place.BottomRight.x,
 		progress.Place.BottomRight.y);
 
-	d2dbackbuffer->FillRectangle(fill, GetBrushFor(progress.FillColour)->BrushPointer);
-	d2dbackbuffer->FillRectangle(empty, GetBrushFor(progress.EmptyColour)->BrushPointer);
+	_DXUIBackBuffer->FillRectangle(fill, GetBrushFor(progress.FillColour)->BrushPointer);
+	_DXUIBackBuffer->FillRectangle(empty, GetBrushFor(progress.EmptyColour)->BrushPointer);
 }
 
 void SpikeRenderer::DirectX::DirectXRenderer::RenderUITextArea(SpikeUI::Controls::TextArea const & textArea)
@@ -192,8 +191,8 @@ void SpikeRenderer::DirectX::DirectXRenderer::RenderUITextArea(SpikeUI::Controls
 		textArea.Place.BottomRight.x,
 		textArea.Place.BottomRight.y);
 
-	d2dbackbuffer->FillRectangle(rect, GetBrushFor(textArea.BackgroundColour)->BrushPointer);
-	d2dbackbuffer->DrawTextW(textArea.Text.c_str(), textArea.Text.length(), GetTextFormatFor(textArea.Font)->TextFormatPointer, &rect, GetBrushFor(textArea.TextColour)->BrushPointer, D2D1_DRAW_TEXT_OPTIONS_CLIP);
+	_DXUIBackBuffer->FillRectangle(rect, GetBrushFor(textArea.BackgroundColour)->BrushPointer);
+	_DXUIBackBuffer->DrawTextW(textArea.Text.c_str(), textArea.Text.length(), GetTextFormatFor(textArea.Font)->TextFormatPointer, &rect, GetBrushFor(textArea.TextColour)->BrushPointer, D2D1_DRAW_TEXT_OPTIONS_CLIP);
 }
 
 std::shared_ptr<SpikeRenderer::DirectX::Brush> SpikeRenderer::DirectX::DirectXRenderer::GetBrushFor(std::shared_ptr<SpikeUI::Colour> colour)
@@ -202,7 +201,7 @@ std::shared_ptr<SpikeRenderer::DirectX::Brush> SpikeRenderer::DirectX::DirectXRe
 	if (!brush)
 	{
 		ID2D1SolidColorBrush* tempBrush;
-		d2dbackbuffer->CreateSolidColorBrush(
+		_DXUIBackBuffer->CreateSolidColorBrush(
 			D2D1::ColorF(colour->r, colour->g, colour->b),
 			&tempBrush);
 		return SpikeUtils::ResourceMapping<SpikeUI::Colour, Brush>::RegisterResource(
@@ -219,7 +218,7 @@ std::shared_ptr<SpikeRenderer::DirectX::TextFormat> SpikeRenderer::DirectX::Dire
 	if (!textFormat)
 	{
 		IDWriteTextFormat* tempTextFormat;
-		writeFactory->CreateTextFormat(
+		_DXUIWriteFactory->CreateTextFormat(
 			font->FontFamily.c_str(),
 			NULL,
 			DWRITE_FONT_WEIGHT_NORMAL,

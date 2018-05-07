@@ -126,6 +126,12 @@
   <ItemGroup>
     <ClInclude Include="Brush.h" />
     <ClInclude Include="DirectXRenderer.h" />
+    <ClInclude Include="DX2DRenderTarget.h" />
+    <ClInclude Include="DX2DWriteFactory.h" />
+    <ClInclude Include="DX3DDevice.h" />
+    <ClInclude Include="DX3DDeviceContext.h" />
+    <ClInclude Include="DX3DRenderTargetView.h" />
+    <ClInclude Include="DXSwapChain.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SpikeRenderer.h" />
     <ClInclude Include="TextFormat.h" />
